@@ -16,6 +16,9 @@
 
 	<!-- I don't know why this is here, anyone finds out let me know -->
 	
+	
+	<!-- Tells the dispatcher to look in resources for.... resources -->
+	
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	
 	<mvc:annotation-driven/>

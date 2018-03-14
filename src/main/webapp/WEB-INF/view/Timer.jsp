@@ -10,6 +10,7 @@
 
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
 
@@ -23,6 +24,11 @@
 
  <body>
  
+ <select>
+ <option>COMP 3095</option>
+ <option>GSSCI 1135</option>
+ </select>
+ 
  <div id="timeBox">
     <div class="values">00:00:00</div>
     <div>
@@ -32,6 +38,11 @@
         <button class="resetButton">Reset</button>
     </div>
 </div>
+
+<select size=3>
+<option>00:01:2</option>
+
+</select>
             	
   <script type="text/javascript" src="<c:url value="/resources/js/lib/easytimer.min.js" />"> </script>
   <script type="text/javascript" src="<c:url value="/resources/js/TimerControls.js" />"> </script>
