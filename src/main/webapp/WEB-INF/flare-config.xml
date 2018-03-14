@@ -15,6 +15,9 @@
 	<context:component-scan base-package="flare" />
 
 	<!-- I don't know why this is here, anyone finds out let me know -->
+	
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
 	<mvc:annotation-driven/>
 
 	<!-- telling the dispatcher how to resolve views -->
