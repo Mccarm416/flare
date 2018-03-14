@@ -18,6 +18,12 @@ USE flaredb;
 ## create database tables if not exists
 ## all users share some common information
 #####################################################################################################
+CREATE TABLE IF NOT EXISTS table_role (
+	role_id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    role_title VARCHAR(30)
+)
+ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS table_user (
 	user_id int(11) PRIMARY KEY AUTO_INCREMENT,
 	userName VARCHAR(50) NOT NULL,
@@ -25,19 +31,24 @@ CREATE TABLE IF NOT EXISTS table_user (
     email CHAR(50) NOT NULL, 
     first_name VARCHAR(25), 
     last_name VARCHAR(25),
-    lastLogin date,
-    account_creation datetime,
-    display_picture varchar(200), #this is a a filepath pointing to the location of the image
-    account_status int(1), #0 is inactive, 1 is active, 2 is blocked
-    year int (1),
-    semester int(1)
+    lastLogin DATETIME,
+    account_creation DATETIME,
+    display_picture VARCHAR(200), #this is a a filepath pointing to the location of the image
+    account_status INT(1), #0 is inactive, 1 is active, 2 is blocked
+    current_year YEAR (4),
+    semester INT(1),
+    role_id INT(11),
+    
+    # FOREIGN KEY
+    ######################################################################
+    FOREIGN KEY fk_role(role_id) REFERENCES table_role(role_id) ON DELETE CASCADE
    )
    
    ## MUST DECLARE InnoDB ENGINE HERE
    ENGINE=InnoDB;
    
    #############################################################################################################
-   CREATE TABLE table_club
+   CREATE TABLE IF NOT EXISTS table_club
 (
 	club_id int (11) AUTO_INCREMENT PRIMARY KEY,
 	club_leader int (11),
@@ -52,7 +63,7 @@ CREATE TABLE IF NOT EXISTS table_user (
 
 
 ##############################################################################################################
-CREATE TABLE table_club_event 
+CREATE TABLE IF NOT EXISTS table_club_event 
 (
 	club_event_id int (11) AUTO_INCREMENT PRIMARY KEY,
     club_id int (11),
@@ -69,7 +80,7 @@ CREATE TABLE table_club_event
 #15 events between the 5 clubs. Leave one club with 0 events. There should be atleast one event for each type of recurring level
 
 ###############################################################################################################
-CREATE TABLE table_user_club
+CREATE TABLE IF NOT EXISTS table_user_club
 #Table used to store what users have joined which clubs
 (
 	user_id int (11),
@@ -79,7 +90,7 @@ CREATE TABLE table_user_club
 );
 
 ################################################################################################################
-CREATE TABLE table_course
+CREATE TABLE IF NOT EXISTS table_course
 (
 	course_id int (11) AUTO_INCREMENT PRIMARY KEY,
     user_id int (11),
@@ -96,7 +107,7 @@ CREATE TABLE table_course
 
 
 ###########################################################################################################3
-CREATE TABLE table_course_time
+CREATE TABLE IF NOT EXISTS table_course_time
 (
 	course_time_id int (11) AUTO_INCREMENT PRIMARY KEY,
     course_id int (11),
@@ -111,7 +122,7 @@ CREATE TABLE table_course_time
 
 
 ##############################################################################################################
-CREATE TABLE table_assignment
+CREATE TABLE IF NOT EXISTS table_assignment
 (
 	assignment_id int (11) AUTO_INCREMENT PRIMARY KEY,
     course_id int (11),
@@ -125,7 +136,7 @@ CREATE TABLE table_assignment
 
 
 #########################################################################################################
-CREATE TABLE table_study_session
+CREATE TABLE IF NOT EXISTS table_study_session
 (
 	study_session_id int (11) AUTO_INCREMENT PRIMARY KEY,
     course_id int (11),
@@ -136,7 +147,7 @@ CREATE TABLE table_study_session
 
 
 ############################################################################################################
-CREATE TABLE table_study_session_assignment 
+CREATE TABLE IF NOT EXISTS table_study_session_assignment 
 #Used for the option of associating a sudy session to an assignment
 (
 	study_session_id int (11),
@@ -149,37 +160,37 @@ CREATE TABLE table_study_session_assignment
 
 #############################################################################################################
 # --- Dummy users ---
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Matthew', 'McCarthy', 'mccarm416@gmail.com', 'bourgeois.goblin', 'password', '2018-02-03 20:34:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Jamie', 'Massel', 'jamiemassel@gmail.com', 'babyhands', 'password', '2018-02-03 20:45:16', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Sean', 'Dougan', 'mediauthority@gmail.com', 'svoogan', 'password', '2018-02-03 20:46:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Michael', 'Van Dyke', 'mhvandyke7@gmail.com', '78uh', 'password', '2018-02-03 20:47:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Gregory', 'Uchitel', 'greg.uchitel@gmail.com', 'sku11d3stroy3r', 'password', '2018-02-03 20:48:23', '', 1, 3, 5);
 
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Bill', 'Watterson', 'bwatts@gmail.com', 'CalvinHobbes', 'password', '2018-02-03 20:52:09', '', 1, 2, 4);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Charles', 'Manson', 'notacreep@gmail.com', 'anormalguy', 'password', '2018-02-03 20:53:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Sarah', 'Palin', 'palin2020@gmail.com', 'repubgal', 'password', '2018-02-03 20:58:29', '', 1, 3, 6);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Dillon', 'Francis', 'getlow@gmail.com', 'djjjjjj', 'password', '2018-02-03 21:00:00', '', 0, 2, 3);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Josine', 'Arnott', 'josie@gmail.com', 'flowerpower', 'password', '2018-02-03 21:10:12', '', 1, 2, 4);
 
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('John', 'Wendel', 'fatal1ty@gmail.com', 'Fatal1ty', 'password', '2018-02-03 21:11:09', '', 1, 1, 2);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Margaret', 'Atwood', 'maggie@gmail.com', 'handmaiden', 'password', '2018-02-03 21:13:27', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('John', 'Doe', 'jdoe@gmail.com', 'deadman666', 'password', '2018-02-03 21:15:27', '', 1, 2, 3);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Mary-Jane', 'Watson', 'mjw@gmail.com', 'spideyfangirl', 'password', '2018-02-03 21:13:54', '', 1, 2, 4);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Testy', 'Von Testington', 'test@gmail.com', 'TheTestMan', 'password', '2018-02-04 12:10:00', '', 1, 1, 1);
 
 # --- Dummy Courses --- 
