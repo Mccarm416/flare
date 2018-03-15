@@ -2,8 +2,6 @@ package flare.model.users;
 
 import java.time.LocalDateTime;
 import java.time.Year;
-
-import flare.model.users.dao.StudentDAO;
 import flare.model.users.dao.UserDAO;
 
 /**
@@ -22,7 +20,6 @@ public abstract class User {
 	
 	// fields
 	// ##########################################################################################
-	protected int user_id; // references the mysql primary key
 	protected String userName; // the users display name
 	protected String pword; // the users password stored in plain-text
 	protected String email; // the users george brown email address
@@ -33,22 +30,12 @@ public abstract class User {
 	protected int account_status; // varaible stating authorized use of dealing with TOS
 	protected Year current_year; // i might be changing this field around it doesnt make any sense
 	protected int semester; // the current semester the user is in
-	protected int role_id; // the integer reference to the table_role table
 	protected String role_title; // the string representation of the users role and system access
 	// data access class field
 	protected UserDAO dao; // reference to users DAO, will appropriate which with injection in specialized classes
 	
 	// methods
 	// ##########################################################################################
-	// USER_ID
-	protected int getUser_id() {
-		return user_id;
-	}
-	
-	protected void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
-	
 	// USERNAME
 	protected String getUserName() {
 		return userName;
@@ -137,15 +124,6 @@ public abstract class User {
 	
 	protected void setSemester(int semester) {
 		this.semester = semester;
-	}
-	
-	// USERS ACCESS ROLE REFERENCE
-	protected int getRole_id() {
-		return role_id;
-	}
-	
-	protected void setRole_id(int role_id) {
-		this.role_id = role_id;
 	}
 	
 	// USER ROLE TITLE

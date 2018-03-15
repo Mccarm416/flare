@@ -8,7 +8,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminDAO extends UserDAO {
 	
-	//TODO private list variable to hold result set using RowMapper API
+			// fields
+			// #####################################################################################
+		
+			// methods
+			// ######################################################################################
+			/*
+			 *  Using constructor injection, the data source defined in flare-config.xml is passed in
+			 *  during initialization of the object and assigned to the jdbc template. There is only
+			 *  one single data source in the configuration, so simple autowiring will be the most
+			 *  efficient. This is a PRIVATE CONSTRUCTOR.
+			 */	
+	
 	@Autowired
 	public AdminDAO(DataSource dataSource) {
 		

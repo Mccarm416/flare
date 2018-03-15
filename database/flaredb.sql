@@ -37,11 +37,11 @@ CREATE TABLE IF NOT EXISTS table_user (
     account_status INT(1), #0 is inactive, 1 is active, 2 is blocked
     current_year YEAR (4),
     semester INT(1),
-    role_id INT(11),
+   fk_role_id INT(11),
     
     # FOREIGN KEY
     ######################################################################
-    FOREIGN KEY fk_role(role_id) REFERENCES table_role(role_id) ON DELETE CASCADE
+    FOREIGN KEY fk_role(fk_role_id) REFERENCES table_role(role_id) ON DELETE CASCADE
    )
    
    ## MUST DECLARE InnoDB ENGINE HERE
@@ -156,11 +156,29 @@ CREATE TABLE IF NOT EXISTS table_study_session_assignment
     FOREIGN KEY (assignment_id) REFERENCES table_assignment(assignment_id) ON DELETE CASCADE
 )
    ENGINE=InnoDB;
+   
+   #########################################################################################################
+   ## VIEWS
+	
+CREATE OR REPLACE VIEW auth_user AS
+	SELECT user_id, userName, pword, email, first_name, last_name, lastLogin, account_creation,
+    display_picture, account_status, current_year, semester, role_title
+    FROM table_user
+    JOIN table_role
+    ON table_user.fk_role_id = table_role.role_id;
+    
+	#########################################################################################################
+    ## TRIGGERS
+    
+    
+    
+    ##########################################################################################################
+    ## STORED PROCEDURE
 
 
 #############################################################################################################
 # --- Dummy users ---
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
+INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester, fk_role_id) VALUES
 ('Matthew', 'McCarthy', 'mccarm416@gmail.com', 'bourgeois.goblin', 'password', '2018-02-03 20:34:09', '', 1, 3, 5);
 INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
 ('Jamie', 'Massel', 'jamiemassel@gmail.com', 'babyhands', 'password', '2018-02-03 20:45:16', '', 1, 3, 5);
@@ -289,5 +307,10 @@ INSERT INTO table_club_event(club_id, event_name, event_time, location, recurrin
  
 ## set access privelage here after table creation
 GRANT ALL PRIVILEGES ON flaredb.* TO 'admin'@'localhost';
+
+## INSERT ROLES
+INSERT INTO table_role(role_title) VALUES ("admin");
+INSERT INTO table_role(role_title) VALUES ("student");
+INSERT INTO table_role(role_title) VALUES ("clubleader");
 
 ## TODO make views of joined tables from user too specialized user data for quick lookup

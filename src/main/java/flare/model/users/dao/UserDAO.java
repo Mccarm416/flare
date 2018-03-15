@@ -24,11 +24,9 @@ public abstract class UserDAO {
 	
 	// methods
 	// ######################################################################################
-	/*
-	 *  Using constructor injection, the data source defined in flare-config.xml is passed in
-	 *  during initialization of the object and assigned to the jdbc template. There is only
-	 *  one single data source in the configuration, so simple autowiring will be the most
-	 *  efficient. This is a PRIVATE CONSTRUCTOR.
+	/**
+	 * 
+	 * @param dataSource data source will be auto-wired from bean configuration in flare-config.xml
 	 */
 		public UserDAO(DataSource dataSource) {
 			
