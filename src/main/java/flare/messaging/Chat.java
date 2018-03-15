@@ -1,19 +1,37 @@
 package flare.messaging;
 
-import java.util.ArrayList;
 
 public class Chat {
 	private int chatId;
-	private ArrayList<Message> messages = new ArrayList<Message>();
-	private int user1;
-	private int user2;
-	private static int nextChatId = 0;
+	private int user1Id;
+	private int user2Id;
+	private int totalMessages;
 	
-	public Chat(ArrayList<Message> messages, int user1, int user2) {
-		this.messages = messages;
-		this.user1 = user1;
-		this.user2 = user2;
-		chatId = nextChatId;
-		nextChatId++;
+	public Chat(int chatId, int user1Id, int user2Id, int totalMessages) {
+		this.chatId = chatId;
+		this.user1Id = user1Id;
+		this.user2Id = user2Id;
+		this.totalMessages = totalMessages;
+	}
+
+	public int getChatId() {
+		return chatId;
+	}
+
+	public int getUser1() {
+		return user1Id;
+	}
+
+	public int getUser2() {
+		return user2Id;
+	}
+
+	public int getTotalMessages() {
+		return totalMessages;
+	}
+	
+	public int totalMessageIncrease() {
+		totalMessages++;
+		return totalMessages;
 	}
 }

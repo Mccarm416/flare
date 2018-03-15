@@ -5,27 +5,46 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inbox</title>
+<style>
+table {
+    border-collapse: collapse;
+}
+
+table, td {
+    border: 1px solid black;
+}
+
+td {
+	padding: 5px;
+}
+
+/* Centers the button */
+input[type=submit] {
+	horizontal-align: middle;
+	display: block;
+	margin:auto;
+
+</style>
 </head>
 <body>
-
-	 <div class="message-sender">
-	  <p>Hello. How are you today?</p>
-	  <span class="time-right">11:00</span>
-	</div>
+	<h1>Inbox</h1>
 	
-	<div class="message-receiver">
-	  <p>Hey! I'm fine. Thanks for asking!</p>
-	  <span class="time-left">11:01</span>
-	</div>
-	
-	<div class="message-sender">
-	  <p>Sweet! So, what do you wanna do today?</p>
-	  <span class="time-right">11:02</span>
-	</div>
-	
-	<div class="message-receiver">
-	  <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
-	  <span class="time-left">11:05</span>
-	</div> 
+	<h2>Active Chats</h2>
+	<table>
+		<tr>
+			<td>
+				<form action="chatroom" method="GET">
+				<input type="submit" value="whatSoNot"/>
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<form action="chatroom" method="GET">
+				<input type="submit" value="RL Grime"/>
+				</form>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>
