@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -28,23 +28,18 @@ input[type=submit] {
 </head>
 <body>
 	<h1>Inbox</h1>
-	
-	<h2>Active Chats</h2>
+
+	<h2>Your Active Chats</h2>
 	<table>
+	<c:forEach items="${chatUsers}" var="user">
 		<tr>
 			<td>
-				<form action="chatroom" method="GET">
-				<input type="submit" value="whatSoNot"/>
+				<form action="chatroom" method="POST">
+					<input type="submit" name="selectedUser" value="<c:out value="${user.username}"/>"/>
 				</form>
 			</td>
 		</tr>
-		<tr>
-			<td>
-				<form action="chatroom" method="GET">
-				<input type="submit" value="RL Grime"/>
-				</form>
-			</td>
-		</tr>
+	</c:forEach>
 	</table>
 </body>
 </html>

@@ -78,6 +78,22 @@
 	    <version>3.7.0</version>
 	</dependency>
 	
+	<!-- https://mvnrepository.com/artifact/taglibs/standard - JSTL stuff -->
+	<dependency>
+	    <groupId>taglibs</groupId>
+	    <artifactId>standard</artifactId>
+	    <version>1.1.2</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/jstl/jstl -->
+	<dependency>
+	    <groupId>jstl</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>1.2</version>
+	</dependency>
+		
+	
+	
   </dependencies>
   <build>
     <finalName>flare</finalName>

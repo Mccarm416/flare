@@ -22,19 +22,19 @@ public abstract class User {
 	
 	// fields
 	// ##########################################################################################
-	protected int user_id; // references the mysql primary key
-	protected String userName; // the users display name
+	protected int userId; // references the mysql primary key
+	protected String username; // the users display name
 	protected String pword; // the users password stored in plain-text
 	protected String email; // the users george brown email address
-	protected String first_name; // the users first name
-	protected String last_name; // the users last name
-	protected LocalDateTime lastlogin; // time and date of users last login
-	protected String display_picture; // reference to address in web server filesystem of image
-	protected int account_status; // varaible stating authorized use of dealing with TOS
-	protected Year current_year; // i might be changing this field around it doesnt make any sense
+	protected String firstName; // the users first name
+	protected String lastName; // the users last name
+	protected LocalDateTime lastLogin; // time and date of users last login
+	protected String displayPicture; // reference to address in web server filesystem of image
+	protected int accountStatus; // varaible stating authorized use of dealing with TOS
+	protected Year currentYear; // i might be changing this field around it doesnt make any sense
 	protected int semester; // the current semester the user is in
-	protected int role_id; // the integer reference to the table_role table
-	protected String role_title; // the string representation of the users role and system access
+	protected int roleId; // the integer reference to the table_role table
+	protected String roleTitle; // the string representation of the users role and system access
 	// data access class field
 	protected UserDAO dao; // reference to users DAO, will appropriate which with injection in specialized classes
 	
@@ -43,30 +43,30 @@ public abstract class User {
 	// USER_ID
 	
 	
-	protected int getUser_id() {
-		return user_id;
+	protected int getUserId() {
+		return userId;
 	}
 	
 	//Used for creating a student for testing messaging system
-	public User(int user_id, String userName, String first_name, String last_name) {
+	public User(int userId, String userName, String firstName, String lastName) {
 		super();
-		this.user_id = user_id;
-		this.userName = userName;
-		this.first_name = first_name;
-		this.last_name = last_name;
+		this.userId = userId;
+		this.username = userName;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
-	protected void setUser_id(int user_id) {
-		this.user_id = user_id;
+	protected void setUserId(int userId) {
+		this.userId = userId;
 	}
 	
 	// USERNAME
-	protected String getUserName() {
-		return userName;
+	protected String getUsername() {
+		return username;
 	}
 	
-	protected void setUserName(String userName) {
-		this.userName = userName;
+	protected void setUsername(String username) {
+		this.username = username;
 	}
 	
 	// PASSWORD
@@ -88,57 +88,57 @@ public abstract class User {
 	}
 	
 	// FIRST NAME
-	protected String getFirst_name() {
-		return first_name;
+	protected String getFirstName() {
+		return firstName;
 	}
 	
-	protected void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	protected void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	
 	// LAST NAME
-	protected String getLast_name() {
-		return last_name;
+	protected String getLastName() {
+		return lastName;
 	}
 	
-	protected void setLast_name(String last_name) {
-		this.last_name = last_name;
+	protected void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	
 	// LAST LOGIN
-	protected LocalDateTime getLastlogin() {
-		return lastlogin;
+	protected LocalDateTime getLastLogin() {
+		return lastLogin;
 	}
 	
-	protected void setLastlogin(LocalDateTime lastlogin) {
-		this.lastlogin = lastlogin;
+	protected void setLastlogin(LocalDateTime lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 	
 	// DISPLAY PICTURE
 	protected String getDisplay_picture() {
-		return display_picture;
+		return displayPicture;
 	}
 	
 	protected void setDisplay_picture(String display_picture) {
-		this.display_picture = display_picture;
+		this.displayPicture = display_picture;
 	}
 	
 	// ACCOUNT RESTRICTION LEVEL
-	protected int getAccount_status() {
-		return account_status;
+	protected int getAccountStatus() {
+		return accountStatus;
 	}
 	
-	protected void setAccount_status(int account_status) {
-		this.account_status = account_status;
+	protected void setAccountStatus(int account_status) {
+		this.accountStatus = account_status;
 	}
 	
 	// CURRENT YEAR
-	protected Year getCurrent_year() {
-		return current_year;
+	protected Year getCurrentYear() {
+		return currentYear;
 	}
 	
-	protected void setCurrent_year(Year current_year) {
-		this.current_year = current_year;
+	protected void setCurrentYear(Year currentYear) {
+		this.currentYear = currentYear;
 	}
 	
 	// CURRENT SEMESTER
@@ -151,22 +151,22 @@ public abstract class User {
 	}
 	
 	// USERS ACCESS ROLE REFERENCE
-	protected int getRole_id() {
-		return role_id;
+	protected int getRoleId() {
+		return roleId;
 	}
 	
-	protected void setRole_id(int role_id) {
-		this.role_id = role_id;
+	protected void setRole_id(int roleId) {
+		this.roleId = roleId;
 	}
 	
 	// USER ROLE TITLE
 	
-	protected String getRole_title() {
-		return role_title;
+	protected String getRoleTitle() {
+		return roleTitle;
 	}
 
-	protected void setRole_title(String role_title) {
-		this.role_title = role_title;
+	protected void setRoleTitle(String roleTitle) {
+		this.roleTitle = roleTitle;
 	}
 	
 }

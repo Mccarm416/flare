@@ -3,14 +3,14 @@ package flare.messaging;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Message {
+public class ChatMessage {
 	private String username;
 	private int userId;
 	private String message;
 	private String messageTime;
 	
 	
-	public Message(String username, int userId, String message) {
+	public ChatMessage(String username, int userId, String message) {
 		this.username = username;
 		this.userId = userId;
 		this.message = message;
