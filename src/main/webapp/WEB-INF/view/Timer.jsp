@@ -67,7 +67,7 @@
       
 </div>
 
-<select size=4>
+<select id="recordedTimes" size=4>
 <option>00:01:02</option>
 <option>00:09:99</option>
 
