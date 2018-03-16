@@ -16,7 +16,7 @@
 	<context:component-scan base-package="flare" />
 
 		<!--  JDBC connection properties source-->
-	<context:property-placeholder location="classpath*:my.properties"/>
+	<context:property-placeholder location="classpath*:flaredb.properties"/>
 	
 	<!-- I don't know why this is here, anyone finds out let me know -->
 	<mvc:annotation-driven/>
@@ -25,7 +25,7 @@
 	<!-- telling the dispatcher how to resolve views -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="prefix" value="/WEB-INF/view/"/>
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
@@ -40,4 +40,6 @@
 		<property name="password" value="${password}" />
 	</bean>
 
+	<!-- maps static resources to be linked by spring, CSS, JS -->
+	<mvc:resources mapping="/resources/**" location="/resources/"/>
 </beans>

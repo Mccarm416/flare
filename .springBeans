@@ -7,7 +7,7 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>src/main/resources/flare-config.xml</config>
+		<config>src/main/webapp/WEB-INF/flare-config.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

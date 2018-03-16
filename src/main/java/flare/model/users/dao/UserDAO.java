@@ -34,7 +34,7 @@ public abstract class UserDAO {
 			jdbc = new JdbcTemplate(dataSource);
 		}
 	// this method returns the jdbc template, it is private
-	protected JdbcTemplate getJdbc() {
+	public JdbcTemplate getJdbc() {
 		return this.jdbc;
 	}
 

@@ -1,19 +1,29 @@
 package flare.model.users.dao;
 
+
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import flare.model.users.Student;
 
-@Component
+
+@Component("studentdao")
+@Scope("prototype")
 public class StudentDAO extends UserDAO {
 	
-	//TODO private list variable to hold result set using RowMapper API
-		// fields
-		// #####################################################################################
-		private Student student;
+	private Student student;
 	
+
+
 		// methods
 		// ######################################################################################
 		/*
@@ -27,19 +37,27 @@ public class StudentDAO extends UserDAO {
 		 * @param dataSource
 		 */
 	@Autowired
-	public StudentDAO(DataSource dataSource) {
+	public StudentDAO(DataSource dataSource)  {
 		
 		super(dataSource);
 	}
 
 	// GET/SET
-	// setter is used to set student object to current student object in use
+	// STUDENT
+	public Student getStudent() {
+	return student;
+	
+	}
 
 	public void setStudent(Student student) {
 		this.student = student;
+		
 	}
+	
+	public void update(String username) {}
+	
+	public void delete(String username) {}
 
-	//TODO CRUD methods
 	
 	
 }
