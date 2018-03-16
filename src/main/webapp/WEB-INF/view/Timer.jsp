@@ -43,7 +43,7 @@
         <button class="stopButton">Stop</button>
         <button class="resetButton">Reset</button>
         
-        <button class="stopWatch">Stop watch</button>
+        <button class="switch">Switch</button>
     </div>
 </div>
 
