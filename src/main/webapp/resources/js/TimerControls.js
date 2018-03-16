@@ -1,6 +1,26 @@
 var timer = new Timer();
 
-var setting = 0
+var setting = 0;
+
+
+
+
+
+
+function convertToSeconds(formData){
+	
+	
+	return secs
+}
+
+
+$('.targetTime').click(function () {
+	
+	var countDown = formData;
+	
+	
+	
+});
 
 
 // Start button
@@ -20,8 +40,22 @@ $('#timeBox .startButton').click(function () {
 	 // if timer is set to count down (false = 0)
 	 
 		timer.stop();
-	 timer.start({countdown: true, startValues: {seconds: 30}});
+		
+		var hrs = getUrlParameter('hrs')
+		var mins = getUrlParameter('mns')
+		var secs = getUrlParameter('sec')
+
+		var ctMin = parseInt(mins);
+		var ctHour = parseInt(hrs);
+		var ctSecs = parseInt(secs);
+
+		
+		
+	 timer.start({countdown: true, startValues: {hours:ctHour, minutes:ctMin,seconds: ctSecs}});
 	 $('#timeBox .values').html(timer.getTimeValues().toString());
+	 
+		
+	 
 	 
 	}
 	
@@ -94,5 +128,23 @@ timer.addEventListener('reset', function (e) {
 
 // Activates when timer reaches 0
 timer.addEventListener('targetAchieved', function (e) {
-    $('#timeBox .values').html('KABOOM!!');
+    $('#timeBox .values').html('Studying Done!');
 });
+
+
+// Collects entered GET parameter 
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
