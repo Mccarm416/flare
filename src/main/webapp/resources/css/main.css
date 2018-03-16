@@ -1,10 +1,15 @@
-body {background-color: maroon;
-font-family: 'Roboto', sans-serif;
+body {
+	
+	background-color: #f3f3f3;
+
 
 }
 
 
-.values{
-	font-size: 10em;
+.placeholder{font-family: 'Roboto', sans-serif;}
+
+#timeBox .values{
 	
+	font-size: 7em;
+	font-family: 'Press Start 2P', cursive;
 }

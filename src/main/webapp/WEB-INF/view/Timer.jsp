@@ -11,6 +11,7 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 
 <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
 
@@ -30,18 +31,25 @@
  </select>
  
  <div id="timeBox">
+ 
+ <form method="get" >
+ <input type="text" required>
+  <input type="submit" value="Submit">
+ </form>
     <div class="values">00:00:00</div>
-    <div>
+
         <button class="startButton">Start</button>
         <button class="pauseButton" >Pause</button>
         <button class="stopButton">Stop</button>
         <button class="resetButton">Reset</button>
+        
+        <button class="stopWatch">Stop watch</button>
     </div>
 </div>
 
-<select size=3>
-<option>00:01:2</option>
-
+<select size=4>
+<option>00:01:02</option>
+<option>00:09:99</option>
 </select>
             	
   <script type="text/javascript" src="<c:url value="/resources/js/lib/easytimer.min.js" />"> </script>
