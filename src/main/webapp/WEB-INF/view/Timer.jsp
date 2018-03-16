@@ -25,6 +25,10 @@
 
  <body>
  
+ 
+ 
+ <div id="timeBox">
+ 
  <form:form modelAttribute="myform" action="result" method="get" >
  
  <form:select  path="nameOfInstitution">
@@ -33,6 +37,7 @@
  </form:select>
  
  </form:form>
+ 
  
  
  <select>
@@ -47,8 +52,7 @@
  <option>SQL Server Assignment</option>
  </select>
  
- 
- <div id="timeBox">
+ <br> <br> <br>
  
  <form method="get" >
  Hours: <input type="text" id="hrs" name="hrs" value="0" size="3" maxlength="2" /> 
@@ -56,26 +60,29 @@
  Seconds: <input type="text" id="sec" name="sec" value="0" size="3" maxlength="3" /> 
   <input type="submit" id="btnTarg">
  </form>
+ <br>
     <div class="values">00:00:00</div>
-
+<br>
         <button class="startButton">Start</button>
         <button class="pauseButton" >Pause</button>
         <button class="stopButton">Stop</button>
         <button class="resetButton">Reset</button>
         
         <button class="switch">Switch</button>
-      
-</div>
-
+        
+   <br>
 <select id="recordedTimes" size=4>
 <option>00:01:02</option>
-<option>00:09:99</option>
+<option>00:09:99</option>   
+</select>
+            
+</div>
+
 
 <c:forEach var="listValue" items="${lists}">
 				<option>${listValue}</option>
 			</c:forEach>
-</select>
-            	
+	
   <script type="text/javascript" src="<c:url value="/resources/js/lib/easytimer.min.js" />"> </script>
   <script type="text/javascript" src="<c:url value="/resources/js/TimerControls.js" />"> </script>
   

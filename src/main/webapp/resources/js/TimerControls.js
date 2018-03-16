@@ -3,15 +3,29 @@ var timer = new Timer();
 var setting = 0;
 
 
+var hrs;
+var mins;
+var hrs;
 
-
-
+var ctHrs;
+var ctMins;
+var ctHrs;
 
 function convertToSeconds(formData){
 	
 	
 	return secs
 }
+
+
+//add current time to combobox
+
+$('#timeBox .currTime').click(function (){
+	
+	
+	 
+	
+});
 
 
 $('.targetTime').click(function () {
@@ -30,7 +44,7 @@ $('#timeBox .startButton').click(function () {
 	
 	if(Boolean(setting)){
 	
-	// if set to stopwatch (true = 1)
+	// if set to stop watch (true = 1)
 	
 		
 	 timer.start({precision: 'secondTenths'});
@@ -87,6 +101,9 @@ $('#timeBox .switch').click(function(){
 	}
 })
 
+
+
+
 // Pause button
 $('#timeBox .pauseButton').click(function () {
     timer.pause();
@@ -124,11 +141,21 @@ timer.addEventListener('reset', function (e) {
 
 
 
-// Countdown functions
+// Count down functions
 
 // Activates when timer reaches 0
+
 timer.addEventListener('targetAchieved', function (e) {
+	
     $('#timeBox .values').html('Studying Done!');
+    
+    var hrs = getUrlParameter('hrs')
+	var mins = getUrlParameter('mns')
+	var secs = getUrlParameter('sec')
+
+    
+    $('#recordedTimes').append(new Option(hrs+":"+mins+":"+secs, "Hello World Value"));
+    
 });
 
 
