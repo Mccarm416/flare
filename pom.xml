@@ -12,6 +12,23 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
+  
+  
+  <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>5.0.4.RELEASE</version>
+</dependency>
+  
+  <!-- https://mvnrepository.com/artifact/junit/junit -->
+	<dependency>
+	    <groupId>junit</groupId>
+	    <artifactId>junit</artifactId>
+	    <version>4.12</version>
+	    <scope>test</scope>
+	</dependency>
+	
    
    <!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
 	<dependency>
@@ -57,21 +74,6 @@
 	    <version>5.0.3.RELEASE</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/httpunit/httpunit -->
-	<dependency>
-	    <groupId>httpunit</groupId>
-	    <artifactId>httpunit</artifactId>
-	    <version>1.7</version>
-	    <scope>test</scope>
-	</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/junit/junit -->
-	<dependency>
-	    <groupId>junit</groupId>
-	    <artifactId>junit</artifactId>
-	    <version>4.12</version>
-	    <scope>test</scope>
-	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
 	<dependency>
@@ -87,6 +89,24 @@
 	    <version>8.0.8-dmr</version>
 	</dependency>
 	
+	
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>5.0.4.RELEASE</version>
+    <scope>test</scope>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-all</artifactId>
+    <version>1.10.19</version>
+    <scope>test</scope>
+</dependency>
+
+
   </dependencies>
   <build>
     <finalName>flare</finalName>

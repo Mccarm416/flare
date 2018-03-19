@@ -1,0 +1,43 @@
+package flare.dataaccess;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+/**
+ * @author Sean Dougan
+ * @version 3.0
+ * @since 1.0
+ * This abstract class is meant to provide a single usable jdbc template configured with the method contracts to use it.
+ * This class is only meant to be inherited as users
+ */
+public abstract class UserDAO{
+	
+		// fields
+		protected JdbcTemplate userDBC;// references the static singleton configured jdbc connection
+	/*
+	 * 	constructor simply initializes a local refernece to the static singleton data connection for the site
+	 */
+	public UserDAO()  {
+		
+		userDBC = (FlareDB.getJdbc());
+	}
+
+	// CRUD methods
+	/**
+	 * inserts new user to the database with the current values of the callers fields
+	 */
+	abstract protected void insert();
+	
+	/**
+	 * select your own records from the database with the current values of the callers fields
+	 */
+	abstract protected void select( );
+	
+	/**
+	 * update your own records from the database with the current values of the callers fields
+	 */
+	abstract protected void update();
+	
+	/**
+	 * delete your own records from the database with the current values of the callers fields
+	 */
+	abstract protected  void delete();
+}

@@ -5,11 +5,10 @@ package flare.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 @Controller
 public class RegistrationController {
 
-	
-	
 	/**
 	 * 
 	 * @return maps /registration url to registration page
@@ -17,7 +16,8 @@ public class RegistrationController {
 	@RequestMapping("/registration")
 	public String registration() {
 		
-		return "registrationPage";
-		
+		return "/registrationPage";
 	}
+	
+	
 }

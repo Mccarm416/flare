@@ -3,7 +3,6 @@ package flare.model.users;
 import java.time.LocalDateTime;
 import java.time.Year;
 
-
 /**
  * This class provides an abstract template to the concrete model layer objects used in the user system.
  * It's fields and methods are a set of common fields and methods to all users on the system.
@@ -15,7 +14,6 @@ import java.time.Year;
  * @version 3.0
  * @since 1.0
  */
-
 public abstract class User {
 	
 	// fields
@@ -23,18 +21,18 @@ public abstract class User {
 	protected String userName; // the users display name
 	protected String pword; // the users password stored in plain-text
 	protected String email; // the users george brown email address
-	protected String first_name; // the users first name
-	protected String last_name; // the users last name
+	protected String firstname; // the users first name
+	protected String lastname; // the users last name
 	protected LocalDateTime lastlogin; // time and date of users last login
-	protected String display_picture; // reference to address in web server filesystem of image
-	protected int account_status; // varaible stating authorized use of dealing with TOS
-	protected Year current_year; // i might be changing this field around it doesnt make any sense
+	protected String displaypicture; // reference to address in web server filesystem of image
+	protected int accountstatus; // varaible stating authorized use of dealing with TOS
+	protected Year currentyear; // i might be changing this field around it doesnt make any sense
 	protected int semester; // the current semester the user is in
-	protected String role_title; // the string representation of the users role and system access
+	protected String roletitle; // the string representation of the users role and system access
 	
 	
 	// methods
-	// ##########################################################################################
+	// ############################################################################################
 	// USERNAME
 	public String getUserName() {
 		return userName;
@@ -64,20 +62,20 @@ public abstract class User {
 	
 	// FIRST NAME
 	public String getFirst_name() {
-		return first_name;
+		return firstname;
 	}
 	
 	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+		this.firstname = first_name;
 	}
 	
 	// LAST NAME
 	public String getLast_name() {
-		return last_name;
+		return lastname;
 	}
 	
 	protected void setLast_name(String last_name) {
-		this.last_name = last_name;
+		this.lastname = last_name;
 	}
 	
 	// LAST LOGIN
@@ -91,29 +89,29 @@ public abstract class User {
 	
 	// DISPLAY PICTURE
 	public String getDisplay_picture() {
-		return display_picture;
+		return displaypicture;
 	}
 	
 	public void setDisplay_picture(String display_picture) {
-		this.display_picture = display_picture;
+		this.displaypicture = display_picture;
 	}
 	
 	// ACCOUNT RESTRICTION LEVEL
 	public int getAccount_status() {
-		return account_status;
+		return accountstatus;
 	}
 	
 	public void setAccount_status(int account_status) {
-		this.account_status = account_status;
+		this.accountstatus = account_status;
 	}
 	
 	// CURRENT YEAR
 	public Year getCurrent_year() {
-		return current_year;
+		return currentyear;
 	}
 	
 	public void setCurrent_year(Year current_year) {
-		this.current_year = current_year;
+		this.currentyear = current_year;
 	}
 	
 	// CURRENT SEMESTER
@@ -127,11 +125,11 @@ public abstract class User {
 	
 	// USER ROLE TITLE
 	public String getRole_title() {
-		return role_title;
+		return roletitle;
 	}
 
 	public void setRole_title(String role_title) {
-		this.role_title = role_title;
-	}
+		this.roletitle = role_title;
+	}	
 
 }

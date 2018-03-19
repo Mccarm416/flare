@@ -1,66 +1,67 @@
 package flare.model.users;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
-
-import flare.model.users.dao.StudentDAO;
-
-@Component("student")
-@Scope("prototype")
-public class Student extends User implements RowMapper<Student>, MutateAccountType, AccountManagement {
+import flare.dataaccess.UserDAO;
+/**
+ * 
+ * @author Sean Dougan
+ * @version 3.0
+ * @since 1.0
+ * This class student contains an inner class of its data access object StudentDAO. StudentDAO inherits from UserDAO -
+ * an abstraction class meant to regulate the use of specific user access and functions on the database.
+ */
+// START OF OUTER
+public class Student extends User implements MutateAccountType, AccountManagement {
 	
 	// fields
-
-	@Autowired
-	private Student student;
-
 	private StudentDAO studentdao;
+	
 
 	// methods
-	@Autowired
-	public Student(@Lazy Student student, StudentDAO studentdao) {
-		
-		this.student = student;
-		this.studentdao.setStudent(this.student);
-		
+	
+	public void setStudentDAO(StudentDAO studendao) {
+	
 	}
 
-	// class is now initialized with its proper coupling in regards to state messaging
-	// RowMapper is implemented in the student class as to bind the current instance to the data
-	/*@Override
-	private Student mapRow(ResultSet rs, int rownum) throws SQLException {
+	
+//  START OFINNER CLASS
+	
+	public class StudentDAO extends UserDAO {
 		
-		// map the student fields, a singleton reference, fields to the result set
-		super.setUserName(rs.getString("userName"));
-		super.setPword(rs.getString("pword"));
-		super.setAccount_status(rownum);
-		// email
-		// firstname
-		// lastname
-		// lastlogin
-		// account creation
-		// account_picture
-		// account status
+	public StudentDAO() {
 		
-		
-		return this.student;
-	}
-*/
-	// get/set
-	//student dao
-	public StudentDAO getStudentdao() {
-		return studentdao;
+	
 	}
 
 	@Override
-	public Student mapRow(ResultSet arg0, int arg1) throws SQLException {
+	public void insert() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
+
+	@Override
+	public void select() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void bindStudent() {}
+		
+	
+	
+	}
+	// END OF INNER
+
 }
+// END OF OUTER
