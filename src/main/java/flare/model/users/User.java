@@ -2,6 +2,7 @@ package flare.model.users;
 
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.Date;
 
 /**
  * This class provides an abstract template to the concrete model layer objects used in the user system.
@@ -23,10 +24,10 @@ public abstract class User {
 	protected String email; // the users george brown email address
 	protected String firstname; // the users first name
 	protected String lastname; // the users last name
-	protected LocalDateTime lastlogin; // time and date of users last login
+	protected Date accountcreation; // time and date of users last login
 	protected String displaypicture; // reference to address in web server filesystem of image
 	protected int accountstatus; // varaible stating authorized use of dealing with TOS
-	protected Year currentyear; // i might be changing this field around it doesnt make any sense
+	protected int currentyear; // i might be changing this field around it doesnt make any sense
 	protected int semester; // the current semester the user is in
 	protected String roletitle; // the string representation of the users role and system access
 	
@@ -61,57 +62,57 @@ public abstract class User {
 	}
 	
 	// FIRST NAME
-	public String getFirst_name() {
+	public String getFirstName() {
 		return firstname;
 	}
 	
-	public void setFirst_name(String first_name) {
-		this.firstname = first_name;
+	public void setFirstName(String firstname) {
+		this.firstname = firstname;
 	}
 	
 	// LAST NAME
-	public String getLast_name() {
+	public String getLastName() {
 		return lastname;
 	}
 	
-	protected void setLast_name(String last_name) {
-		this.lastname = last_name;
+	public void setLastName(String lastname) {
+		this.lastname = lastname;
 	}
 	
-	// LAST LOGIN
-	public LocalDateTime getLastlogin() {
-		return lastlogin;
+	// ACCOUNT CREATION
+	public Date getAccountCreation() {
+		return accountcreation;
 	}
 	
-	public void setLastlogin(LocalDateTime lastlogin) {
-		this.lastlogin = lastlogin;
+	public void setAccountCreation(Date accountcreation) {
+		this.accountcreation = accountcreation;
 	}
 	
 	// DISPLAY PICTURE
-	public String getDisplay_picture() {
+	public String getDisplayPicture() {
 		return displaypicture;
 	}
 	
-	public void setDisplay_picture(String display_picture) {
-		this.displaypicture = display_picture;
+	public void setDisplayPicture(String displaypicture) {
+		this.displaypicture = displaypicture;
 	}
 	
 	// ACCOUNT RESTRICTION LEVEL
-	public int getAccount_status() {
+	public int getAccountStatus() {
 		return accountstatus;
 	}
 	
-	public void setAccount_status(int account_status) {
-		this.accountstatus = account_status;
+	public void setAccountStatus(int accountstatus) {
+		this.accountstatus = accountstatus;
 	}
 	
 	// CURRENT YEAR
-	public Year getCurrent_year() {
+	public int getCurrentYear() {
 		return currentyear;
 	}
 	
-	public void setCurrent_year(Year current_year) {
-		this.currentyear = current_year;
+	public void setCurrentYear(int currentyear) {
+		this.currentyear = currentyear;
 	}
 	
 	// CURRENT SEMESTER
@@ -122,14 +123,17 @@ public abstract class User {
 	public void setSemester(int semester) {
 		this.semester = semester;
 	}
-	
+
 	// USER ROLE TITLE
-	public String getRole_title() {
+	public String getRoleTitle() {
 		return roletitle;
 	}
 
-	public void setRole_title(String role_title) {
-		this.roletitle = role_title;
-	}	
+	public void setRoleTitle(String roletitle) {
+		this.roletitle = roletitle;
+	}
+	
+
+
 
 }

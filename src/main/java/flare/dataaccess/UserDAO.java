@@ -1,5 +1,6 @@
 package flare.dataaccess;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 /**
  * @author Sean Dougan
@@ -24,20 +25,20 @@ public abstract class UserDAO{
 	/**
 	 * inserts new user to the database with the current values of the callers fields
 	 */
-	abstract protected void insert();
+	abstract protected void insertDB();
 	
 	/**
 	 * select your own records from the database with the current values of the callers fields
 	 */
-	abstract protected void select( );
+	abstract protected void bindObjectToDB(String username );
 	
 	/**
 	 * update your own records from the database with the current values of the callers fields
 	 */
-	abstract protected void update();
+	abstract protected void updateDB(String username);
 	
 	/**
 	 * delete your own records from the database with the current values of the callers fields
 	 */
-	abstract protected  void delete();
+	abstract protected  void deleteDB();
 }

@@ -39,6 +39,24 @@
 		<property name="username" value="${username}" />
 		<property name="password" value="${password}" />
 	</bean>
+	
+	<!-- ##################### FACTORIES FOR INJECTION ##################################### -->
+	<!-- student factory -->
+	<bean id="student"
+		class="flare.factory.StudentFactory">
+		</bean>
+	
+	<!-- club leader factory -->
+	
+	<bean id="clubleader"
+		class="flare.factory.ClubLeaderFactory">
+		</bean>
+	
+	<!-- admin factory -->
+	
+	<bean id="admin"
+		class="flare.factory.AdminFactory">
+		</bean>
 
 	<!-- maps static resources to be linked by spring, CSS, JS -->
 	<mvc:resources mapping="/resources/**" location="/resources/"/>

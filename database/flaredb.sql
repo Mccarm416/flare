@@ -6,7 +6,7 @@
 ## InnoDB as the database engine
 
 ## reset database every instance for testing here if needed 
-## DROP DATABASE IF EXISTS flaredb;
+ DROP DATABASE IF EXISTS flaredb;
 CREATE USER IF NOT EXISTS admin IDENTIFIED BY 'admin';
 
 ## set user access privelages here
@@ -19,29 +19,28 @@ USE flaredb;
 ## all users share some common information
 #####################################################################################################
 CREATE TABLE IF NOT EXISTS table_role (
-	role_id INT(11) PRIMARY KEY AUTO_INCREMENT,
-    role_title VARCHAR(30)
+	roleid INT(11) PRIMARY KEY AUTO_INCREMENT,
+    roletitle VARCHAR(30)
 )
 ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS table_user (
-	user_id int(11) PRIMARY KEY AUTO_INCREMENT,
-	userName VARCHAR(50) NOT NULL,
+	userid int(11) PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(50) NOT NULL,
     pword VARCHAR(255) NOT NULL, 
     email CHAR(50) NOT NULL, 
-    first_name VARCHAR(25), 
-    last_name VARCHAR(25),
-    lastLogin DATETIME,
-    account_creation DATETIME,
-    display_picture VARCHAR(200), #this is a a filepath pointing to the location of the image
-    account_status INT(1), #0 is inactive, 1 is active, 2 is blocked
-    current_year YEAR (4),
+    firstname VARCHAR(25), 
+    lastname VARCHAR(25),
+    accountcreation DATE,
+    displaypicture VARCHAR(200), #this is a a filepath pointing to the location of the image
+    accountstatus INT(1), #0 is inactive, 1 is active, 2 is blocked
+    currentyear INT (4),
     semester INT(1),
-   fk_role_id INT(11),
+   fkroleid INT(11),
     
     # FOREIGN KEY
     ######################################################################
-    FOREIGN KEY fk_role(fk_role_id) REFERENCES table_role(role_id) ON DELETE CASCADE
+    FOREIGN KEY fk_role(fkroleid) REFERENCES table_role(roleid) ON DELETE CASCADE
    )
    
    ## MUST DECLARE InnoDB ENGINE HERE
@@ -57,7 +56,7 @@ CREATE TABLE IF NOT EXISTS table_user (
     description varchar(4000),
     facebook_link varchar (200),
     display_picture varchar (200), #this is a a filepath pointing to the location of the image
-    FOREIGN KEY user_club_fk(club_leader) REFERENCES table_user(user_id) ON DELETE CASCADE
+    FOREIGN KEY user_club_fk(club_leader) REFERENCES table_user(userid) ON DELETE CASCADE
 )
    ENGINE=InnoDB;
 
@@ -85,7 +84,7 @@ CREATE TABLE IF NOT EXISTS table_user_club
 (
 	user_id int (11),
     club_id int (11),
-    FOREIGN KEY (user_id) REFERENCES table_user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES table_user(userid) ON DELETE CASCADE,
     FOREIGN KEY (club_id) REFERENCES table_club(club_id) ON DELETE CASCADE
 );
 
@@ -101,7 +100,7 @@ CREATE TABLE IF NOT EXISTS table_course
     professor1_email varchar (100),
     professor2_name char(65),
     professor2_email varchar (100),
-    FOREIGN KEY (user_id) REFERENCES table_user(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES table_user(userid) ON DELETE CASCADE
 )
    ENGINE=InnoDB;
 
@@ -160,12 +159,13 @@ CREATE TABLE IF NOT EXISTS table_study_session_assignment
    #########################################################################################################
    ## VIEWS
 	
-CREATE OR REPLACE VIEW auth_user AS
-	SELECT user_id, userName, pword, email, first_name, last_name, lastLogin, account_creation,
-    display_picture, account_status, current_year, semester, role_title
+CREATE OR REPLACE VIEW auth_user (userid, username, pword, email, firstname, lastname, accountcreation,
+    displaypicture, accountstatus, currentyear, semester, roletitle) AS
+	SELECT userid, username, pword, email, firstname, lastname, accountcreation,
+    displaypicture, accountstatus, currentyear, semester, roletitle
     FROM table_user
     JOIN table_role
-    ON table_user.fk_role_id = table_role.role_id;
+    ON table_user.fkroleid = table_role.roleid;
     
 	#########################################################################################################
     ## TRIGGERS
@@ -177,39 +177,44 @@ CREATE OR REPLACE VIEW auth_user AS
 
 
 #############################################################################################################
+
+## INSERT ROLES
+INSERT INTO table_role(roletitle) VALUES ("admin");
+INSERT INTO table_role(roletitle) VALUES ("student");
+INSERT INTO table_role(roletitle) VALUES ("clubleader");
 # --- Dummy users ---
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester, fk_role_id) VALUES
-('Matthew', 'McCarthy', 'mccarm416@gmail.com', 'bourgeois.goblin', 'password', '2018-02-03 20:34:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Jamie', 'Massel', 'jamiemassel@gmail.com', 'babyhands', 'password', '2018-02-03 20:45:16', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Sean', 'Dougan', 'mediauthority@gmail.com', 'svoogan', 'password', '2018-02-03 20:46:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Michael', 'Van Dyke', 'mhvandyke7@gmail.com', '78uh', 'password', '2018-02-03 20:47:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Gregory', 'Uchitel', 'greg.uchitel@gmail.com', 'sku11d3stroy3r', 'password', '2018-02-03 20:48:23', '', 1, 3, 5);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Matthew', 'McCarthy', 'mccarm416@gmail.com', 'bourgeois.goblin', 'password', '2018-02-03 20:34:09', '', 1, 3, 5, 1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Jamie', 'Massel', 'jamiemassel@gmail.com', 'babyhands', 'password', '2018-02-03 20:45:16', '', 1, 3, 5, 1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Sean', 'Dougan', 'mediauthority@gmail.com', 'svoogan', 'password', '2018-02-03 20:46:09', '', 1, 3, 5, 2);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Michael', 'Van Dyke', 'mhvandyke7@gmail.com', '78uh', 'password', '2018-02-03 20:47:09', '', 1, 3, 5, 3);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Gregory', 'Uchitel', 'greg.uchitel@gmail.com', 'sku11d3stroy3r', 'password', '2018-02-03 20:48:23', '', 1, 3, 5, 1);
 
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Bill', 'Watterson', 'bwatts@gmail.com', 'CalvinHobbes', 'password', '2018-02-03 20:52:09', '', 1, 2, 4);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Charles', 'Manson', 'notacreep@gmail.com', 'anormalguy', 'password', '2018-02-03 20:53:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Sarah', 'Palin', 'palin2020@gmail.com', 'repubgal', 'password', '2018-02-03 20:58:29', '', 1, 3, 6);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Dillon', 'Francis', 'getlow@gmail.com', 'djjjjjj', 'password', '2018-02-03 21:00:00', '', 0, 2, 3);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Josine', 'Arnott', 'josie@gmail.com', 'flowerpower', 'password', '2018-02-03 21:10:12', '', 1, 2, 4);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Bill', 'Watterson', 'bwatts@gmail.com', 'CalvinHobbes', 'password', '2018-02-03 20:52:09', '', 1, 2, 4, 1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Charles', 'Manson', 'notacreep@gmail.com', 'anormalguy', 'password', '2018-02-03 20:53:09', '', 1, 3, 5, 2);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Sarah', 'Palin', 'palin2020@gmail.com', 'repubgal', 'password', '2018-02-03 20:58:29', '', 1, 3, 6, 1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Dillon', 'Francis', 'getlow@gmail.com', 'djjjjjj', 'password', '2018-02-03 21:00:00', '', 0, 2, 3, 1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Josine', 'Arnott', 'josie@gmail.com', 'flowerpower', 'password', '2018-02-03 21:10:12', '', 1, 2, 4, 1);
 
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('John', 'Wendel', 'fatal1ty@gmail.com', 'Fatal1ty', 'password', '2018-02-03 21:11:09', '', 1, 1, 2);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Margaret', 'Atwood', 'maggie@gmail.com', 'handmaiden', 'password', '2018-02-03 21:13:27', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('John', 'Doe', 'jdoe@gmail.com', 'deadman666', 'password', '2018-02-03 21:15:27', '', 1, 2, 3);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Mary-Jane', 'Watson', 'mjw@gmail.com', 'spideyfangirl', 'password', '2018-02-03 21:13:54', '', 1, 2, 4);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, current_year, semester) VALUES
-('Testy', 'Von Testington', 'test@gmail.com', 'TheTestMan', 'password', '2018-02-04 12:10:00', '', 1, 1, 1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('John', 'Wendel', 'fatal1ty@gmail.com', 'Fatal1ty', 'password', '2018-02-03 21:11:09', '', 1, 1, 2, 1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Margaret', 'Atwood', 'maggie@gmail.com', 'handmaiden', 'password', '2018-02-03 21:13:27', '', 1, 3, 5,1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('John', 'Doe', 'jdoe@gmail.com', 'deadman666', 'password', '2018-02-03 21:15:27', '', 1, 2, 3, 1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Mary-Jane', 'Watson', 'mjw@gmail.com', 'spideyfangirl', 'password', '2018-02-03 21:13:54', '', 1, 2, 4,1);
+INSERT INTO table_user(firstname, lastname, email, username, pword, accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid) VALUES
+('Testy', 'Von Testington', 'test@gmail.com', 'TheTestMan', 'password', '2018-02-04 12:10:00', '', 1, 1, 1,1);
 
 # --- Dummy Courses --- 
 INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email, professor2_name, professor2_email) VALUES
@@ -308,9 +313,6 @@ INSERT INTO table_club_event(club_id, event_name, event_time, location, recurrin
 ## set access privelage here after table creation
 GRANT ALL PRIVILEGES ON flaredb.* TO 'admin'@'localhost';
 
-## INSERT ROLES
-INSERT INTO table_role(role_title) VALUES ("admin");
-INSERT INTO table_role(role_title) VALUES ("student");
-INSERT INTO table_role(role_title) VALUES ("clubleader");
+
 
 ## TODO make views of joined tables from user too specialized user data for quick lookup

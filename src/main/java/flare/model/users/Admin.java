@@ -4,8 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import flare.dataaccess.UserDAO;
-
-
 /**
  * 
  * @author Sean Dougan
@@ -16,22 +14,22 @@ import flare.dataaccess.UserDAO;
  */
 // START OF OUTER
 // ################################################################################################################
-public class ClubLeader extends User implements MutateAccountType, AccountManagement {
+public class Admin extends User implements MutateAccountType, AccountManagement {
 	
 	
-	private ClubLeaderDAO cldao;
+	private AdminDAO admindao;
 	
 
 	// methods
 	
-	public void setClDao(ClubLeaderDAO cldao) {
+	public void setAdminDAO(AdminDAO admindao) {
 	
-		this.cldao = cldao;
+		this.admindao = admindao;
 	}
 	
-	public ClubLeaderDAO DB() {
+	public AdminDAO DB() {
 		
-		return cldao;
+		return admindao;
 	}
 
 	
@@ -43,28 +41,29 @@ public class ClubLeader extends User implements MutateAccountType, AccountManage
 	 *
 	 */
 // ###################################################################################################################
-	public class ClubLeaderDAO extends UserDAO {
+	public class AdminDAO extends UserDAO {
 		
 		// fields
-		private ClubLeaderRowMapper clDataMap;
+		private AdminRowMapper adminDataMap;
 		
 		// methods
 		// constructor
-	public ClubLeaderDAO() { super();}
+	public AdminDAO() { super();}
 
+	public void manualObjectBind() {}
  
 	/**
 	 * @return the row mapper of the current student object
 	 */
-	public ClubLeaderRowMapper getclDataMap() {
-		return clDataMap;
+	public AdminRowMapper getAdminDataMap() {
+		return adminDataMap;
 	}
 
 	/**
 	 * @param studentMDataMap the rowmapper of the current student object
 	 */
-	public void setcltDataMap(ClubLeaderRowMapper clDataMap) {
-		this.clDataMap = clDataMap;
+	public void setAdminDataMap(AdminRowMapper adminDataMap) {
+		this.adminDataMap = adminDataMap;
 	}
 
 	// INNER-INNER START
@@ -76,7 +75,7 @@ public class ClubLeader extends User implements MutateAccountType, AccountManage
 	 * @since 1.0
 	 */
 	// ############################################################################################################
-	public class ClubLeaderRowMapper implements RowCallbackHandler{
+	public class AdminRowMapper implements RowCallbackHandler{
 
 		/**
 		 * @param the result set passed in from the jdbctemplate in response to query
@@ -110,7 +109,7 @@ String sql = String.format("INSERT INTO table_user(firstname, lastname, email, u
 		+ " VALUES('%1$s', '%2$s', '%3$s', '%4$s', '%5$s', "
 		+ "'%6$s', '%7$s', %8$s, %9$s,%10$s, %11$s)" , getFirstName(), getLastName(), getEmail(), getUserName(),
 		getPword(), getAccountCreation(), getDisplayPicture(), getAccountStatus(), getCurrentYear(), getSemester(),
-		3);
+		1);
 
 		userDBC.update(sql);
 		
@@ -119,9 +118,8 @@ String sql = String.format("INSERT INTO table_user(firstname, lastname, email, u
 	@Override
 	public void bindObjectToDB(String username) {
 		
-		String sql = String.format("SELECT * FROM auth_user WHERE username='%1$s' AND"
-				+ " roletitle = 'clubleader'", username);
-		userDBC.query(sql, clDataMap);
+		String sql = String.format("SELECT * FROM auth_user WHERE username='%1$s'", username);
+		userDBC.query(sql, adminDataMap);
 		
 	}
 
@@ -130,7 +128,7 @@ String sql = String.format("INSERT INTO table_user(firstname, lastname, email, u
 		
 		String sql = String.format("UPDATE table_user SET firstname = '%1$s', lastname = '%2$s', email = '%3$s',"
 				+ "username = '%4$s', pword = '%5$s' ,accountcreation = '%6$s', displaypicture = '%7$s', accountstatus = '%8$s',"
-				+ " currentyear = '%9$s', semester = '%10$s', fkroleid = %11$s WHERE username = '" + username + "' " , getFirstName(), getLastName(), getEmail(), getUserName(),
+				+ " currentyear = '%9$s', semester = '%10$s', fkroleid = %11$s WHERE username = '" + username + "'" , getFirstName(), getLastName(), getEmail(), getUserName(),
 		getPword(), getAccountCreation(), getDisplayPicture(), getAccountStatus(), getCurrentYear(), getSemester(),
 		1);
 	

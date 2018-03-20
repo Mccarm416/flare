@@ -6,7 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import flare.factory.AdminFactory;
+import flare.factory.ClubLeaderFactory;
 import flare.factory.StudentFactory;
+import flare.model.users.Student;
 
 import org.springframework.context.annotation.ComponentScan;
 
@@ -15,11 +18,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"flare.factory", "flare.model", "flare.dataaccess"})
 public class TestContext {	
 	
-
-	 	private static final String PROPERTY_NAME_DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
-	    private static final String PROPERTY_NAME_DATABASE_PASSWORD = "admin";
-	    private static final String PROPERTY_NAME_DATABASE_URL = "jdbc:mysql://localhost:3306/flaredb";
-	    private static final String PROPERTY_NAME_DATABASE_USERNAME = "admin";
 @Bean
 public DataSource dataSource() {
 	
@@ -33,4 +31,26 @@ public DataSource dataSource() {
      
     return dataSource;
 }
+
+@Bean
+public StudentFactory student() {
+	
+	StudentFactory student = new StudentFactory();
+	return student;
+}
+
+@Bean
+public AdminFactory admin() {
+	
+	AdminFactory admin = new AdminFactory();
+	return admin;
+}
+
+@Bean
+public ClubLeaderFactory clubleader() {
+	
+	ClubLeaderFactory clubleader = new ClubLeaderFactory();
+	return clubleader;
+}
+
 }
