@@ -4,35 +4,101 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ChatMessage {
-	private String username;
-	private int userId;
+	private int chatId; //ID for the chat which this message is a part of
+	private int fromUserId;
+	private String fromUsername;
+	private int toUserId;
+	private String toUsername;
 	private String message;
 	private String messageTime;
 	
 	
-	public ChatMessage(String username, int userId, String message) {
-		this.username = username;
-		this.userId = userId;
+	public ChatMessage() {
+	}
+
+
+	public ChatMessage(int chatId, int fromUserId, String fromUsername, int toUserId, String toUsername, String message) {
+		this.chatId = chatId;
+		this.fromUserId = fromUserId;
+		this.fromUsername = fromUsername;
+		this.toUserId = toUserId;
+		this.toUsername = toUsername;
 		this.message = message;
 		messageTime = longToDate(new Date().getTime());
 	}
 	
-	public String getUsername() {
-		return username;
-	}
 	
-	public int getUserId() {
-		return userId;
+
+
+	public int getChatId() {
+		return chatId;
 	}
-	
+
+
+	public void setChatId(int chatId) {
+		this.chatId = chatId;
+	}
+
+
+	public int getFromUserId() {
+		return fromUserId;
+	}
+
+
+	public void setFromUserId(int fromUserId) {
+		this.fromUserId = fromUserId;
+	}
+
+
+	public String getFromUsername() {
+		return fromUsername;
+	}
+
+
+	public void setFromUsername(String fromUsername) {
+		this.fromUsername = fromUsername;
+	}
+
+
+	public int getToUserId() {
+		return toUserId;
+	}
+
+
+	public void setToUserId(int toUserId) {
+		this.toUserId = toUserId;
+	}
+
+
+	public String getToUsername() {
+		return toUsername;
+	}
+
+
+	public void setToUsername(String toUsername) {
+		this.toUsername = toUsername;
+	}
+
+
 	public String getMessage() {
 		return message;
 	}
-	
-	
+
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+
 	public String getMessageTime() {
 		return messageTime;
 	}
+
+
+	public void setMessageTime(String messageTime) {
+		this.messageTime = messageTime;
+	}
+
 
 	private String longToDate(long date) {
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

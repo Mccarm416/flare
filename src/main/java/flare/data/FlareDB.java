@@ -8,7 +8,7 @@ public class FlareDB {
 	//DATABASE CONNECTION STRINGS
 		private final static String username = "admin";
 		private final static String password = "admin";
-		private final static String database = "flare_db";
+		private final static String database = "flaredb";
 		
 		//SINGLETON CONNECTION TO DATABASE
 		public static Connection startConnection() {
@@ -31,6 +31,7 @@ public class FlareDB {
 			catch (Exception e) {
 			      
 			    	System.out.println("There is a problem connecting to the MYSql database");
+			    	e.printStackTrace();
 			    	return null;
 			    } 
 		}
