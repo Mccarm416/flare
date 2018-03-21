@@ -165,35 +165,15 @@ CREATE TABLE table_messages
 (
 	message_id int (11) AUTO_INCREMENT PRIMARY KEY,
 	chat_id int (11),
-    user_id int (11),
+    from_user_id int (11),
+    to_user_id int (11),
     message varchar (250),
     message_time datetime,
     FOREIGN KEY (chat_id) REFERENCES table_chat(chat_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES table_user(user_id) ON DELETE CASCADE
+    FOREIGN KEY (from_user_id) REFERENCES table_user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (to_user_id) REFERENCES table_user(user_id) ON DELETE CASCADE
 )
 	ENGINE=InnoDB;
-# --- Dummy Club-Events ---
-INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES
-(1, 2, 0);
-
-INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES
-(3, 9, 0);
-
-INSERT INTO table_messages(chat_id, user_id, message, message_time) VALUES
-(1, 1, 'Hey Jamie, do you like up dog??','2018-02-03 22:45:16');
-INSERT INTO table_messages(chat_id, user_id, message, message_time) VALUES
-(1, 2, 'What\'s updog???','2018-02-03 22:46:16');
-INSERT INTO table_messages(chat_id, user_id, message, message_time) VALUES
-(1, 1, 'Notthing much G, what\'s up wichu?','2018-02-03 22:47:28');
-INSERT INTO table_messages(chat_id, user_id, message, message_time) VALUES
-(1, 1, 'HAHAHAHAHAHAHA','2018-02-03 20:47:30');
-INSERT INTO table_messages(chat_id, user_id, message, message_time) VALUES
-(1, 2, ':|','2018-02-03 20:47:28');
-
-INSERT INTO table_messages(chat_id, user_id, message, message_time) VALUES
-(2, 3, 'UR NEW STUFF IS LIT YO','2018-02-08 21:00:10');
-INSERT INTO table_messages(chat_id, user_id, message, message_time) VALUES
-(2, 9, 'Thanks man!','2018-02-08 21:15:50');
 
 
 # --- Dummy users ---
@@ -324,6 +304,31 @@ INSERT INTO table_club_event(club_id, event_name, event_time, location, recurrin
 INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
 (5, 'Greg Weekly Praise Day', '2018-03-11 08:00:00', 'Church of Greg', 2, '', 'Weekly meetup to discuss our lord and saviour, Gregory Uchitel. Kool-aid will be available to all who come. Please fast for the previous 48 hours to show your devotion to our saviour.');
  
+ # --- Dummy Chats ---
+INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES
+(1, 2, 0);
+
+INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES
+(3, 9, 0);
+
+
+# --- Dummy Messages ---
+
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 1, 2, 'Hey Jamie, do you like up dog??','2018-02-03 22:45:16');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 2, 1, 'What\'s updog???','2018-02-03 22:46:16');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 1, 2, 'Notthing much G, what\'s up wichu?','2018-02-03 22:47:28');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 1, 2, 'HAHAHAHAHAHAHA','2018-02-03 20:47:30');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 2, 1, ':|','2018-02-03 20:47:28');
+
+ INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(2, 3, 9, 'UR NEW STUFF IS LIT YO','2018-02-08 21:00:10');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(2, 9, 3, 'Thanks man!','2018-02-08 21:15:50');
 
 
 ## set access privelage here after table creation
