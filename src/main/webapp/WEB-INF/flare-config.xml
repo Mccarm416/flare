@@ -14,7 +14,7 @@
 	<!-- we are component scanning anything from package flare and below, @annotation will be parsed -->
 	<context:component-scan base-package="flare" />
 
-	<!-- I don't know why this is here, anyone finds out let me know -->
+	<!-- Enables Spring's annotation driven model -->
 	<mvc:annotation-driven/>
 
 	<!-- telling the dispatcher how to resolve views -->
@@ -24,5 +24,18 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	<!-- going to need to add a few more security and jdbc modules here -->
+	
+	<!-- Notes upload feature stuff. Sets maximum file size enable for transfer  -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		 <!-- Set maximum upload size (currently 2.09 MB(2097152 bytes)) -->
+		<property name="maxUploadSize" value="2097152" />
+
+	</bean>
+
+	<context:component-scan base-package="com.journaldev.spring.controller" />
+	
+	
 
 </beans>

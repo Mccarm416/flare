@@ -19,7 +19,6 @@ public class ChatMessageDAO {
 		try{
 			//Inserts a single course into the db
 			Connection connection = FlareDB.startConnection();
-			System.out.println("Creating connection for ChatMessage insert...");
 			connection = FlareDB.startConnection();
 			//Set the SQL variables
 			
@@ -46,7 +45,6 @@ public class ChatMessageDAO {
 		
 		try {
 			ResultSet results;
-			System.out.println("Creating connection...");
 			Connection connection = FlareDB.startConnection();
 			String sql = "SELECT * FROM table_messages WHERE chat_id = " + chatId;
 			System.out.println("Running query...");
