@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- start of beans definition -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -17,6 +19,9 @@
 
 		<!--  JDBC connection properties source-->
 	<context:property-placeholder location="classpath*:flaredb.properties"/>
+	
+	<!-- Flare mailer sender configuration -->
+	<context:property-placeholder location="classpath*:flaremail.properties"/>
 	
 	<!-- I don't know why this is here, anyone finds out let me know -->
 	<mvc:annotation-driven/>
@@ -40,7 +45,7 @@
 		<property name="password" value="${password}" />
 	</bean>
 	
-	<!-- ##################### FACTORIES FOR INJECTION ##################################### -->
+	<!-- ##################### FLARE OBJECT FACTORIES ##################################### -->
 	<!-- student factory -->
 	<bean id="student"
 		class="flare.factory.StudentFactory">
@@ -60,4 +65,30 @@
 
 	<!-- maps static resources to be linked by spring, CSS, JS -->
 	<mvc:resources mapping="/resources/**" location="/resources/"/>
+	
+	<!-- ###################### FLARE MAIL ################################################### -->
+		<!-- email system parameters using spring mail api -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    <!-- SMTP settings -->
+	    <property name="host" value="${mail.host}" />
+	    <property name="port" value="${mail.port}" />
+	    <property name="username" value="${mail.username}" />
+	    <property name="password" value="${mail.password}" />
+	    <property name="javaMailProperties">
+    
+        <!-- additional properties specific to JavaMail -->
+	        <props>
+	                 <prop key="mail.smtp.host">smtp.gmail.com</prop>
+	                <prop key="mail.smtp.auth">true</prop>
+	                <prop key="mail.debug">true</prop>
+	                <prop key="mail.transport.protocol">smtp</prop>
+	                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+	                <prop key="mail.smtp.socketFactory.port">465</prop>
+	                <prop key="mail.smtp.ssl.enable">true</prop>
+	                <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+	 		</props>
+   		 </property>
+</bean>
+
+<!-- end of beans definition -->
 </beans>

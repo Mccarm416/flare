@@ -11,16 +11,4 @@ public class LandingController {
 		
 		return "index";
 	}
-	
-	@RequestMapping("#Registration")
-	public String RDLandToReg() {
-		
-		return "registration";
-	}
-	
-	@RequestMapping("#Login")
-	public String RDLandToLog() {
-		
-		return "login";
-	}
 }

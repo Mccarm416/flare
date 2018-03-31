@@ -28,43 +28,43 @@
                  <div class="row">
                   <h2 class="text-center">Registration</h2>
                <div class="form"> 
-               <form:form method="POST" action="/validateRegistration" modelAttribute="student">
+               
+               <form method="POST" action="/validateRegistration">
                    
                          <div class="col-md-4 col-md-4">
-                        <form:label path="username" class="control-label">Desired Username</form:label>
-                        <form:input path="username" class="form-control" required="required"></form:input>
+                        <label path="username" class="control-label">Desired Username</label>
+                        <input path="username" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                        <form:label path="password" class="control-label">Desired Password</form:label>
-                        <form:input path="password" class="form-control" required="required"></form:input>
+                        <label path="password" class="control-label">Desired Password</label>
+                        <input path="password" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                        <form:label path="firstname" class="control-label">First Name </form:label>
-                        <form:input path="firstname" class="form-control" required="required"></form:input>
+                        <label path="firstname" class="control-label">First Name </label>
+                        <input path="firstname" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                         <form:label path="lastname" class="control-label">Desired</form:label>
-                        <form:input path="lastname" class="form-control" required="required"></form:input>
+                         <label path="lastname" class="control-label">Desired</label>
+                        <input path="lastname" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                        <form:label path="year" class="control-label">Current Year</form:label>
-                        <form:input path="year" class="form-control" required="required"></form:input>
+                        <label path="year" class="control-label">Current Year</label>
+                        <input path="year" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                        <form:label path="semester" class="control-label">Current Semester</form:label>
-                        <form:input path="semester" class="form-control" required="required"></form:input>
+                        <label path="semester" class="control-label">Current Semester</label>
+                        <input path="semester" class="form-control" required="required"></input>
                          </div>
-                         
                          
                    <div class="col-sm-12">
                       <div class="col-sm-4"></div>
@@ -72,7 +72,7 @@
                       <div class="col-sm-4"></div>
                        
                    </div>
-                            </form:form>  
+                            </form>  
                             
                         
                  </div> <!-- form group ends -->

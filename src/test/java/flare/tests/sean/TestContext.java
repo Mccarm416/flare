@@ -4,7 +4,9 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import flare.factory.AdminFactory;
 import flare.factory.ClubLeaderFactory;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @Configuration
+@ImportResource("classpath:flare/tests/sean/TestConfig.xml")
 @ComponentScan(basePackages = {"flare.factory", "flare.model", "flare.dataaccess"})
 public class TestContext {	
 	
@@ -52,5 +55,6 @@ public ClubLeaderFactory clubleader() {
 	ClubLeaderFactory clubleader = new ClubLeaderFactory();
 	return clubleader;
 }
+
 
 }

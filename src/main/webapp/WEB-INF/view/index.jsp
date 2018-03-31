@@ -36,8 +36,7 @@
                   <button class="btn btn-secondary" type="submit">Login!</button>
                   </form>
                   <form action="registration">
-                  <button class="btn btn-secondary" type="submit" 
-                  >Sign Up!</button>
+                  <button class="btn btn-secondary" type="submit"  >Sign Up!</button>
                   </form>
             </div>
           </div>
