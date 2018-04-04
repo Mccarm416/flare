@@ -29,41 +29,41 @@
                   <h2 class="text-center">Registration</h2>
                <div class="form"> 
                
-               <form method="POST" action="/validateRegistration">
+               <form method="POST" action="regAuth">
                    
                          <div class="col-md-4 col-md-4">
-                        <label path="username" class="control-label">Desired Username</label>
-                        <input path="username" class="form-control" required="required"></input>
+                        <label name="username" class="control-label">Desired Username</label>
+                        <input name="username" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                        <label path="password" class="control-label">Desired Password</label>
-                        <input path="password" class="form-control" required="required"></input>
+                        <label name="password" class="control-label">Desired Password</label>
+                        <input name="password" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                        <label path="firstname" class="control-label">First Name </label>
-                        <input path="firstname" class="form-control" required="required"></input>
+                        <label name="firstname" class="control-label">First Name </label>
+                        <input name="firstname" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                         <label path="lastname" class="control-label">Desired</label>
-                        <input path="lastname" class="form-control" required="required"></input>
+                         <label name="lastname" class="control-label">Desired</label>
+                        <input name="lastname" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                        <label path="year" class="control-label">Current Year</label>
-                        <input path="year" class="form-control" required="required"></input>
+                        <label name="year" class="control-label">Current Year</label>
+                        <input name="year" class="form-control" required="required"></input>
                          </div>
                          
                          
                          <div class="col-md-4 col-md-4">
-                        <label path="semester" class="control-label">Current Semester</label>
-                        <input path="semester" class="form-control" required="required"></input>
+                        <label name="semester" class="control-label">Current Semester</label>
+                        <input name="semester" class="form-control" required="required"></input>
                          </div>
                          
                    <div class="col-sm-12">

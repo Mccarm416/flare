@@ -70,10 +70,10 @@
 		<!-- email system parameters using spring mail api -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	    <!-- SMTP settings -->
-	    <property name="host" value="${mail.host}" />
-	    <property name="port" value="${mail.port}" />
-	    <property name="username" value="${mail.username}" />
-	    <property name="password" value="${mail.password}" />
+	    <property name="host" value="smtp.gmail.com" />
+	    <property name="port" value="465" />
+	    <property name="username" value="flarestudentwebservice@gmail.com" />
+	    <property name="password" value="flare123" />
 	    <property name="javaMailProperties">
     
         <!-- additional properties specific to JavaMail -->

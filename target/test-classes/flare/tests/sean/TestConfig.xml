@@ -11,6 +11,7 @@
         <!--  JDBC connection properties source-->
 	<context:property-placeholder location="classpath*:flaredb.properties"/>
 	
+	
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
