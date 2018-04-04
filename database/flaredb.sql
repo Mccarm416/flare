@@ -184,6 +184,7 @@ CREATE TABLE table_note
 	course_name varchar (50),
     description varchar (64),
     file_extension varchar (64),
+    file_path varchar(256),
     FOREIGN KEY (user_id) REFERENCES table_user (user_id) ON DELETE CASCADE
 )
 ENGINE = InnoDB;

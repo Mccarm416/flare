@@ -19,7 +19,7 @@ public class NotesDAO {
 			connection = FlareDB.startConnection();
 			//Set the SQL variables
 			
-			String sql = "INSERT INTO table_note(note_id, user_id, original_file_name, file_name, course_name, description, file_extension) VALUES " + "(?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO table_note(note_id, user_id, original_file_name, file_name, course_name, description, file_extension, file_path) VALUES " + "(?,?,?,?,?,?,?,?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, note.getNoteId());
 			preparedStatement.setInt(2, note.getUserId());
@@ -28,6 +28,7 @@ public class NotesDAO {
 			preparedStatement.setString(5, note.getCourseName());
 			preparedStatement.setString(6, note.getDescription());
 			preparedStatement.setString(7, note.getFileExtension());
+			preparedStatement.setString(8, note.getFilePath());
 			preparedStatement.executeUpdate();
 			System.out.println("Note created");
 			check = true;
@@ -61,6 +62,7 @@ public class NotesDAO {
 					note.setCourseName(results.getString("course_name"));
 					note.setDescription(results.getString("description"));
 					note.setFileExtension(results.getString("file_extension"));
+					note.setFilePath(results.getString("file_path"));
 					notes.add(note);
 				}
 			}
@@ -71,5 +73,42 @@ public class NotesDAO {
 		
 		System.out.println("Returning notes with a size of: " + notes.size());
 		return notes;
+	}
+	
+	public static Note getNote(int noteId) {
+		Note note = new Note();
+		try {
+			ResultSet results;
+			Connection connection = FlareDB.startConnection();
+			String sql = "SELECT * FROM table_note WHERE note_id = " + noteId;
+			System.out.println("Running query...");
+			Statement statement = connection.createStatement();
+			results = statement.executeQuery(sql);
+			//Check to see if anything has returned
+			if (results != null) {
+				//Add to messages while results has data
+				while (results.next()) {
+					note.setNoteId(results.getInt("note_id"));
+					note.setUserId(results.getInt("user_id"));
+					note.setOriginalFileName(results.getString("original_file_name"));
+					note.setFileName(results.getString("file_name"));
+					note.setCourseName(results.getString("course_name"));
+					note.setDescription(results.getString("description"));
+					note.setFileExtension(results.getString("file_extension"));
+					note.setFilePath(results.getString("file_path"));
+				}
+			}
+			else {
+				System.out.println("No note found for noteId " + noteId);
+				return null;
+			}
+		} catch (Exception e) {
+			System.out.println("Error!");
+			System.out.println(e);
+			return null;
+		}
+		
+		System.out.println("Note found!");
+		return note;
 	}
 }

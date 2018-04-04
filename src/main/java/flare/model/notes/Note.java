@@ -9,22 +9,24 @@ public class Note {
 	private String courseName;
 	private String description;
 	private String fileExtension;
+	private String filePath;
 	
 	public Note() {
 	}
 
 	//Pre-database entry constructor
-	public Note(int userId, String originalFileName, String fileName,  String courseName, String description, String fileExtension) {
+	public Note(int userId, String originalFileName, String fileName,  String courseName, String description, String fileExtension, String filePath) {
 		this.userId = userId;
 		this.originalFileName = originalFileName;
 		this.fileName = fileName;
 		this.courseName = courseName;
 		this.description = description;
 		this.fileExtension = fileExtension;
+		this.filePath = filePath;
 	}
 
 	public Note(int noteId, int userId, String originalFileName, String fileName, String courseName,
-			String description, String fileExtension) {
+			String description, String fileExtension, String filePath) {
 		this.noteId = noteId;
 		this.userId = userId;
 		this.originalFileName = originalFileName;
@@ -32,7 +34,7 @@ public class Note {
 		this.courseName = courseName;
 		this.description = description;
 		this.fileExtension = fileExtension;
-
+		this.filePath = filePath;
 	}
 
 
@@ -91,8 +93,14 @@ public class Note {
 	public void setFileExtension(String fileExtension) {
 		this.fileExtension = fileExtension;
 	}
-	
-	
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 	
 
 }

@@ -2,29 +2,45 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <html>
 <head>
-<style>
-	#noteUpload {
-		border:2px solid red;
-		text-align: centre;
+ <meta charset="UTF-8">
+	<style>
+	
+		.noteUpload {
+			text-align: center;
+			margin: 0px auto;
+		}
 		
-	}
-	#noteDisplay {
-		display: block;
-		text-align: centre;
-		border:2px solid red;
-	}
-	.note {
-		border:1px solid black;
-		max-width: 30%;
-		margin-bottom: 10px;
-		margin-left:auto;
-		margin-right:auto;
+		h1 {
+			margin: 0px auto;
+		}
+		h3 {
+			font-size: 21px;
+		}
+		.noteDisplay {
+			text-align: center;
+		}
+		.note {
+			border:1px solid black;
+			max-width: 30%;
+			margin: 10px auto;
+			position: relative;
+			text-align: center;
+			
+		}
+		.note b{
+			text-decoration: underline;
+		}
 		
-	}
-	.note:hover {
-		box-shadow: 0 8px 16px 0 red;
-	}
-</style>
+		.note form{
+			width: 90%;
+			margin: 5px auto;
+		
+		}
+		.note:hover {
+			box-shadow: 0 8px 16px 0 red;
+		}
+		
+	</style>
 <title>Notes</title>
 </head>
 <body>
@@ -53,7 +69,7 @@
 				</form>
 			</c:when>
 			<c:otherwise>
-				<h2>You must have at least one course created to use this feature.</h1>
+				<h2>You must have at least one course created to use this feature.</h2>
 			</c:otherwise>
 		</c:choose>
 	</div>
@@ -66,10 +82,16 @@
 			<c:otherwise>
 				<c:forEach items="${noteList}" var="note">
 					<div class="note">
-						<h3><c:out value="${note.fileName}"/></h3>
-						<h4><c:out value="${note.courseName}"/></h4>
-						<c:set var = "noteDescription" value = "${note.description}"/>
-						<b>Description:</b><c:out value="${note.description}"/>
+						<form method="POST" action="notesDownload">
+							<h3><c:out value="${note.fileName}"/></h3>
+							<h4><c:out value="${note.courseName}"/></h4>
+							<b>Description</b>
+							<br>
+							<c:out value="${note.description}"/>
+							<br>
+							<input type="submit" value="Download"/>
+							<input type="hidden" value="${note.noteId }" name="noteId"/>
+						</form>
 					</div>
 				</c:forEach>
 			</c:otherwise>
