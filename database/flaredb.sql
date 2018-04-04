@@ -174,7 +174,20 @@ CREATE TABLE table_messages
     FOREIGN KEY (to_user_id) REFERENCES table_user(user_id) ON DELETE CASCADE
 )
 	ENGINE=InnoDB;
-
+    
+CREATE TABLE table_note
+(
+	note_id int (11) AUTO_INCREMENT PRIMARY KEY,
+    user_id int (11),
+    original_file_name varchar (64),
+    file_name varchar (64),
+	course_name varchar (50),
+    description varchar (64),
+    file_extension varchar (64),
+    file_path varchar(256),
+    FOREIGN KEY (user_id) REFERENCES table_user (user_id) ON DELETE CASCADE
+)
+ENGINE = InnoDB;
 
 # --- Dummy users ---
 INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
@@ -332,6 +345,6 @@ INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_t
 
 
 ## set access privelage here after table creation
-GRANT ALL PRIVILEGES ON flaredb.* TO 'root'@'localhost';
+GRANT ALL PRIVILEGES ON flaredb.* TO 'admin'@'localhost';
 
 ## TODO make views of joined tables from user too specialized user data for quick lookup
