@@ -3,7 +3,6 @@ package flare.model.users;
 import java.time.LocalDateTime;
 import java.time.Year;
 
-import flare.model.users.dao.StudentDAO;
 import flare.model.users.dao.UserDAO;
 
 /**
@@ -46,7 +45,10 @@ public abstract class User {
 	protected int getUserId() {
 		return userId;
 	}
-	
+
+	public User() {
+		
+	}
 	//Used for creating a student for testing messaging system
 	public User(int userId, String userName, String firstName, String lastName) {
 		super();

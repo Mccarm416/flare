@@ -31,20 +31,17 @@
  
  <form:form modelAttribute="myform" action="result" method="get" >
  
- <form:select  path="nameOfInstitution">
-    <form:option value="NONE"></form:option>
-    <form:options items="${courseNames}"></form:options>
- </form:select>
+  <form:select  path="nameOfInstitution">
+  
+ <form:option value="" disabled selected>Choose a course</form:option>
+ <c:forEach items="${courseList}" var="courseList">
+
+						
+    <form:options items=<c:out value="${courseList.getCourseName()}"/>></form:options>
+    </c:forEach>  
+  </form:select>
  
  </form:form>
- 
- 
- 
- <select>
- <option value="" disabled selected>Choose a course</option>
- <option> COMP 3095</option>
- <option> GSCC 1078</option>
- </select>
  
  <select>
  <option value="" disabled selected>Choose an Assignment</option>

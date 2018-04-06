@@ -53,54 +53,9 @@ body {
 <title>Chatroom</title>
 </head>
 <body>
-	<h1>Chatting with: <c:out value="${userChat }"/></h1>
-	<c:set var="currentUser" value="${currentUserId }"/>
-	<c:forEach items="${messages}" var="chatMessage">
-	<c:set var="messageUserId" value="${chatMessage.userId}"/> 
-		<c:choose>
-			<c:when test="${messageUserId == currentUserId}">
-			 	<div class="message sender">
-				  <p><c:out value="${chatMessage.message }"/></p>
-				  <span class="time-right"><c:out value="${chatMessage.messageTime}"/></span>
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div class="message receiver">
-				  <p><c:out value="${chatMessage.message}"/></p>
-				  <span class="time-left"><c:out value="${chatMessage.messageTime}"/></span>
-				</div>
-			</c:otherwise>
-		</c:choose>
-	</c:forEach>
-	
-				<!-- 
-			<c:if test="${messageUserId == currentUserId}">
-				 <div class="message sender">
-				  <p><c:out value="${chatMessage.message }"/></p>
-				  <span class="time-right">11:00</span>
-				</div>
-			</c:if>
-			-->
-	<!-- 
-		 <div class="message sender">
-		  <p>Whaddup</p>
-		  <span class="time-right">11:00</span>
-		</div>
-		
-		<div class="message receiver">
-		  <p>Not too much bud</p>
-		  <span class="time-left">11:01</span>
-		</div>
-		
-		<div class="message sender">
-		  <p>How'd you do on the swift test?</p>
-		  <span class="time-right">11:02</span>
-		</div>
-		
-		<div class="message receiver">
-		  <p>Two thumbs down</p>
-		  <span class="time-left">11:05</span>
-		</div> 
-	 -->
+	<h1>Chatting with: <c:out value="${selectedUser}"/></h1>
+
+	 <jsp:include page="chatbox.jsp"></jsp:include>
+	 
 </body>
 </html>

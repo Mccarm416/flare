@@ -6,8 +6,8 @@
 ## InnoDB as the database engine
 
 ## reset database every instance for testing here if needed 
-## DROP DATABASE IF EXISTS flaredb;
-CREATE USER IF NOT EXISTS admin IDENTIFIED BY 'admin';
+DROP DATABASE IF EXISTS flaredb;
+CREATE USER IF NOT EXISTS 'admin' IDENTIFIED BY 'admin';
 
 ## set user access privelages here
 CREATE DATABASE IF NOT EXISTS flaredb;
@@ -129,8 +129,12 @@ CREATE TABLE table_study_session
 (
 	study_session_id int (11) AUTO_INCREMENT PRIMARY KEY,
     course_id int (11),
-    session_length time,
-    FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE
+    session_length int (20),
+    user_id int (11),
+	time Time,
+	date Date,
+    FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES table_user(user_id) ON DELETE CASCADE 
 )
    ENGINE=InnoDB;
 
@@ -141,13 +145,58 @@ CREATE TABLE table_study_session_assignment
 (
 	study_session_id int (11),
     assignment_id int (11),
-    FOREIGN KEY (study_session_id) REFERENCES table_study_session(study_session_id) ON DELETE CASCADE,
-    FOREIGN KEY (assignment_id) REFERENCES table_assignment(assignment_id) ON DELETE CASCADE
+	session_length int (20),
+    user_id int (11),
+	time Time,
+	date Date,
+    FOREIGN KEY (assignment_id) REFERENCES table_assignment(assignment_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES table_user(user_id) ON DELETE CASCADE 
 )
    ENGINE=InnoDB;
-
-
+   
+############################################################################################################
+CREATE TABLE table_chat
+#Used for the option of associating a sudy session to an assignment
+(
+	chat_id int (11) AUTO_INCREMENT PRIMARY KEY,
+	user_1_id int (11),
+    user_2_id int,
+    total_messages int (11),
+	FOREIGN KEY (user_1_id) REFERENCES table_user(user_id) ON DELETE CASCADE,
+	FOREIGN KEY (user_2_id) REFERENCES table_user(user_id) ON DELETE CASCADE
+    
+)
+   ENGINE=InnoDB;
+   
 #############################################################################################################
+CREATE TABLE table_messages
+(
+	message_id int (11) AUTO_INCREMENT PRIMARY KEY,
+	chat_id int (11),
+    from_user_id int (11),
+    to_user_id int (11),
+    message varchar (250),
+    message_time datetime,
+    FOREIGN KEY (chat_id) REFERENCES table_chat(chat_id) ON DELETE CASCADE,
+    FOREIGN KEY (from_user_id) REFERENCES table_user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (to_user_id) REFERENCES table_user(user_id) ON DELETE CASCADE
+)
+	ENGINE=InnoDB;
+    
+CREATE TABLE table_note
+(
+	note_id int (11) AUTO_INCREMENT PRIMARY KEY,
+    user_id int (11),
+    original_file_name varchar (64),
+    file_name varchar (64),
+	course_name varchar (50),
+    description varchar (64),
+    file_extension varchar (64),
+    file_path varchar(256),
+    FOREIGN KEY (user_id) REFERENCES table_user (user_id) ON DELETE CASCADE
+)
+ENGINE = InnoDB;
+
 # --- Dummy users ---
 INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
 ('Matthew', 'McCarthy', 'mccarm416@gmail.com', 'bourgeois.goblin', 'password', '2018-02-03 20:34:09', '', 1, 3, 5);
@@ -276,6 +325,33 @@ INSERT INTO table_club_event(club_id, event_name, event_time, location, recurrin
 INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
 (5, 'Greg Weekly Praise Day', '2018-03-11 08:00:00', 'Church of Greg', 2, '', 'Weekly meetup to discuss our lord and saviour, Gregory Uchitel. Kool-aid will be available to all who come. Please fast for the previous 48 hours to show your devotion to our saviour.');
  
+ # --- Dummy Chats ---
+INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES
+(1, 2, 0);
+
+INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES
+(3, 9, 0);
+
+
+# --- Dummy Messages ---
+
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 1, 2, 'Hey Jamie, do you like up dog??','2018-02-03 22:45:16');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 2, 1, 'What\'s updog???','2018-02-03 22:46:16');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 1, 2, 'Notthing much G, what\'s up wichu?','2018-02-03 22:47:28');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 1, 2, 'HAHAHAHAHAHAHA','2018-02-03 20:47:30');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 2, 1, ':|','2018-02-03 20:47:28');
+
+ INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(2, 3, 9, 'UR NEW STUFF IS LIT YO','2018-02-08 21:00:10');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(2, 9, 3, 'Thanks man!','2018-02-08 21:15:50');
+
+
 ## set access privelage here after table creation
 GRANT ALL PRIVILEGES ON flaredb.* TO 'admin'@'localhost';
 
