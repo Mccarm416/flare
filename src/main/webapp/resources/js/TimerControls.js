@@ -3,7 +3,7 @@ var timer = new Timer();
 var setting = 0;
 
 
-var hrs;
+var secs;
 var mins;
 var hrs;
 
@@ -157,6 +157,21 @@ timer.addEventListener('targetAchieved', function (e) {
     $('#recordedTimes').append(new Option(hrs+":"+mins+":"+secs, "Hello World Value"));
     
 });
+
+// Ajax functions
+
+$('#timeBox .btnTarg').click(function () {
+    
+	$.ajax({
+		  type: "POST",
+		  url: "Timer.jsp",
+		  data: { hours: hrs, minutes:mins, seconds: secs}
+		}).done(function( msg ) {
+		  alert( msg );
+		  //do other processing
+		});
+});
+	
 
 
 // Collects entered GET parameter 

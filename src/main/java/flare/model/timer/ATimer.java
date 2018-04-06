@@ -3,7 +3,7 @@ package flare.model.timer;
 import java.sql.Time;
 import java.util.Date;
 
-public abstract class TimerABS {
+public  class ATimer {
 	
 	private int study_session_id;
 	
@@ -13,13 +13,24 @@ public abstract class TimerABS {
 	
 	private Date date;
 	
-	public TimerABS(int study_session_id, int session_length, Time time, Date date) {
+	private int course_id;
+	
+	private int user_id;
+	
+	public ATimer() {
+	}
+	
+	public ATimer(int study_session_id, int session_length, Time time, Date date, int course_id, int user_id) {
 		this.study_session_id = study_session_id;
 		this.session_length = session_length;
 		this.time = time;
 		this.date = date;
+		this.course_id = course_id;
+		this.setUser_id(user_id);
          
      } 
+	
+	
 	
 	public int getStudy_session_id() {
 		return study_session_id;
@@ -52,6 +63,23 @@ public abstract class TimerABS {
 	
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	
+	public int getCourse_id() {
+		return course_id;
+	}
+
+	public void setCourse_id(int course_id) {
+		this.course_id = course_id;
+	}
+
+	public int getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
 	}
 	
 }

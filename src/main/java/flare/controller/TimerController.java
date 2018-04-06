@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import flare.model.assignments.Assignment;
+import flare.model.assignments.AssignmentsDataAccess;
 import flare.model.courses.Course;
 import flare.model.courses.CoursesDataAccess;
 
@@ -22,18 +23,37 @@ public class TimerController {
 	List<Assignment> assignmentList;
 	int userID;
 	
+	
+	
 	@RequestMapping("/")
 	public String showpage (Model model) {
 		
 		model.addAttribute("userID", userID);
 		courseList = CoursesDataAccess.GetCourseList(userID);	
 		
+		if(courseList == null){
+			System.out.println("You got nothing....");
+		}
+		
 		model.addAttribute("courseList", courseList);
+		
 		model.addAttribute("assignmentList", assignmentList);
 
 		return "Timer";
 	}
 	
+	@RequestMapping("/assignment")
+	public String switchAssignment (HttpServletRequest request, Model model) {
+		
+		int courseID = (int) request.getAttribute("courseID");
+		
+		model.addAttribute("courseList", courseList);
+		assignmentList = AssignmentsDataAccess.GetAssignmentListFromCourse(courseID);
+		
+		
+		
+		return "switchAssignment";
+	}
 	
 	@RequestMapping(value = "/time", method = RequestMethod.GET)
 	public ModelAndView getdata() {

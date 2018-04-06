@@ -7,7 +7,7 @@ import com.mysql.jdbc.Connection;
 public class FlareDB {
 
 	//DATABASE CONNECTION STRINGS
-		private final static String username = "admin";
+		private final static String username = "root";
 		private final static String password = "admin";
 		private final static String database = "flaredb";
 		

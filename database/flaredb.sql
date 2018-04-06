@@ -134,7 +134,7 @@ CREATE TABLE table_study_session
 	time Time,
 	date Date,
     FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES table_user(user_id) ON DELETE CASCADE 
+ 	FOREIGN KEY (user_id) REFERENCES table_user(user_id) ON DELETE CASCADE 
 )
    ENGINE=InnoDB;
 
