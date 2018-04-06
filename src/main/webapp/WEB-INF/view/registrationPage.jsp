@@ -29,7 +29,7 @@
                   <h2 class="text-center">Registration</h2>
                <div class="form"> 
                
-               <form method="POST" action="regAuth">
+               <form method="POST" action="registrationValidation">
                    
                          <div class="col-md-4 col-md-4">
                         <label name="username" class="control-label">Desired Username</label>
@@ -50,7 +50,7 @@
                          
                          
                          <div class="col-md-4 col-md-4">
-                         <label name="lastname" class="control-label">Desired</label>
+                         <label name="lastname" class="control-label">Last Name</label>
                         <input name="lastname" class="form-control" required="required"></input>
                          </div>
                          
@@ -62,13 +62,18 @@
                          
                          
                          <div class="col-md-4 col-md-4">
-                        <label name="semester" class="control-label">Current Semester</label>
+                        <label name="semester" class="control-label ">Current Semester</label>
                         <input name="semester" class="form-control" required="required"></input>
+                         </div>
+                         
+                         <div class="col-md-4 col-md-push-4">
+                         <label name="email" class="control-label col-md-push-4">Email</label>
+                        <input name="email" class="form-control" required="required"></input>
                          </div>
                          
                    <div class="col-sm-12">
                       <div class="col-sm-4"></div>
-                      <div class="col-sm-4 col-sm-push-1 "><button type="submit" class="btn-lg btn-success mx-auto width:300px">Register</button></div>
+                      <div class="col-sm-4 col-sm-push-1 "><button type="submit" class="btn-lg  btn-success mx-auto width:300px">Register</button></div>
                       <div class="col-sm-4"></div>
                        
                    </div>

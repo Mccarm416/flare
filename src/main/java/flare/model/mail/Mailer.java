@@ -18,13 +18,13 @@ public class Mailer {
 	}
 	
 	
-	public void registerMail() throws MailException {
+	public void registerMail(String address, String token) throws MailException {
 		
 		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setTo("sean.dougan@georgebrown.ca");
+		mail.setTo(address);
 		mail.setFrom("flarestudentwebservice@gmail.com");
 		mail.setSubject("Welcome to Flare! - Registration Token");
-		mail.setText("Your registration token is " );
+		mail.setText("Your registration token is " + token );
 		
 		mailSender.send(mail);
 	}

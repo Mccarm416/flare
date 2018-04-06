@@ -121,6 +121,14 @@
     <version>1.4.7</version>
 </dependency>
 
+<!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session -->
+<dependency>
+    <groupId>org.springframework.session</groupId>
+    <artifactId>spring-session</artifactId>
+    <version>1.3.2.RELEASE</version>
+</dependency>
+
+
   </dependencies>
   <build>
     <finalName>flare</finalName>

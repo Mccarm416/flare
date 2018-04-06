@@ -21,7 +21,7 @@ public class MailerIT {
 	@Test
 	public void test() {
 		
-	mailer.registerMail();
+	mailer.registerMail("seandougan@georgebrown.ca", "1234562134");
 		
 	}
 
