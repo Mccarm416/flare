@@ -27,9 +27,9 @@ public class TimerController {
 	
 	@RequestMapping("/")
 	public String showpage (Model model) {
-		
+		System.out.println("/ called");
 		model.addAttribute("userID", userID);
-		courseList = CoursesDataAccess.GetCourseList(userID);	
+		courseList = CoursesDataAccess.GetCourseList(4);	
 		
 		if(courseList == null){
 			System.out.println("You got nothing....");
@@ -48,7 +48,7 @@ public class TimerController {
 		int courseID = (int) request.getAttribute("courseID");
 		
 		model.addAttribute("courseList", courseList);
-		assignmentList = AssignmentsDataAccess.GetAssignmentListFromCourse(courseID);
+		assignmentList = AssignmentsDataAccess.GetAssignmentListFromCourse(3);
 		
 		
 		
