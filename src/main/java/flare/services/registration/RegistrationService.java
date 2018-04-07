@@ -1,5 +1,9 @@
 package flare.services.registration;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,9 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegistrationService {
 
-	private final String pattern = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'"
-			+ "*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b"
-			+ "\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@georgebrown.ca";
+	private final String pattern = "^^[\\w.+\\-]+@georgebrown\\.ca$";
 			
 	Pattern gbcEmailValidation = Pattern.compile(pattern);
 	
@@ -81,4 +83,11 @@ public class RegistrationService {
 		return isEmail;
 	}
 	
+	public String removeTime(Date date) {
+
+		DateFormat df = new SimpleDateFormat("yyy-MM-dd");
+		String dateSql = df.format(date);
+		
+		return dateSql;
+    }
 }

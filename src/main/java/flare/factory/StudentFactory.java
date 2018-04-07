@@ -1,10 +1,12 @@
 package flare.factory;
 
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.stereotype.Component;
+
 import flare.model.users.Student;
 import flare.model.users.Student.StudentDAO;
 import flare.model.users.Student.StudentDAO.StudentRowMapper;
-
+@Component
 public class StudentFactory implements FactoryBean<Student>{
 
 	@Override

@@ -30,7 +30,7 @@ public abstract class UserDAO{
 	/**
 	 * select your own records from the database with the current values of the callers fields
 	 */
-	abstract protected void bindObjectToDB(String username );
+	abstract protected void bindObjectToDB(String username);
 	
 	/**
 	 * update your own records from the database with the current values of the callers fields

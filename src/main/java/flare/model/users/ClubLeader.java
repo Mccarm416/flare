@@ -34,6 +34,10 @@ public class ClubLeader extends User implements MutateAccountType, AccountManage
 		return cldao;
 	}
 
+	@Override
+	public void upgradeAccount() {}
+@Override
+	public void downgradeAccount() {}
 	
 //  START OFINNER CLASS
 	/**
@@ -84,12 +88,13 @@ public class ClubLeader extends User implements MutateAccountType, AccountManage
 		@Override
 		public void processRow(ResultSet rs) throws SQLException {
 			
+			setUserId(rs.getInt("userid"));
 			setUserName(rs.getString("username"));
 			setPword(rs.getString("pword"));
 			setEmail(rs.getString("email"));
 			setFirstName(rs.getString("firstname"));
 			setLastName(rs.getString("lastname"));
-			setAccountCreation(rs.getDate("accountcreation"));
+			setAccountCreation(rs.getString("accountcreation"));
 			setDisplayPicture(rs.getString("displaypicture"));
 			setAccountStatus(rs.getInt("accountstatus"));
 			setCurrentYear(rs.getInt("currentyear"));

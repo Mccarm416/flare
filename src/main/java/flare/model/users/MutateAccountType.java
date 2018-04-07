@@ -6,4 +6,6 @@ package flare.model.users;
  */
 public interface MutateAccountType {
 
+	public void upgradeAccount();
+	public void downgradeAccount();
 }

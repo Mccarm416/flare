@@ -14,7 +14,7 @@ import flare.dataaccess.UserDAO;
  */
 // START OF OUTER
 // ################################################################################################################
-public class Admin extends User implements MutateAccountType, AccountManagement {
+public class Admin extends User implements AccountManagement {
 	
 	
 	private AdminDAO admindao;
@@ -83,12 +83,13 @@ public class Admin extends User implements MutateAccountType, AccountManagement 
 		@Override
 		public void processRow(ResultSet rs) throws SQLException {
 			
+			setUserId(rs.getInt("userid"));
 			setUserName(rs.getString("username"));
 			setPword(rs.getString("pword"));
 			setEmail(rs.getString("email"));
 			setFirstName(rs.getString("firstname"));
 			setLastName(rs.getString("lastname"));
-			setAccountCreation(rs.getDate("accountcreation"));
+			setAccountCreation(rs.getString("accountcreation"));
 			setDisplayPicture(rs.getString("displaypicture"));
 			setAccountStatus(rs.getInt("accountstatus"));
 			setCurrentYear(rs.getInt("currentyear"));

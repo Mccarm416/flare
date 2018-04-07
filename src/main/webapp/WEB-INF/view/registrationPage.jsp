@@ -39,7 +39,7 @@
                          
                          <div class="col-md-4 col-md-4">
                         <label name="password" class="control-label">Desired Password</label>
-                        <input name="password" class="form-control" required="required"></input>
+                        <input type="password" name="password" class="form-control" required="required"></input>
                          </div>
                          
                          

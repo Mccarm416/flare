@@ -1,7 +1,6 @@
 package flare.model.users;
 
-import java.time.LocalDateTime;
-import java.time.Year;
+
 import java.util.Date;
 
 /**
@@ -19,12 +18,13 @@ public abstract class User {
 	
 	// fields
 	// ##########################################################################################
+	protected int userid;// the users unique id number
 	protected String userName; // the users display name
 	protected String pword; // the users password stored in plain-text
 	protected String email; // the users george brown email address
 	protected String firstname; // the users first name
 	protected String lastname; // the users last name
-	protected Date accountcreation; // time and date of users last login
+	protected String accountcreation; // time and date of users last login
 	protected String displaypicture; // reference to address in web server filesystem of image
 	protected int accountstatus; // varaible stating authorized use of dealing with TOS
 	protected int currentyear; // i might be changing this field around it doesnt make any sense
@@ -80,11 +80,11 @@ public abstract class User {
 	}
 	
 	// ACCOUNT CREATION
-	public Date getAccountCreation() {
+	public String getAccountCreation() {
 		return accountcreation;
 	}
 	
-	public void setAccountCreation(Date accountcreation) {
+	public void setAccountCreation(String accountcreation) {
 		this.accountcreation = accountcreation;
 	}
 	
@@ -120,7 +120,7 @@ public abstract class User {
 		return semester;
 	}
 	
-	public void setSemester(int semester) {
+	public void setSemester( int semester) {
 		this.semester = semester;
 	}
 
@@ -131,6 +131,15 @@ public abstract class User {
 
 	public void setRoleTitle(String roletitle) {
 		this.roletitle = roletitle;
+	}
+
+	// USER ID NUMBER
+	public int getUserId() {
+		return userid;
+	}
+
+	public void setUserId(int userid) {
+		this.userid = userid;
 	}
 	
 
