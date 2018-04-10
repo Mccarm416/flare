@@ -79,6 +79,11 @@
         
         <div class="footer">
                <button>Log out</button>
-        </div>    
+        </div>  
+        <form>
+        <input type="hidden"
+			name="${_csrf.parameterName}"
+			value="${_csrf.token}"/>
+        </form>  
 	</body>
 </html>

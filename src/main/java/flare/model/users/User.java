@@ -20,16 +20,16 @@ public abstract class User {
 	// ##########################################################################################
 	protected int userid;// the users unique id number
 	protected String userName; // the users display name
-	protected String pword; // the users password stored in plain-text
+	protected String password; // the users password stored in plain-text
 	protected String email; // the users george brown email address
 	protected String firstname; // the users first name
 	protected String lastname; // the users last name
 	protected String accountcreation; // time and date of users last login
 	protected String displaypicture; // reference to address in web server filesystem of image
-	protected int accountstatus; // varaible stating authorized use of dealing with TOS
+	protected int enabled; // varaible stating authorized use of dealing with TOS
 	protected int currentyear; // i might be changing this field around it doesnt make any sense
 	protected int semester; // the current semester the user is in
-	protected String roletitle; // the string representation of the users role and system access
+	protected String authority; // the string representation of the users role and system access
 	
 	
 	// methods
@@ -44,12 +44,12 @@ public abstract class User {
 	}
 	
 	// PASSWORD
-	public String getPword() {
-		return pword;
+	public String getPassword() {
+		return password;
 	}
 	
-	public void setPword(String pword) {
-		this.pword = pword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	// EMAIL
@@ -97,13 +97,13 @@ public abstract class User {
 		this.displaypicture = displaypicture;
 	}
 	
-	// ACCOUNT RESTRICTION LEVEL
-	public int getAccountStatus() {
-		return accountstatus;
+	// ENABLED
+	public int getEnabled() {
+		return enabled;
 	}
-	
-	public void setAccountStatus(int accountstatus) {
-		this.accountstatus = accountstatus;
+
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
 	}
 	
 	// CURRENT YEAR
@@ -111,6 +111,8 @@ public abstract class User {
 		return currentyear;
 	}
 	
+	
+
 	public void setCurrentYear(int currentyear) {
 		this.currentyear = currentyear;
 	}
@@ -125,12 +127,12 @@ public abstract class User {
 	}
 
 	// USER ROLE TITLE
-	public String getRoleTitle() {
-		return roletitle;
+	public String getAuthority() {
+		return authority;
 	}
 
-	public void setRoleTitle(String roletitle) {
-		this.roletitle = roletitle;
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 
 	// USER ID NUMBER

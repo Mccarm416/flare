@@ -90,16 +90,16 @@ public class ClubLeader extends User implements MutateAccountType, AccountManage
 			
 			setUserId(rs.getInt("userid"));
 			setUserName(rs.getString("username"));
-			setPword(rs.getString("pword"));
+			setPassword(rs.getString("password"));
 			setEmail(rs.getString("email"));
 			setFirstName(rs.getString("firstname"));
 			setLastName(rs.getString("lastname"));
 			setAccountCreation(rs.getString("accountcreation"));
 			setDisplayPicture(rs.getString("displaypicture"));
-			setAccountStatus(rs.getInt("accountstatus"));
+			setEnabled(rs.getInt("enabled"));
 			setCurrentYear(rs.getInt("currentyear"));
 			setSemester(rs.getInt("semester"));
-			setRoleTitle(rs.getString("roletitle"));
+			setAuthority(rs.getString("authority"));
 		}
 	}
 	
@@ -110,13 +110,16 @@ public class ClubLeader extends User implements MutateAccountType, AccountManage
 	@Override
 	public void insertDB() {
 
-String sql = String.format("INSERT INTO table_user(firstname, lastname, email, username, pword, "
-		+ "accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid)"
+String sql = String.format("INSERT INTO users(firstname, lastname, email, username, password, "
+		+ "accountcreation, displaypicture, enabled, currentyear, semester)"
 		+ " VALUES('%1$s', '%2$s', '%3$s', '%4$s', '%5$s', "
-		+ "'%6$s', '%7$s', %8$s, %9$s,%10$s, %11$s)" , getFirstName(), getLastName(), getEmail(), getUserName(),
-		getPword(), getAccountCreation(), getDisplayPicture(), getAccountStatus(), getCurrentYear(), getSemester(),
-		3);
+		+ "'%6$s', '%7$s', %8$s, %9$s, %10$s)" , getFirstName(), getLastName(), getEmail(), getUserName(),
+		getPassword(), getAccountCreation(), getDisplayPicture(), getEnabled(), getCurrentYear(), getSemester()
+		);
 
+		userDBC.update(sql);
+		
+		sql = "INSERT INTO `authorities` (`username`, `authority`)  VALUES ('" + getUserName() + "', 'ROLE_STUDENT')";
 		userDBC.update(sql);
 		
 	}
@@ -124,8 +127,7 @@ String sql = String.format("INSERT INTO table_user(firstname, lastname, email, u
 	@Override
 	public void bindObjectToDB(String username) {
 		
-		String sql = String.format("SELECT * FROM auth_user WHERE username='%1$s' AND"
-				+ " roletitle = 'clubleader'", username);
+		String sql = String.format("SELECT * FROM auth_user WHERE username='%1$s'", username);
 		userDBC.query(sql, clDataMap);
 		
 	}
@@ -133,11 +135,10 @@ String sql = String.format("INSERT INTO table_user(firstname, lastname, email, u
 	@Override
 	public void updateDB(String username) {
 		
-		String sql = String.format("UPDATE table_user SET firstname = '%1$s', lastname = '%2$s', email = '%3$s',"
-				+ "username = '%4$s', pword = '%5$s' ,accountcreation = '%6$s', displaypicture = '%7$s', accountstatus = '%8$s',"
-				+ " currentyear = '%9$s', semester = '%10$s', fkroleid = %11$s WHERE username = '" + username + "' " , getFirstName(), getLastName(), getEmail(), getUserName(),
-		getPword(), getAccountCreation(), getDisplayPicture(), getAccountStatus(), getCurrentYear(), getSemester(),
-		1);
+		String sql = String.format("UPDATE users SET firstname = '%1$s', lastname = '%2$s', email = '%3$s',"
+				+ "username = '%4$s', password = '%5$s' ,accountcreation = '%6$s', displaypicture = '%7$s', enabled = '%8$s',"
+				+ " currentyear = '%9$s', semester = '%10$s' WHERE username = '" + username + "' " , getFirstName(), getLastName(), getEmail(), getUserName(),
+		getPassword(), getAccountCreation(), getDisplayPicture(), getEnabled(), getCurrentYear(), getSemester());
 	
 		userDBC.update(sql);
 	}
@@ -145,7 +146,7 @@ String sql = String.format("INSERT INTO table_user(firstname, lastname, email, u
 	@Override
 	public void deleteDB() {
 	
-		String sql = String.format("DELETE FROM table_user WHERE username = '%1$s'", getUserName());
+		String sql = String.format("DELETE FROM users WHERE username = '%1$s'", getUserName());
 		
 		userDBC.update(sql);
 	}

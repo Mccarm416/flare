@@ -10,5 +10,10 @@
 <h1>Congratulations! You've succesfully registered on flare ${user} </h1>
 
 <p>Please click <a href="login">here</a> to log into the service</p>
+<form>
+<input type="hidden"
+name="${_csrf.parameterName}"
+value="${_csrf.token}"/>
+</form>
 </body>
 </html>

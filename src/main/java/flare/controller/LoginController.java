@@ -1,16 +1,19 @@
 package flare.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
+@SessionAttributes("user")
 public class LoginController {
 	
 	/**
 	 * 
 	 * @return maps login page to /login url
 	 */
-	@RequestMapping("/login")
+	@GetMapping("/login")
 	public String login() {
 		
 		return "loginPage";
@@ -18,4 +21,10 @@ public class LoginController {
 	}
 
 
+	@ExceptionHandler(Exception.class)
+	public String adminnException() {
+		
+		return "/login";
+		
+	}
 }

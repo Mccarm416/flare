@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import flare.factory.StudentFactory;
+import flare.model.encryption.PasswordEncryption;
 import flare.model.encryption.TokenGenerator;
 import flare.model.mail.Mailer;
 import flare.model.users.Student;
@@ -23,13 +25,15 @@ import flare.services.registration.RegistrationService;
 
 
 @Controller
-@SessionAttributes(value = "user")
 public class RegistrationController {
 
 	StudentFactory students = new StudentFactory(); // reference to grab a student object
 	
 	@Autowired 
 	Mailer mailer;
+	
+	@Autowired
+	PasswordEncryption passwordEncryption;
 	
 	@Autowired
 	RegistrationService registrationService;
@@ -43,6 +47,16 @@ public class RegistrationController {
 		return "/registrationPage";
 	}
 
+	@ExceptionHandler(Exception.class)
+	public ModelAndView registrationException() {
+		
+		ModelAndView errorModel = new ModelAndView("/registrationError");
+		
+		errorModel.addObject("errorMsg", "You have entered an unreadable email or that user is already registered in the database, please try again!");
+		
+		return errorModel;
+		
+	}
 	
 	// registration verification
 	@RequestMapping(value = "/registrationValidation")
@@ -103,14 +117,14 @@ public class RegistrationController {
 	// validate the token, set cookie and session variables, control flow between success 
 	@RequestMapping(value = "/registrationVerification")
 	public ModelAndView registrationVerification(
-			@RequestParam("username") String uname,
+			@RequestParam("username") String username,
 			@RequestParam("tokenFromUser") String userToken,
-			@RequestParam("password") String pword,
-			@RequestParam("firstname") String fname,
-			@RequestParam("lastname") String lname,
-			@RequestParam("year") String yr,
-			@RequestParam("semester") String sem, 
-			@RequestParam("email") String address,
+			@RequestParam("password") String password,
+			@RequestParam("firstname") String firstname,
+			@RequestParam("lastname") String lastname,
+			@RequestParam("year") String year,
+			@RequestParam("semester") String semester, 
+			@RequestParam("email") String email,
 			@RequestParam("token") String token,
 			@Autowired Student student,
 			HttpServletResponse response) throws Exception {
@@ -122,20 +136,20 @@ public class RegistrationController {
 				if(userToken.equals(token)) {
 					
 					// cookies
-					response.addCookie(new Cookie("username", uname));
-					response.addCookie(new Cookie("password", pword));
+					response.addCookie(new Cookie("username", username));
+					response.addCookie(new Cookie("password", password));
 					
 					// configure student object and write to the database
 					Student registerStudent = students.getObject();
 					
-					registerStudent.setUserName(uname);
-					registerStudent.setPword(pword);
-					registerStudent.setFirstName(fname);
-					registerStudent.setLastName(lname);
-					registerStudent.setCurrentYear(Integer.parseInt(yr));
-					registerStudent.setSemester(Integer.parseInt(sem));
-					registerStudent.setEmail(address);
-					registerStudent.setAccountStatus(2);
+					registerStudent.setUserName(username);
+					registerStudent.setPassword("{bcrypt}"+passwordEncryption.bcryptHash(password));
+					registerStudent.setFirstName(firstname);
+					registerStudent.setLastName(lastname);
+					registerStudent.setCurrentYear(Integer.parseInt(year));
+					registerStudent.setSemester(Integer.parseInt(semester));
+					registerStudent.setEmail(email);
+					registerStudent.setEnabled(1);
 					
 					// todays date
 					Date date = new Date();
@@ -143,13 +157,13 @@ public class RegistrationController {
 					
 					registerStudent.setAccountCreation(registrationService.removeTime(date));
 					//registerStudent.setAccountCreation(today);
-					registerStudent.setRoleTitle("student");
+					registerStudent.setAuthority("ROLE_STUDENT");
 					
 					// write to database
 					registerStudent.DB().insertDB();
 					
 					//store username in session
-					registrationSuccess.addObject("user",uname);
+					registrationSuccess.addObject("user",username);
 					
 					//return success page
 					return registrationSuccess;

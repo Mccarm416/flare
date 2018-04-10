@@ -77,6 +77,9 @@
                       <div class="col-sm-4"></div>
                        
                    </div>
+                   <input type="hidden"
+					name="${_csrf.parameterName}"
+					value="${_csrf.token}"/>
                             </form>  
                             
                         

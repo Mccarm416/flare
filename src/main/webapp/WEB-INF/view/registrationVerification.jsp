@@ -25,6 +25,9 @@
 	<input type="hidden" name="email" value="${email}">
 	<input type="hidden" name="token" value="${token}">
 	<button type="submit" class="btn-lg  btn-success mx-auto width:300px">Activate</button>
+	<input type="hidden"
+		name="${_csrf.parameterName}"
+		value="${_csrf.token}"/>
 </form>
 
 

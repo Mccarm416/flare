@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en-us">
 	<head>
 		<title></title>
@@ -19,11 +21,10 @@
         .navbar-fixed-left {
             width: 225px;
             position: fixed;
-            border-radius: 8px;
             height: 100%;
             font-size: 1.5em;
             background-color: firebrick;
-            padding-left: 5px;  
+            left: 0;
         }
         
         a {
@@ -31,15 +32,25 @@
             text-align: center;
         }
         
+        #usernamedisplay {
+        	color: white;
+            text-align: center;
+            font-size: 1.6em;
+        }
+        
         li {
             border-bottom: solid 1.5px black;
         }
         
+        #profilepic {
+        height:250px;
+        width:223px;
+        }
         .logo {
         background: url(flareLogo-Small.png);
         width: 140px;
         height: 90px;
-        display: block;
+        padding-left:40px;]
         }
     </style>
 	<body>
@@ -47,22 +58,29 @@
 	    <!-- Site Wide Navigation Bar  -->
 	    <div class="container-fluid">
 	    <nav class="navbar-inverse navbar-fixed-left">
-        <div class="logo"></div>
+        <div class="logo"> <img src="${pageContext.request.contextPath}/resources/images/flareLogo-Small.png" class="text-center"/></div>
 	        <ul class="nav nav-stacked">
-                <li><a href "#">Home</a></li>
-	            <li><a href "#">Agenda</a></li>
-	            <li><a href "#">Chatrooms</a></li>
-	            <li><a href "#">Clubs</a></li>
-	            <li><a href "#">Courses</a></li>
-	            <li><a href "#">Map</a></li>
-	            <li><a href "#">Notes</a></li>
-	            <li><a href "#">Report Card</a></li>
-	            <li><a href "#">Study Area</a></li>
-	            <li><a href "#">Timetable</a></li>
+                <li><a href="home">Home</a></li>
+	            <li><a href="agenda">Agenda</a></li>
+	            <li><a href="chat">Chatrooms</a></li>
+	            <li><a href="clubs">Clubs</a></li>
+	            <li><a href="courses">Courses</a></li>
+	            <li><a href="maps">Map</a></li>
+	            <li><a href="notes">Notes</a></li>
+	            <li><a href="reports">Report Card</a></li>
+	            <li><a href="study">Study Area</a></li>
+	            <li><a href="timetable">Timetable</a></li>
+	            <li><img id="profilepic" src="${pageContext.request.contextPath}/resources/images/user_images/profilepic_placeholder.png"/></li>
+	            <li id="usernamedisplay">Sean</li>
 	        </ul>
 	    </nav>
         </div>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
         </script>
+        <form>
+        	<input type="hidden"
+			name="${_csrf.parameterName}"
+			value="${_csrf.token}"/>
+        </form>
 	</body>
 </html>

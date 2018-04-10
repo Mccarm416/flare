@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
     
     <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
     <html>
@@ -22,11 +23,16 @@
 	    <div class="wrap">
 	        <h2>Login To Flare</h2>
 	        <h5>A student life assistance web app</h5>
+	        <form:form action="${pageContext.request.contextPath}/authenticateTheUser" method="post">
 	        
-	        <input type="text" name="username" placeholder="Your Username...">
-	        <input type="password" name="password" placeholder="Your Password...">
+		        <input type="text" name="username" placeholder="Your Username...">
+
+		        <input type="password" name="password" placeholder="Your Password...">
+
+				<button type = "submit"class="btn-login">Login</button>
+		    </form:form>
 	        
-	        <button class="btn-login">Login</button>
+	        
 	        <div class="newuser">New User?<a href="registration" target=_blank>Click Here</a></div>
         </div>     
 	</body>

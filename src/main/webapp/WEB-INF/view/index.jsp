@@ -37,6 +37,9 @@
                   </form>
                   <form action="registration">
                   <button class="btn btn-secondary" type="submit"  >Sign Up!</button>
+                  <input type="hidden"
+					name="${_csrf.parameterName}"
+					value="${_csrf.token}"/>
                   </form>
             </div>
           </div>

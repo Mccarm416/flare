@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import flare.model.encryption.PasswordEncryption;
 import flare.model.encryption.TokenGenerator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -16,6 +17,9 @@ public class OAuth2TokenIT {
 
 	@Autowired
 	TokenGenerator tokenGenerator;
+	
+	@Autowired 
+	PasswordEncryption passwordEncryption;
 	@Test
 	public void test() {
 		//1
@@ -24,6 +28,12 @@ public class OAuth2TokenIT {
 		System.out.println(tokenGenerator.getSaltString());
 		//3
 		System.out.println(tokenGenerator.getSaltString());
+		
+		String apples = "apples";
+		
+		apples = passwordEncryption.bcryptHash(apples);
+		
+		System.out.println(apples);
 	}
 
 }

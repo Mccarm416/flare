@@ -34,11 +34,11 @@ public class FlareDB {
 	 * @param dataSource data source will be auto-wired from bean configuration in flare-config.xml
 	 */
 		@Autowired
-		private FlareDB(DataSource dataSource) {
+		private FlareDB(DataSource c3p0DataSource) {
 			
 			System.out.println("injecting datasource from spring bean ...");
 			// here we simply assign the jdbc template to the already autowired data source
-			jdbc = new JdbcTemplate(dataSource);
+			jdbc = new JdbcTemplate(c3p0DataSource);
 			
 			System.out.println("datsource bound to global jdbc template!");
 		}

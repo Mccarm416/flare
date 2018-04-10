@@ -47,6 +47,8 @@ public class StudentFacotryBeanIT {
 		
 	Student greg =	studentFactory.getObject();
 	
+	System.out.println(greg.getFirstName());
+	
 	greg.DB().bindObjectToDB("sku11d3stroy3r");
 	
 	System.out.println(greg.getFirstName());

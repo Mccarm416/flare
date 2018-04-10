@@ -12,5 +12,10 @@
 <body>
 	<%@ include file="/WEB-INF/view/registrationPage.jsp" %>
 	<h1 class=" col-sm-12 text-center alert alert-danger fade in">${errorMsg}</h1>
+	<form>
+		<input type="hidden"
+		name="${_csrf.parameterName}"
+		value="${_csrf.token}"/>
+	</form>
 </body>
 </html>

@@ -43,7 +43,39 @@
 		<property name="url" value="jdbc:mysql://localhost:3306/flaredb" />
 		<property name="username" value="admin" />
 		<property name="password" value="admin" />
+		
+		
 	</bean>
+	
+	<!-- enhanced connection with c3p0 for connection pooling and concurrency -->
+	   <bean id="c3p0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+        destroy-method="close">
+        <property name="driverClass">
+            <value>com.mysql.cj.jdbc.Driver</value>
+        </property>
+        <property name="jdbcUrl">
+            <value>jdbc:mysql://localhost:3306/flaredb</value>
+        </property>
+       
+        <property name="user">
+            <value>admin</value>
+        </property>
+        <property name="password">
+            <value>admin</value>
+        </property>
+        
+        <property name="properties">
+            <props>
+                <prop key="c3p0.acquire_increment">5</prop>
+                <prop key="c3p0.idle_test_period">100</prop>
+                <prop key="c3p0.max_size">100</prop>
+                <prop key="c3p0.max_statements">0</prop>
+                <prop key="c3p0.min_size">10</prop>
+                <prop key="user">admin</prop>
+                <prop key="password">admin</prop>
+            </props>
+        </property>
+    </bean>
 	
 	<!-- ##################### FLARE OBJECT FACTORIES ##################################### -->
 	<!-- student factory -->
