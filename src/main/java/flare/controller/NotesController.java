@@ -6,13 +6,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import flare.messaging.ChatMessageDAO;
 import flare.model.courses.Course;
 import flare.model.courses.CoursesDataAccess;
 import flare.model.notes.Note;
@@ -33,22 +33,28 @@ import flare.model.users.Student;
 @Controller
 public class NotesController implements HandlerExceptionResolver{
 
+	//Handles the request for 'notes'. Adds the users Notes and Courses as a list to the model and sends the user to notes.jsp where everything will be displayed.
 	@RequestMapping("notes")
-	public String notes(Model model) {
+	public String notes(@Autowired @Qualifier("student") Student currentUser, Model model) {
+		System.out.println("--- notes() called ---");
+		// --- GET USER FROM SESSION ID ---
 		//Create dummy student
-		Student currUser = ChatMessageDAO.searchUserId(1);
+		currentUser.DB().bindObjectToDB("bourgeois.goblin");
 		//Add the users information the model
-		ArrayList<Note> notes = NotesDAO.getUserNotes(currUser.getUserId());
+		List<Note> notes = NotesDAO.getUserNotes(currentUser.getUserId());
 		model.addAttribute("noteList", notes);
-		List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currUser.getUserId());
+		List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currentUser.getUserId());
 		model.addAttribute("courseList", currUserCourses);
 		
 		return "notes";
 	}
 	
-	@RequestMapping("/notesUpload")
-	public String notesUpload( @RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) {
-		System.out.println("notesUpload() called");
+	/*Handles the request for 'notesUpload'. Takes a file and adds it onto the server and creates an entry in the database. A message is then
+	 *Adds an appropriate message to the model based on what has happened and returns the user to notes.jsp where the message is displayed. 
+	 */
+	@RequestMapping("notesUpload")
+	public String notesUpload(@Autowired @Qualifier("student") Student currentUser, @RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) {
+		System.out.println("--- notesUpload() called ---");
 		//Used for handling a file upload from notes.jsp's form 'noteSubmission' 
 		//Variables
 		String message; //User to display a message to the user about the status of the upload
@@ -56,12 +62,16 @@ public class NotesController implements HandlerExceptionResolver{
 		String fileName;
 		String originalFileName = file.getOriginalFilename();
 		String fileDescription = request.getParameter("fileDescription");
+		
+		// --- GET USER FROM SESSION ID --- 
 		//Create a dummy student
-		Student currUser = ChatMessageDAO.searchUserId(1);
+		currentUser.DB().bindObjectToDB("bourgeois.goblin");
+		
+		// --- GET COURSE LIST ---
 		//Add the users information to the model
-		List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currUser.getUserId());
+		List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currentUser.getUserId());
 		model.addAttribute("courseList", currUserCourses);
-		ArrayList<Note> notes = NotesDAO.getUserNotes(currUser.getUserId());
+		List<Note> notes = NotesDAO.getUserNotes(currentUser.getUserId());
 		model.addAttribute("noteList", notes);
 		
 		System.out.println("Errors1");
@@ -118,7 +128,7 @@ public class NotesController implements HandlerExceptionResolver{
 			if(bytes.length > 0) {
 				//Get the directory of the server then create a directory there to store the uploaded file (SERVER LOCATION/userFiles/USERNAME/*FILE*)
 				String rootPath = System.getProperty("catalina.home");
-				File directory = new File(rootPath + File.separator + "userFiles" + File.separator + currUser.getUsername());
+				File directory = new File(rootPath + File.separator + "userFiles" + File.separator + currentUser.getUserName());
 				//Check to see if the directory already exists and makes it if it doesn't
 				if (!directory.exists()) {
 					directory.mkdirs();
@@ -139,7 +149,7 @@ public class NotesController implements HandlerExceptionResolver{
 
 				message = "Uploaded file '" + file.getOriginalFilename() + "' successfully! Saved as '" + fileName + ".";
 				
-				Note note = new Note(currUser.getUserId(), originalFileName, fileName,  fileCourse, fileDescription, fileExtension, serverFile.toString());
+				Note note = new Note(currentUser.getUserId(), originalFileName, fileName,  fileCourse, fileDescription, fileExtension, serverFile.toString());
 				System.out.println("File path = " + note.getFilePath());
 				//Create an entry in the database
 				if(!NotesDAO.insertNote(note)) {
@@ -166,14 +176,18 @@ public class NotesController implements HandlerExceptionResolver{
 		return "notes";
 	} 
 	
+	/*Handles the request for 'notesDownload'. Takes a noteId sent to the server then pulls that note from the database, checks to see if the current user owns it, then sends the
+	* file back to the user to be downloaded. 
+	*/
 	@RequestMapping("notesDownload")
-	public String notesDownload(Model model, HttpServletRequest request, HttpServletResponse response) {
+	public String notesDownload(@Autowired @Qualifier("student") Student currentUser, Model model, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("--- notesUpload() called ---");
 		//Create a dummy student
-		Student currUser = ChatMessageDAO.searchUserId(1);
+		currentUser.DB().bindObjectToDB("bourgeois.goblin");		
 		//Add the users information to the model
-		List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currUser.getUserId());
+		List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currentUser.getUserId());
 		model.addAttribute("courseList", currUserCourses);
-		ArrayList<Note> notes = NotesDAO.getUserNotes(currUser.getUserId());
+		List<Note> notes = NotesDAO.getUserNotes(currentUser.getUserId());
 		model.addAttribute("noteList", notes);
 		//Get the noteId to download
 		String noteIdStr = request.getParameter("noteId");
@@ -183,7 +197,7 @@ public class NotesController implements HandlerExceptionResolver{
 		String fileName = note.getOriginalFileName();
 		//Check to see if a note was pulled from the database and then see if the user is the owner of that note
 		if(note != null) {
-			if(NotesUtility.checkNoteOwner(note, currUser.getUserId())) {
+			if(NotesUtility.checkNoteOwner(note, currentUser.getUserId())) {
 		        try {
 		            File file = new File(note.getFilePath());
 
@@ -191,7 +205,7 @@ public class NotesController implements HandlerExceptionResolver{
 	                if (mimeType == null) {
 	                    mimeType = "application/octet-stream";
 	                }
-
+	                
 	                response.setContentType(mimeType);
 	                response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 	                response.setContentLength((int) file.length());

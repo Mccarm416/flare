@@ -1,259 +1,214 @@
 package flare.messaging;
 
-import java.sql.PreparedStatement;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-import com.mysql.jdbc.Connection;
-
-import flare.data.FlareDB;
+import flare.dataaccess.FlareDB;
 import flare.model.users.Student;
 
-
+//Manages data access for the chat feature and all of it's classes
 public class ChatMessageDAO {
 	
+	//Inserts a ChatMessage into the database
 	public static boolean insertMessage(ChatMessage message) {
 		boolean check = false;
-		//Inserts a ChatMessage to the database
+		System.out.println("-- insertMessage() called --");
 		try{
-			//Inserts a single course into the db
-			Connection connection = FlareDB.startConnection();
-			connection = FlareDB.startConnection();
-			//Set the SQL variables
+			JdbcTemplate jdbc = FlareDB.getJdbc();
 			
-			String sql = "INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES " + "(?,?,?,?,?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, message.getChatId());
-			preparedStatement.setInt(2, message.getFromUserId());
-			preparedStatement.setInt(3, message.getToUserId());
-			preparedStatement.setString(4, message.getMessage());
-			preparedStatement.setString(5, message.getMessageTime());
-			preparedStatement.executeUpdate();
+			//Set the SQL variables
+			String sql = String.format("INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES " + "(%1$s, %2$s, %3$s, %4$s, %5$s)", 
+					message.getChatId(), message.getFromUserId(), message.getToUserId(), message.getMessage(), message.getMessageTime());
+			System.out.println("[Executing Query]:" + sql);
+			jdbc.update(sql);
 			System.out.println("Message Created");
+			
 			check = true;
 		} catch (Exception e) {
-			System.out.println("Error!");
+			System.out.println("*** Error! ***!");
 			System.out.println(e);
 		}
 		
 		return check;
 	}
 	
-	public static ArrayList<ChatMessage> getChatMessages(int chatId) {
-		ArrayList<ChatMessage> messages = new ArrayList<ChatMessage>();
+	//Inserts a Chat into the database
+	public static boolean insertChat(Student user1, Student user2) {
+		System.out.println("-- insertChat() called --");
+		boolean check = false;
+		try{
+			//Inserts a single course into the db
+			JdbcTemplate jdbc = FlareDB.getJdbc();
+			//Set the SQL variables
+			String sql = String.format("INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES " + "(%1$s, $2$s, %3$s)", 
+					user1.getUserId(), user2.getUserId(), 0);
+			System.out.println("[Executing Query]:" + sql);
+			jdbc.update(sql);
+			System.out.println("Chat Created");
+			check = true;
+		} catch (Exception e) {
+			System.out.println("*** Error! ***!");
+			System.out.println(e);
+		}
+		
+		return check;
+	}
+	//Used to provide a list of ChatMessages of a given chatroom
+	public static List<ChatMessage> getChatMessages(int chatId) {
+		List<ChatMessage> messages = new ArrayList<ChatMessage>();
+		System.out.println("-- getChatMessages() called --");
 		
 		try {
-			ResultSet results;
-			Connection connection = FlareDB.startConnection();
-			String sql = "SELECT * FROM table_messages WHERE chat_id = " + chatId;
-			System.out.println("Running query...");
-			Statement statement = connection.createStatement();
-			results = statement.executeQuery(sql);
-			//Check to see if anything has returned
-			if (results != null) {
-				//Add to messages while results has data
-				while (results.next()) {
-					ChatMessage message = new ChatMessage();
-					message.setFromUserId(results.getInt("from_user_id"));
-					message.setToUserId(results.getInt("to_user_id"));
-					message.setMessage(results.getString("message"));
-					message.setMessageTime(results.getString("message_time"));
-					messages.add(message);
-				}
-			}
+			JdbcTemplate jdbc = FlareDB.getJdbc();
 			
+			String sql = "SELECT * FROM table_messages WHERE chat_id = " + chatId;
+			System.out.println("[Executing Query]:" + sql);
+		    messages = jdbc.query(sql, new ResultSetExtractor<List<ChatMessage>>(){
+		        public List<ChatMessage> extractData(ResultSet results) throws SQLException, DataAccessException {
+		            List<ChatMessage> dataList = new ArrayList<ChatMessage>();
+		            while(results.next()) {
+						ChatMessage message = new ChatMessage();
+						message.setFromUserId(results.getInt("from_user_id"));
+						message.setToUserId(results.getInt("to_user_id"));
+						message.setMessage(results.getString("message"));
+						message.setMessageTime(results.getString("message_time"));
+		                dataList.add(message);
+		            }
+		            return dataList;
+        		}
+	        });   
 		} catch (Exception e) {
-			System.out.println("Error!");
+			System.out.println("*** Error! ***!");
 			System.out.println(e);
 		}
 		
 		System.out.println("Returning messages with a size of: " + messages.size());
 		return messages;
 	}
-	
-	
-	
-	public static ArrayList<Chat> getActiveChats (int currentUserId) {
-		ArrayList<Chat> activeChats = new ArrayList<Chat>();
+
+	//Used to provide a list of chats that a single user has open
+	public static List<Chat> getActiveChats (int currentUserId) {
+		System.out.println("-- getActiveChats() called --");
+
+		List<Chat> activeChats = new ArrayList<Chat>();
 		try {
-			ResultSet results;
-			System.out.println("Creating connection...");
-			Connection connection = FlareDB.startConnection();
-			String sql = "SELECT * FROM table_chat WHERE user_1_id = " + currentUserId;
-			System.out.println("Running query...");
-			Statement statement = connection.createStatement();
-			results = statement.executeQuery(sql);
-			//Check to see if anything has returned
-			if (results != null) {
-				//Add to messages while results has data
-				while (results.next()) {
-					Chat chat = new Chat();
-					chat.setChatId(results.getInt("chat_id"));
-					chat.setUser1Id(results.getInt("user_1_id"));
-					chat.setUser2Id(results.getInt("user_2_id"));
-					chat.setTotalMessages(results.getInt("total_messages"));
-					activeChats.add(chat);
-				}
-			}
-			//Check column 2
+
+				JdbcTemplate jdbc = FlareDB.getJdbc();
+				
+				//Check user_1_id for matching id
+				String sql = "SELECT * FROM table_chat WHERE user_2_id = " + currentUserId;
+				System.out.println("[Executing Query]:" + sql);
+				List<Chat> chatList1 = jdbc.query(sql, new ResultSetExtractor<List<Chat>>(){
+			        public List<Chat> extractData(ResultSet results) throws SQLException, DataAccessException {
+			            List<Chat> dataList = new ArrayList<Chat>();
+			            while(results.next()) {
+			            	Chat chat = new Chat();
+			            	chat.setChatId(results.getInt("chat_id"));
+			            	chat.setUser1Id(results.getInt("user_1_id"));
+			            	chat.setUser2Id(results.getInt("user_2_id"));
+			            	chat.setTotalMessages(results.getInt("total_messages"));
+			                dataList.add(chat);
+			            }
+			            return dataList;
+	        		}
+				});  
+			//Check user_2_id for matching id
 			sql = "SELECT * FROM table_chat WHERE user_2_id = " + currentUserId;
-			System.out.println("Running query...");
-			statement = connection.createStatement();
-			results = statement.executeQuery(sql);
-			//Check to see if anything has returned
-			if (results != null) {
-				//Add to messages while results has data
-				while (results.next()) {
-					Chat chat = new Chat();
-					chat.setChatId(results.getInt("chat_id"));
-					chat.setUser1Id(results.getInt("user_1_id"));
-					chat.setUser2Id(results.getInt("user_2_id"));
-					chat.setTotalMessages(results.getInt("total_messages"));
-					activeChats.add(chat);
-				}
-			}
+			System.out.println("[Executing Query]:" + sql);
+		    List<Chat> chatList2 = jdbc.query(sql, new ResultSetExtractor<List<Chat>>(){
+		    	public List<Chat> extractData(ResultSet results) throws SQLException, DataAccessException {
+		    		List<Chat> dataList = new ArrayList<Chat>();
+		            while(results.next()) {
+		            	Chat chat = new Chat();
+		            	chat.setChatId(results.getInt("chat_id"));
+		            	chat.setUser1Id(results.getInt("user_1_id"));
+		            	chat.setUser2Id(results.getInt("user_2_id"));
+		            	chat.setTotalMessages(results.getInt("total_messages"));
+		                dataList.add(chat);
+		            }
+		            return dataList;
+        		}
+	        
+		    });
+		    
+		    //Merge the lists
+		    if(chatList1 != null && chatList2 != null) {
+		    	activeChats.addAll(chatList1);
+		    	activeChats.addAll(chatList2);
+		    }
+		    else if (chatList1 != null) {
+		    	return chatList1;
+		    }
+		    else {
+		    	return chatList2;
+		    }
+		    
 		} catch (Exception e) {
-			System.out.println("Error!");
+			System.out.println("*** Error! ***!");
 			System.out.println(e);
 		}
 		
 		System.out.println("Returning activeChats with a size of: " + activeChats.size());
 		return activeChats;
 	}
-	
+
+	//Used to provide chatroom.jsp with the proper chatroom
 	public static Chat getChatWithUserIds (int userId1, int userId2) {
+		System.out.println("-- getChatWithUserIds() called --");
+		Chat chat = null;
 		try {
-			ResultSet results;
-			System.out.println("Creating connection...");
-			Connection connection = FlareDB.startConnection();
+			JdbcTemplate jdbc = FlareDB.getJdbc();
 			String sql = "SELECT * FROM table_chat WHERE user_1_id = " + userId1;
-			System.out.println("Running query...");
-			Statement statement = connection.createStatement();
-			results = statement.executeQuery(sql);
-			//Check to see if anything has returned
-			if (results != null) {
-				//Add to messages while results has data
-				while (results.next()) {
-					if (results.getInt("user_2_id") == userId2) {
-						Chat chat = new Chat();
+			System.out.println("[Executing Query]:" + sql);
+			chat = jdbc.query(sql, new ResultSetExtractor<Chat>(){
+			public Chat extractData(ResultSet results) throws SQLException, DataAccessException {
+	            	Chat chat = new Chat();
+	            	if (results.getInt("user_id_2") == userId2)
+		            while(results.next()) {
+		            	System.out.println("Chat found!");
 						chat.setChatId(results.getInt("chat_id"));
 						chat.setUser1Id(results.getInt("user_1_id"));
 						chat.setUser2Id(results.getInt("user_2_id"));
 						chat.setTotalMessages(results.getInt("total_messages"));
 						return chat;
-					}
-				}
-			}
+		            }
+		            return chat;
+    			}
+			});
+					
 			//Check column 2
 			sql = "SELECT * FROM table_chat WHERE user_2_id = " + userId1;
-			System.out.println("Running query...");
-			statement = connection.createStatement();
-			results = statement.executeQuery(sql);
+			System.out.println("[Executing Query]:" + sql);
 			//Check to see if anything has returned
-			if (results != null) {
-				//Add to messages while results has data
-				while (results.next()) {
-					if (results.getInt("user_1_id") == userId2) {
-						Chat chat = new Chat();
+			chat = jdbc.query(sql, new ResultSetExtractor<Chat>(){
+			public Chat extractData(ResultSet results) throws SQLException, DataAccessException {
+	            	Chat chat = new Chat();
+	            	if (results.getInt("user_id_1") == userId2)
+		            while(results.next()) {
+		            	System.out.println("Chat found!");
 						chat.setChatId(results.getInt("chat_id"));
 						chat.setUser1Id(results.getInt("user_1_id"));
 						chat.setUser2Id(results.getInt("user_2_id"));
 						chat.setTotalMessages(results.getInt("total_messages"));
 						return chat;
-					}
-				}
-			}
+		            }
+		            return chat;
+    			}
+			});
+			return chat;
 		} catch (Exception e) {
-			System.out.println("Error!");
+			System.out.println("*** Error! ***!");
 			System.out.println(e);
 		}
-		return null;
+		return chat;
 	}
 	
-	public static Student searchUserId(int userId) {
-		Student user = null;
-		try {
-			ResultSet results;
-			System.out.println("Creating connection...");
-			Connection connection = FlareDB.startConnection();
-			String sql = "SELECT * FROM table_user WHERE user_id = " + userId;
-			System.out.println("Running query...");
-			Statement statement = connection.createStatement();
-			results = statement.executeQuery(sql);
-			//Check to see if anything has returned
-			if (results != null) {
-				//Add to messages while results has data
-				while (results.next()) {
-					user = new Student();
-					user.setUserId(results.getInt("user_id"));
-					user.setUsername(results.getString("userName"));
-				}
-			}
-			else {
-				return user;
-			}
-		} catch (Exception e) {
-			System.out.println("Error!");
-			System.out.println(e);
-		}
-		
-		System.out.println("Returning user - " + user.getUserId() + ":" + user.getUsername());
-		return user;
-	}
-	
-	public static Student searchUsername(String username) {
-		Student user = null;
-		try {
-			ResultSet results;
-			System.out.println("Creating connection...");
-			Connection connection = FlareDB.startConnection();
-			String sql = "SELECT * FROM table_user WHERE userName = '" + username + "'";
-			System.out.println("Running query...");
-			Statement statement = connection.createStatement();
-			results = statement.executeQuery(sql);
-			//Check to see if anything has returned
-			if (results != null) {
-				//Add to messages while results has data
-				while (results.next()) {
-					user = new Student();
-					user.setUserId(results.getInt("user_id"));
-					user.setUsername(results.getString("userName"));
-				}
-			}
-			else {
-				return user;
-			}
-		} catch (Exception e) {
-			System.out.println("Error!");
-			System.out.println(e);
-		}
-		return user;
-	}
-	
-	public static boolean insertChat(Student user1, Student user2) {
-		boolean check = false;
-		//Inserts a ChatMessage to the database
-		try{
-			//Inserts a single course into the db
-			Connection connection = FlareDB.startConnection();
-			System.out.println("Creating connection for ChatMessage insert...");
-			connection = FlareDB.startConnection();
-			//Set the SQL variables
-			String sql = "INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES " + "(?,?,?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, user1.getUserId());
-			preparedStatement.setInt(2, user2.getUserId());
-			preparedStatement.setInt(3, 0);
-			preparedStatement.executeUpdate();
-			System.out.println("Chat Created");
-			check = true;
-		} catch (Exception e) {
-			System.out.println("Error!");
-			System.out.println(e);
-		}
-		
-		return check;
-	}
 
 }

@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import flare.model.assignments.Assignment;
-import flare.model.assignments.AssignmentsDataAccess;
 import flare.model.assignments.CalendarBlueprint;
 import flare.model.courses.Course;
 import flare.model.courses.CoursesDataAccess;

@@ -1,0 +1,13 @@
+.logo {
+    background: url(flareLogo.png);
+    width: 377px;
+    height: 227px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    align-content: center;
+    border-radius: 25px;
+}

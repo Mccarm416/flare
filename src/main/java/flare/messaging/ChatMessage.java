@@ -18,6 +18,7 @@ public class ChatMessage {
 
 
 	public ChatMessage(int chatId, int fromUserId, String fromUsername, int toUserId, String toUsername, String message) {
+		//Used for creating entries in the db
 		this.chatId = chatId;
 		this.fromUserId = fromUserId;
 		this.fromUsername = fromUsername;
@@ -26,8 +27,18 @@ public class ChatMessage {
 		this.message = message;
 		messageTime = longToDate(new Date().getTime());
 	}
-	
-	
+
+	public ChatMessage(int chatId, int fromUserId, String fromUsername, int toUserId, String toUsername, String message,
+			String messageTime) {
+		//Used for pulling entries from the db
+		this.chatId = chatId;
+		this.fromUserId = fromUserId;
+		this.fromUsername = fromUsername;
+		this.toUserId = toUserId;
+		this.toUsername = toUsername;
+		this.message = message;
+		this.messageTime = messageTime;
+	}
 
 
 	public int getChatId() {

@@ -17,26 +17,36 @@ USE flaredb;
 
 ## create database tables if not exists
 ## all users share some common information
-#####################################################################################################
-CREATE TABLE IF NOT EXISTS table_user (
-	user_id int(11) PRIMARY KEY AUTO_INCREMENT,
-	userName VARCHAR(50) NOT NULL,
-    pword VARCHAR(255) NOT NULL, 
-    email CHAR(50) NOT NULL, 
-    first_name VARCHAR(25), 
-    last_name VARCHAR(25),
-    lastLogin date,
-    account_creation datetime,
-    display_picture varchar(200), #this is a a filepath pointing to the location of the image
-    account_status int(1), #0 is inactive, 1 is active, 2 is blocked
-    year int (1),
-    semester int(1)
-   )
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+	userid int(11) PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(50) NOT NULL UNIQUE,
+    `password` VARCHAR(255) NOT NULL, 
+    email CHAR(50) NOT NULL UNIQUE, 
+    firstname VARCHAR(25), 
+    lastname VARCHAR(25),
+    accountcreation DATE,
+    displaypicture VARCHAR(200), #this is a a filepath pointing to the location of the image
+    enabled TINYINT(1), 
+    currentyear INT (4),
+    semester INT(1)
+)
    
    ## MUST DECLARE InnoDB ENGINE HERE
    ENGINE=InnoDB;
-   
-   #############################################################################################################
+#####################################################################################################
+DROP TABLE IF EXISTS `authorities`;
+CREATE TABLE `authorities` (
+	`username` VARCHAR(50) NOT NULL,
+    `authority` VARCHAR(50) NOT NULL,
+    UNIQUE KEY `authorities_idx_1`(`username`,`authority`),
+    CONSTRAINT `authorities_ibfk_1` FOREIGN KEY(`username`) REFERENCES `users`(`username`)
+    ON DELETE CASCADE
+)
+ENGINE=InnoDB;
+
+#############################################################################################################
    CREATE TABLE table_club
 (
 	club_id int (11) AUTO_INCREMENT PRIMARY KEY,
@@ -46,11 +56,9 @@ CREATE TABLE IF NOT EXISTS table_user (
     description varchar(4000),
     facebook_link varchar (200),
     display_picture varchar (200), #this is a a filepath pointing to the location of the image
-    FOREIGN KEY user_club_fk(club_leader) REFERENCES table_user(user_id) ON DELETE CASCADE
+    FOREIGN KEY (club_leader) REFERENCES `users`(userid) ON DELETE CASCADE
 )
-   ENGINE=InnoDB;
-
-
+ENGINE=InnoDB;
 ##############################################################################################################
 CREATE TABLE table_club_event 
 (
@@ -74,7 +82,7 @@ CREATE TABLE table_user_club
 (
 	user_id int (11),
     club_id int (11),
-    FOREIGN KEY (user_id) REFERENCES table_user(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES `users`(userid) ON DELETE CASCADE,
     FOREIGN KEY (club_id) REFERENCES table_club(club_id) ON DELETE CASCADE
 );
 
@@ -90,7 +98,7 @@ CREATE TABLE table_course
     professor1_email varchar (100),
     professor2_name char(65),
     professor2_email varchar (100),
-    FOREIGN KEY (user_id) REFERENCES table_user(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES `users`(userid) ON DELETE CASCADE
 )
    ENGINE=InnoDB;
 
@@ -154,8 +162,8 @@ CREATE TABLE table_chat
 	user_1_id int (11),
     user_2_id int,
     total_messages int (11),
-	FOREIGN KEY (user_1_id) REFERENCES table_user(user_id) ON DELETE CASCADE,
-	FOREIGN KEY (user_2_id) REFERENCES table_user(user_id) ON DELETE CASCADE
+	FOREIGN KEY (user_1_id) REFERENCES `users`(userid) ON DELETE CASCADE,
+	FOREIGN KEY (user_2_id) REFERENCES `users`(userid) ON DELETE CASCADE
     
 )
    ENGINE=InnoDB;
@@ -170,8 +178,8 @@ CREATE TABLE table_messages
     message varchar (250),
     message_time datetime,
     FOREIGN KEY (chat_id) REFERENCES table_chat(chat_id) ON DELETE CASCADE,
-    FOREIGN KEY (from_user_id) REFERENCES table_user(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (to_user_id) REFERENCES table_user(user_id) ON DELETE CASCADE
+    FOREIGN KEY (from_user_id) REFERENCES `users`(userid) ON DELETE CASCADE,
+    FOREIGN KEY (to_user_id) REFERENCES `users`(userid) ON DELETE CASCADE
 )
 	ENGINE=InnoDB;
     
@@ -185,42 +193,42 @@ CREATE TABLE table_note
     description varchar (64),
     file_extension varchar (64),
     file_path varchar(256),
-    FOREIGN KEY (user_id) REFERENCES table_user (user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES `users`(userid) ON DELETE CASCADE
 )
 ENGINE = InnoDB;
 
 # --- Dummy users ---
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Matthew', 'McCarthy', 'mccarm416@gmail.com', 'bourgeois.goblin', 'password', '2018-02-03 20:34:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Jamie', 'Massel', 'jamiemassel@gmail.com', 'babyhands', 'password', '2018-02-03 20:45:16', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Sean', 'Dougan', 'mediauthority@gmail.com', 'svoogan', 'password', '2018-02-03 20:46:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Michael', 'Van Dyke', 'mhvandyke7@gmail.com', '78uh', 'password', '2018-02-03 20:47:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Gregory', 'Uchitel', 'greg.uchitel@gmail.com', 'sku11d3stroy3r', 'password', '2018-02-03 20:48:23', '', 1, 3, 5);
 
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Bill', 'Watterson', 'bwatts@gmail.com', 'CalvinHobbes', 'password', '2018-02-03 20:52:09', '', 1, 2, 4);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Charles', 'Manson', 'notacreep@gmail.com', 'anormalguy', 'password', '2018-02-03 20:53:09', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Sarah', 'Palin', 'palin2020@gmail.com', 'repubgal', 'password', '2018-02-03 20:58:29', '', 1, 3, 6);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Dillon', 'Francis', 'getlow@gmail.com', 'djjjjjj', 'password', '2018-02-03 21:00:00', '', 0, 2, 3);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Josine', 'Arnott', 'josie@gmail.com', 'flowerpower', 'password', '2018-02-03 21:10:12', '', 1, 2, 4);
 
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('John', 'Wendel', 'fatal1ty@gmail.com', 'Fatal1ty', 'password', '2018-02-03 21:11:09', '', 1, 1, 2);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Margaret', 'Atwood', 'maggie@gmail.com', 'handmaiden', 'password', '2018-02-03 21:13:27', '', 1, 3, 5);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('John', 'Doe', 'jdoe@gmail.com', 'deadman666', 'password', '2018-02-03 21:15:27', '', 1, 2, 3);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Mary-Jane', 'Watson', 'mjw@gmail.com', 'spideyfangirl', 'password', '2018-02-03 21:13:54', '', 1, 2, 4);
-INSERT INTO table_user(first_name, last_name, email, username, pword, account_creation, display_picture, account_status, year, semester) VALUES
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Testy', 'Von Testington', 'test@gmail.com', 'TheTestMan', 'password', '2018-02-04 12:10:00', '', 1, 1, 1);
 
 # --- Dummy Courses --- 

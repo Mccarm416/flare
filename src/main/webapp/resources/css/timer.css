@@ -1,0 +1,25 @@
+body {
+	
+	background-color: #f3f3f3;
+
+ position: relative;
+}
+
+
+.placeholder{font-family: 'Roboto', sans-serif;}
+
+#timeBox .values{
+	
+	font-size: 7em;
+	font-family: 'Press Start 2P', cursive;
+}
+
+#timeBox{
+	width:800px;
+ margin:0 auto;
+ padding-top: 10%;
+ 
+ 
+ 
+	
+}

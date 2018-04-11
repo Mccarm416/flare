@@ -13,6 +13,16 @@
 
 	<!-- we are component scanning anything from package flare and below, @annotation will be parsed -->
 	<context:component-scan base-package="flare" />
+	
+	<!-- Tells the dispatcher to look in resources for.... resources -->
+	
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
+	<!--  JDBC connection properties source-->
+	<context:property-placeholder location="classpath*:flaredb.properties"/>
+	
+	<!-- Flare mailer sender configuration -->
+	<context:property-placeholder location="classpath*:flaremail.properties"/>
 
 	<!-- Enables Spring's annotation driven model -->
 	<mvc:annotation-driven/>
@@ -31,8 +41,65 @@
 
 		 <!-- Set maximum upload size (currently 2.09 MB(2097152 bytes)) -->
 		<property name="maxUploadSize" value="2097152" />
-	
+		</bean>
+				
+		<!-- ######################## DATABASE ################################################## -->
+	<!-- spring JDBC data source -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/flaredb" />
+		<property name="username" value="admin" />
+		<property name="password" value="admin" />
 	</bean>
+	
+	<!-- ##################### FLARE OBJECT FACTORIES ##################################### -->
+	<!-- student factory -->
+	<bean id="student"
+		class="flare.factory.StudentFactory">
+		</bean>
+	
+	<!-- club leader factory -->
+	
+	<bean id="clubleader"
+		class="flare.factory.ClubLeaderFactory">
+		</bean>
+	
+	<!-- admin factory -->
+	
+	<bean id="admin"
+		class="flare.factory.AdminFactory">
+		</bean>
+
+	<!-- maps static resources to be linked by spring, CSS, JS -->
+	<mvc:resources mapping="/resources/**" location="/resources/"/>
+	
+	<!-- ###################### FLARE MAIL ################################################### -->
+		<!-- email system parameters using spring mail api -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    <!-- SMTP settings -->
+	    <property name="host" value="smtp.gmail.com" />
+	    <property name="port" value="465" />
+	    <property name="username" value="flarestudentwebservice@gmail.com" />
+	    <property name="password" value="flare123" />
+	    <property name="javaMailProperties">
+    
+        <!-- additional properties specific to JavaMail -->
+	        <props>
+	                 <prop key="mail.smtp.host">smtp.gmail.com</prop>
+	                <prop key="mail.smtp.auth">true</prop>
+	                <prop key="mail.debug">true</prop>
+	                <prop key="mail.transport.protocol">smtp</prop>
+	                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+	                <prop key="mail.smtp.socketFactory.port">465</prop>
+	                <prop key="mail.smtp.ssl.enable">true</prop>
+	                <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+	 		</props>
+   		 </property>
+</bean>
+	
+	
 	<context:component-scan base-package="com.journaldev.spring.controller" />
 	
 	

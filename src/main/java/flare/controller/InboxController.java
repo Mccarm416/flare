@@ -1,9 +1,11 @@
 package flare.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,66 +21,65 @@ public class InboxController {
 
 	@RequestMapping("/inbox")
 	public String inbox(Model model){
+		System.out.println("--- inbox() called ---");
 		//Get users that the current user has an active chat with
-		ArrayList<Chat> activeChats = ChatMessageDAO.getActiveChats(1);
-		ArrayList<Student> chatUsers = ChatUtility.getOtherUsers(activeChats, 1);
+		List<Chat> activeChats = ChatMessageDAO.getActiveChats(1);
+		List<Student> chatUsers = ChatUtility.getOtherUsers(activeChats, 1);
 		model.addAttribute("chatUsers", chatUsers);
 		return "inbox";
 	}
 	
 	@RequestMapping("/userSearch")
-	public String userSearch(HttpServletRequest request, Model model) {
-		System.out.println("/userSearch called");
-		Student currentUser = new Student(1, "mccarm416", "Matthew", "McCarthy");
+	public String userSearch(@Autowired @Qualifier("student") Student searchedUser, @Autowired @Qualifier("student") Student currentUser, HttpServletRequest request, Model model) {
+		System.out.println("--- userSearch() called ---");
+		// -- PULL USER FROM SESSION --
+		currentUser.DB().bindObjectToDB("bourgeois.goblin");
 		//Searches to see if user exists and creates a chatroom with them if one is not already existing
 		String findUser = request.getParameter("userFind");
+		searchedUser.DB().bindObjectToDB(findUser);
 		//Check to see if a user was submitted
-		if(findUser != null) {
-			//Search for the found user in the DB
-			Student foundUser = ChatMessageDAO.searchUsername(findUser);
-			if (foundUser != null) {
-				//Check if the chatroom exists and create it if it does not
-				boolean check = ChatUtility.createChatroom(currentUser, foundUser);
-				if (check) {
-					model.addAttribute("currentUser", currentUser.getUserId());
-					model.addAttribute("selectedUser", foundUser.getUsername());
-					model.addAttribute("messages", null);
-					return "chatroom";
-				}
+		if(searchedUser.getUserName() != null) {
+			//Check if the chatroom exists and create it if it does not
+			boolean check = ChatUtility.createChatroom(currentUser, searchedUser);
+			if (check) {
+				model.addAttribute("currentUser", currentUser.getUserId());
+				model.addAttribute("selectedUser", searchedUser.getUserName());
+				model.addAttribute("messages", null);
+				return "chatroom";
 			}
 		}
-		ArrayList<Chat> activeChats = ChatMessageDAO.getActiveChats(1);
-		ArrayList<Student> chatUsers = ChatUtility.getOtherUsers(activeChats, 1);
+		List<Chat> activeChats = ChatMessageDAO.getActiveChats(1);
+		List<Student> chatUsers = ChatUtility.getOtherUsers(activeChats, currentUser.getUserId());
 		model.addAttribute("chatUsers", chatUsers);
 		model.addAttribute("errorMessage", "User '" + findUser +"' was not found.");
 		return "inbox";
 	}
 	
+	//Opens the chatroom
 	@RequestMapping("/chatroom")
-	public String chatroom(HttpServletRequest request, Model model) {
-		//Opens the chatroom
+	public String chatroom(@Autowired @Qualifier("student") Student currentUser, @Autowired @Qualifier("student") Student selectedUser, HttpServletRequest request, Model model) {
+		System.out.println("--- chatroom() called ---");
 		//Get the current user and pass it to the JSP
-		Student currentUser = new Student(1, "mccarm416", "Matthew", "McCarthy");		
+		currentUser.DB().bindObjectToDB("bourgeois.goblin");
 		model.addAttribute("currentUserId", currentUser.getUserId());
 		//Get the selected user to chat with
-		String selectedUser = request.getParameter("selectedUser");
-		Student otherUser = ChatMessageDAO.searchUsername(selectedUser);
+		String selectedUserName = request.getParameter("selectedUser");
+		selectedUser.DB().bindObjectToDB(selectedUserName);
 		model.addAttribute("selectedUser", selectedUser);
-		System.out.println(selectedUser + currentUser);
 		//Find their chat
-		Chat chat = ChatMessageDAO.getChatWithUserIds(currentUser.getUserId(), otherUser.getUserId());
+		Chat chat = ChatMessageDAO.getChatWithUserIds(currentUser.getUserId(), selectedUser.getUserId());
 		System.out.println("Chat =  " + chat.getUser1Id() + chat.getUser2Id());
 		//Add message to the database if one was sent
 		if(request.getParameterMap().containsKey("message")) {
 			System.out.println("message found");
 			String message = request.getParameter("message");
 			System.out.println("Message = " + message);
-			ChatMessage newMessage = new ChatMessage(chat.getChatId(), currentUser.getUserId(), currentUser.getUsername(), otherUser.getUserId(), otherUser.getUsername(), message);
+			ChatMessage newMessage = new ChatMessage(chat.getChatId(), currentUser.getUserId(), currentUser.getUserName(), selectedUser.getUserId(), selectedUser.getUserName(), message);
 			ChatMessageDAO.insertMessage(newMessage);
 			
 		}
 		//Add ArrayList of messages pulled from database
-		ArrayList<ChatMessage> messages = ChatMessageDAO.getChatMessages(chat.getChatId()); 
+		List<ChatMessage> messages = ChatMessageDAO.getChatMessages(chat.getChatId()); 
 		model.addAttribute("messages", messages);
 		
 		return "chatroom";
