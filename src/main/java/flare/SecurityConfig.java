@@ -31,22 +31,31 @@ public class SecurityConfig
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
 		http.authorizeRequests()
-        .antMatchers("/registrationValidation","/registration","/",
+		.antMatchers("/admin").hasRole("ADMIN")
+		.antMatchers("/maps",
+				"/home",
+				"/agenda",
+				"/chat",
+				"/notes",
+				"/reports",
+				"/study",
+				"/timetable").hasAnyRole("STUDENT","CL")
+        .antMatchers("/registrationValidation",
+        		"/registration",
+        		"/",
         		"/registrationSuccess.jsp",
         		"/registrationError.jsp",
-        		"/registrationVerification").permitAll() // #4
-        .anyRequest().authenticated(). // 7
+        		"/registrationVerification").permitAll()
+        .anyRequest().authenticated(). 
 		and().formLogin()
 		.loginPage("/login")
-		.defaultSuccessUrl("/home", true)
+		.defaultSuccessUrl("/welcome", true)
 		.loginProcessingUrl("/authenticateTheUser")
 		.permitAll()
-		.and().logout().permitAll();
+		.and().logout().permitAll()
+		.and().exceptionHandling().accessDeniedPage("/forbidden");
 		
-		
-
 	}
 
 	 @Override

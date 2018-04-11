@@ -1,9 +1,4 @@
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial';
-    background-color:firebrick;
-}
+
 
 .logo {
     background: url(flareLogo.png);
@@ -14,7 +9,7 @@ body {
     margin-right: auto;
 }
 .wrap {
-    width: 410px;
+    width: 420px;
     overflow: hidden;
     margin: auto;
     background: white;

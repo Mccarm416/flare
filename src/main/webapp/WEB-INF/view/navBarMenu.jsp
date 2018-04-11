@@ -19,17 +19,19 @@
 	<style>
         
         .navbar-fixed-left {
-            width: 225px;
+            width: 180px;
             position: fixed;
             height: 100%;
             font-size: 1.5em;
             background-color: firebrick;
             left: 0;
+            top: 0;
         }
         
         a {
             color: white;
-            text-align: center;
+            display: block;
+            width: 180px;
         }
         
         #usernamedisplay {
@@ -44,13 +46,13 @@
         
         #profilepic {
         height:250px;
-        width:223px;
+        width:180px;
         }
         .logo {
         background: url(flareLogo-Small.png);
         width: 140px;
-        height: 90px;
-        padding-left:40px;]
+        height: 140px;
+
         }
     </style>
 	<body>
@@ -70,8 +72,8 @@
 	            <li><a href="reports">Report Card</a></li>
 	            <li><a href="study">Study Area</a></li>
 	            <li><a href="timetable">Timetable</a></li>
-	            <li><img id="profilepic" src="${pageContext.request.contextPath}/resources/images/user_images/profilepic_placeholder.png"/></li>
-	            <li id="usernamedisplay">Sean</li>
+	            <li><img id="profilepic" src="${pageContext.request.contextPath}/resources/images/user_images/profilepic_placeholder.png"
+	            alt="${pageContext.request.contextPath}/resources/images/user_images/profilepic_placeholder.png"/></li>
 	        </ul>
 	    </nav>
         </div>
