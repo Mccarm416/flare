@@ -197,7 +197,19 @@ CREATE TABLE table_note
 )
 ENGINE = InnoDB;
 
-# --- Dummy users ---
+#########################################################################################################
+## VIEWS
+	
+CREATE OR REPLACE VIEW auth_user (userid, username, `password`, email, firstname, lastname, accountcreation,
+    displaypicture, enabled, currentyear, semester, authority) AS
+	SELECT userid, users.username, `password`, email, firstname, lastname, accountcreation,
+    displaypicture, enabled, currentyear, semester, authority
+    FROM users
+    JOIN authorities
+    ON users.username = authorities.username;
+    
+#########################################################################################################
+## --- Dummy users ---
 INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Matthew', 'McCarthy', 'mccarm416@gmail.com', 'bourgeois.goblin', 'password', '2018-02-03 20:34:09', '', 1, 3, 5);
 INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
@@ -208,6 +220,11 @@ INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcre
 ('Michael', 'Van Dyke', 'mhvandyke7@gmail.com', '78uh', 'password', '2018-02-03 20:47:09', '', 1, 3, 5);
 INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Gregory', 'Uchitel', 'greg.uchitel@gmail.com', 'sku11d3stroy3r', 'password', '2018-02-03 20:48:23', '', 1, 3, 5);
+INSERT INTO authorities VALUES ("bourgeois.goblin", "ROLE_STUDENT");
+INSERT INTO authorities VALUES ("babyhands", "ROLE_STUDENT");
+INSERT INTO authorities VALUES ("svoogan", "ROLE_STUDENT");
+INSERT INTO authorities VALUES ("78uh", "ROLE_STUDENT");
+INSERT INTO authorities VALUES ("sku11d3stroy3r", "ROLE_STUDENT");
 
 INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
 ('Bill', 'Watterson', 'bwatts@gmail.com', 'CalvinHobbes', 'password', '2018-02-03 20:52:09', '', 1, 2, 4);

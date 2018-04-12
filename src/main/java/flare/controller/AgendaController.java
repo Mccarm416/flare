@@ -30,6 +30,7 @@ public class AgendaController {
 	
 	@RequestMapping("/agenda")
 	public String processForm(HttpServletRequest request, Model model) {
+		System.out.println("--- AgendaController.processForm() called ---");
 		userID = 1;
 		
 		String buttonPressed = request.getParameter("AgendaButton");
@@ -57,6 +58,7 @@ public class AgendaController {
 		month = month + 1;   //makes jan = 1, december = 12. once calc over
 	
 		model = SetModel(model);
+		System.out.println("*-- Returning agenda.jsp --*");
 		return "agenda";
 	}
 	public static int firstDayInMonth(int month, int year) {

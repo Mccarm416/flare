@@ -37,7 +37,7 @@ td {
 		<tr>
 			<td>
 				<form action="chatroom" method="POST">
-					<input type="submit" class="userButton" name="selectedUser" value="<c:out value="${user.username}"/>"/>
+					<input type="submit" class="userButton" name="selectedUser" value="<c:out value="${user.userName}"/>"/>
 				</form>
 			</td>
 		</tr>

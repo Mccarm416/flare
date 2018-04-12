@@ -26,12 +26,12 @@ public class CoursesDataAccess {
 	
 	//returns a list of the user's course objects.  if they have not been created by the user yet it will return null.
 	public static List<Course> GetCourseList (int userID) {
-		System.out.println("-- insertMessage() called --");
+		System.out.println("--- CoursesDAO.GetCourseList() called ---");
 		List<Course> courseList = new ArrayList<Course>();
 		try {
 			JdbcTemplate jdbc = FlareDB.getJdbc();
 			String sql = "SELECT * FROM table_course WHERE user_id = " + userID;
-			System.out.println("[Executing Query]:" + sql);
+			System.out.println("[Executing SQL]:" + sql);
 		    courseList = jdbc.query(sql, new ResultSetExtractor<List<Course>>(){
 		        public List<Course> extractData(ResultSet results) throws SQLException, DataAccessException {
 		            List<Course> dataList = new ArrayList<Course>();
@@ -62,12 +62,12 @@ public class CoursesDataAccess {
 	
 	//Inserts a single course into the db
 	public static void InsertCourseIntoDB(String courseNameAdd, String courseCodeAdd, int userID) throws Exception{
-		System.out.println("-- insertNote() called --");
+		System.out.println("--- CoursesDAO.InsertCourseIntoDB() called ---");
 		try{
 			JdbcTemplate jdbc = FlareDB.getJdbc();
-			String sql = String.format("INSERT INTO table_course (course_name,course_code,user_id) VALUES "+"(%1$s, %2$s, %3$s)",
+			String sql = String.format("INSERT INTO table_course (course_name,course_code,user_id) VALUES "+"('%1$s', '%2$s', '%3$s')",
 		    courseNameAdd, courseCodeAdd, userID);
-			System.out.println("[Executing Query]:" + sql);
+			System.out.println("[Executing SQL]:" + sql);
 			jdbc.update(sql);
 			System.out.println("Course inserted into database - " + courseNameAdd);
 		} catch (Exception e) {
@@ -79,7 +79,7 @@ public class CoursesDataAccess {
 	
 	//deletes a single course from the db
 	public static void DeleteCourseFromDB(int courseID) throws Exception{
-		System.out.println("-- DeleteCourseFromDB() called --");
+		System.out.println("--- CoursesDAO.DeleteCourseFromDB() called ---");
 		JdbcTemplate jdbc = FlareDB.getJdbc();
 		try{
 			String sql = String.format("DELETE FROM table_course WHERE course_id = %1$s", courseID);

@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import flare.factory.StudentFactory;
 import flare.model.courses.Course;
 import flare.model.courses.CoursesDataAccess;
 import flare.model.notes.Note;
@@ -35,17 +34,25 @@ public class NotesController implements HandlerExceptionResolver{
 
 	//Handles the request for 'notes'. Adds the users Notes and Courses as a list to the model and sends the user to notes.jsp where everything will be displayed.
 	@RequestMapping("notes")
-	public String notes(@Autowired @Qualifier("student") Student currentUser, Model model) {
-		System.out.println("--- notes() called ---");
+	public String notes(Model model) {
+		System.out.println("--- NotesController.notes() called ---");
 		// --- GET USER FROM SESSION ID ---
 		//Create dummy student
-		currentUser.DB().bindObjectToDB("bourgeois.goblin");
-		//Add the users information the model
-		List<Note> notes = NotesDAO.getUserNotes(currentUser.getUserId());
-		model.addAttribute("noteList", notes);
-		List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currentUser.getUserId());
-		model.addAttribute("courseList", currUserCourses);
-		
+		StudentFactory sf = new StudentFactory();
+		Student currentUser = null;
+		try {
+			currentUser = sf.getObject();
+			currentUser.DB().bindObjectToDB("bourgeois.goblin");
+			//Add the users information the model
+			List<Note> notes = NotesDAO.getUserNotes(currentUser.getUserId());
+			model.addAttribute("noteList", notes);
+			List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currentUser.getUserId());
+			model.addAttribute("courseList", currUserCourses);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		System.out.println("*-- Returning notes.jsp --*");
 		return "notes";
 	}
 	
@@ -53,8 +60,8 @@ public class NotesController implements HandlerExceptionResolver{
 	 *Adds an appropriate message to the model based on what has happened and returns the user to notes.jsp where the message is displayed. 
 	 */
 	@RequestMapping("notesUpload")
-	public String notesUpload(@Autowired @Qualifier("student") Student currentUser, @RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) {
-		System.out.println("--- notesUpload() called ---");
+	public String notesUpload( @RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) {
+		System.out.println("--- NotesController.notesUpload() called ---");
 		//Used for handling a file upload from notes.jsp's form 'noteSubmission' 
 		//Variables
 		String message; //User to display a message to the user about the status of the upload
@@ -62,17 +69,22 @@ public class NotesController implements HandlerExceptionResolver{
 		String fileName;
 		String originalFileName = file.getOriginalFilename();
 		String fileDescription = request.getParameter("fileDescription");
+		// --- GET USER FROM SESSION ID ---
+		//Create dummy student
+		StudentFactory sf = new StudentFactory();
+		Student currentUser = null;
+		try {
+			currentUser = sf.getObject();
+			currentUser.DB().bindObjectToDB("bourgeois.goblin");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		
-		// --- GET USER FROM SESSION ID --- 
-		//Create a dummy student
-		currentUser.DB().bindObjectToDB("bourgeois.goblin");
-		
-		// --- GET COURSE LIST ---
 		//Add the users information to the model
 		List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currentUser.getUserId());
 		model.addAttribute("courseList", currUserCourses);
 		List<Note> notes = NotesDAO.getUserNotes(currentUser.getUserId());
-		model.addAttribute("noteList", notes);
 		
 		System.out.println("Errors1");
 		//Check to see if data was passed from the form
@@ -83,6 +95,15 @@ public class NotesController implements HandlerExceptionResolver{
 		else {
 			message = "No file name entered";
 			model.addAttribute("message", message);
+			model.addAttribute("noteList", notes);
+			System.out.println("*-- Returning notes.jsp --*");
+			return "notes";
+		}
+		if (fileName.equals("")) {
+			message = "No file name entered";
+			model.addAttribute("message", message);		
+			model.addAttribute("noteList", notes);
+			System.out.println("*-- Returning notes.jsp --*");
 			return "notes";
 		}
 		if (request.getParameterMap().containsKey("fileCourse")) {
@@ -91,6 +112,8 @@ public class NotesController implements HandlerExceptionResolver{
 		else {
 			message = "No course selected";
 			model.addAttribute("message", message);
+			model.addAttribute("noteList", notes);
+			System.out.println("*-- Returning notes.jsp --*");
 			return "notes";
 		}
 		
@@ -99,16 +122,22 @@ public class NotesController implements HandlerExceptionResolver{
 		if(originalFileName.length() > 64) {
 			message = "Original file name cannot be greater than 64 characters";
 			model.addAttribute("message", message);
+			model.addAttribute("noteList", notes);
+			System.out.println("*-- Returning notes.jsp --*");
 			return "notes";
 		}
 		else if (fileName.length() > 64) {
 			message = "File name cannot be greater than 64 characters";
 			model.addAttribute("message", message);
+			model.addAttribute("noteList", notes);
+			System.out.println("*-- Returning notes.jsp --*");
 			return "notes";
 		}
 		else if (fileDescription.length() > 64) {
 			message = "File name cannot be greater than 64 characters";
 			model.addAttribute("message", message);
+			model.addAttribute("noteList", notes);
+			System.out.println("*-- Returning notes.jsp --*");
 			return "notes";
 		}
 		
@@ -116,6 +145,8 @@ public class NotesController implements HandlerExceptionResolver{
 		//Checks to see if the fileName contains any characters you cannot save file names with.
 		if(!NotesUtility.checkFileName(fileName)) {
 			message = "File name cannot contain any of the following characters: \\ / \" : | * < >";
+			model.addAttribute("noteList", notes);
+			System.out.println("*-- Returning notes.jsp --*");
 			return "notes";
 		}
 
@@ -138,16 +169,18 @@ public class NotesController implements HandlerExceptionResolver{
 				if(NotesUtility.mimeTypeCheck(fileExtension) == null) {
 					message = "The file you are attempting to upload is not supported by the website at this time, sorry!";
 					model.addAttribute("message", message);
+					model.addAttribute("noteList", notes);
+					System.out.println("*-- Returning notes.jsp --*");
 					return "notes";
 				}
-				System.out.println("success!");
 				//Create the file on the server
 				File serverFile = new File(directory.getAbsolutePath()  + File.separator + fileName + "." + fileExtension);
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
 
-				message = "Uploaded file '" + file.getOriginalFilename() + "' successfully! Saved as '" + fileName + ".";
+				message = "Uploaded file '" + file.getOriginalFilename() + "' successfully! Saved as '" + fileName + "'.";
+				
 				
 				Note note = new Note(currentUser.getUserId(), originalFileName, fileName,  fileCourse, fileDescription, fileExtension, serverFile.toString());
 				System.out.println("File path = " + note.getFilePath());
@@ -158,8 +191,12 @@ public class NotesController implements HandlerExceptionResolver{
 					serverFile.delete();
 					message = "Error uploading file";
 					model.addAttribute("message", message);
+					model.addAttribute("noteList", notes);
+					System.out.println("*-- Returning notes.jsp --*");
 					return "notes";
 				}
+				//Add the new note
+				notes.add(note);
 			}
 			
 			else {
@@ -171,8 +208,9 @@ public class NotesController implements HandlerExceptionResolver{
 			message = "Failed to upload  '" + fileName + "'";
 			System.out.println(error.getMessage());
 		}
-		
+		model.addAttribute("noteList", notes);
 		model.addAttribute("message", message);
+		System.out.println("*-- Returning notes.jsp --*");
 		return "notes";
 	} 
 	
@@ -180,26 +218,34 @@ public class NotesController implements HandlerExceptionResolver{
 	* file back to the user to be downloaded. 
 	*/
 	@RequestMapping("notesDownload")
-	public String notesDownload(@Autowired @Qualifier("student") Student currentUser, Model model, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("--- notesUpload() called ---");
-		//Create a dummy student
+	public String notesDownload(Model model, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("--- NotesController.notesDownload() called ---");
+		
+		//Create dummy student
+		StudentFactory sf = new StudentFactory();
+		Student currentUser = null;
+		try {
+			currentUser = sf.getObject();
+			currentUser.DB().bindObjectToDB("bourgeois.goblin");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		currentUser.DB().bindObjectToDB("bourgeois.goblin");		
-		//Add the users information to the model
-		List<Course> currUserCourses = CoursesDataAccess.GetCourseList(currentUser.getUserId());
-		model.addAttribute("courseList", currUserCourses);
-		List<Note> notes = NotesDAO.getUserNotes(currentUser.getUserId());
-		model.addAttribute("noteList", notes);
 		//Get the noteId to download
 		String noteIdStr = request.getParameter("noteId");
 		int noteId = Integer.parseInt(noteIdStr);
 		Note note = NotesDAO.getNote(noteId);
 		//Create the fileName with extension
 		String fileName = note.getOriginalFileName();
+		
 		//Check to see if a note was pulled from the database and then see if the user is the owner of that note
 		if(note != null) {
 			if(NotesUtility.checkNoteOwner(note, currentUser.getUserId())) {
 		        try {
-		            File file = new File(note.getFilePath());
+		    		String rootPath = System.getProperty("catalina.home");
+
+		            File file = new File(rootPath + File.separator + "userFiles" + File.separator + currentUser.getUserName() + File.separator + note.getFileName() + "." + note.getFileExtension());
 
 	                String mimeType = NotesUtility.mimeTypeCheck(note.getFileExtension());
 	                if (mimeType == null) {
@@ -230,7 +276,58 @@ public class NotesController implements HandlerExceptionResolver{
 		        	String message = "The file '" + fileName + "' was not found on the server!";
 		        	model.addAttribute("message", message);
 		        }
-		}
+		}		
+		//Add the users information to the model
+		List<Note> notes = NotesDAO.getUserNotes(currentUser.getUserId());
+		model.addAttribute("noteList", notes);
+		System.out.println("*-- Returning notes.jsp --*");
+		return "notes";
+    }
+	@RequestMapping("notesDelete")
+	public String notesDelete(Model model, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("--- NotesController.notesDelete() called ---");
+		//Create dummy student
+		StudentFactory sf = new StudentFactory();
+		Student currentUser = null;
+		try {
+			currentUser = sf.getObject();
+			currentUser.DB().bindObjectToDB("bourgeois.goblin");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		currentUser.DB().bindObjectToDB("bourgeois.goblin");		
+		//Get the noteId to delete
+		String noteIdStr = request.getParameter("noteId");
+		int noteId = Integer.parseInt(noteIdStr);
+		Note note = NotesDAO.getNote(noteId);
+		//Create the fileName with extension
+		String fileName = note.getOriginalFileName();
+		
+		//Check to see if a note was pulled from the database and then see if the user is the owner of that note
+		if(note != null) {
+			if(NotesUtility.checkNoteOwner(note, currentUser.getUserId())) {
+		        try {
+		        	//Attempt to delete the file
+		    		String rootPath = System.getProperty("catalina.home");
+		            File serverFile = new File(rootPath + File.separator + "userFiles" + File.separator + currentUser.getUserName() + File.separator + note.getFileName() + "." + note.getFileExtension());
+		            serverFile.delete();
+		            
+		        	}catch (Exception e) {
+		            	System.out.println("*** Error! ***");
+		            	e.printStackTrace();
+        			}
+			}		
+	        else {
+                System.out.println("The file '" + fileName + "' was not found on the server!");
+	        	String message = "The file '" + fileName + "' was not found on the server!";
+	        	model.addAttribute("message", message);
+	        }
+		}		
+		//Add the users information to the model
+		List<Note> notes = NotesDAO.getUserNotes(currentUser.getUserId());
+		model.addAttribute("noteList", notes);
+		System.out.println("*-- Returning notes.jsp --*");
 		return "notes";
     }
 	

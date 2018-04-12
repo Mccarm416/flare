@@ -25,6 +25,7 @@ public class CoursesController {
 	
 	@RequestMapping("/courses")
 	public String processForm(HttpServletRequest request, Model model) {
+		System.out.println("--- CoursesController.processForm() called ---");
 		userID = 1; //--------fix once login is done!!
 		String InfoSubmitted = request.getParameter("CourseButton");
 		
@@ -48,6 +49,7 @@ public class CoursesController {
 	
 	
 	private void DeleteCourses(HttpServletRequest request){
+		System.out.println("--- CoursesController.DeleteCourses() called ---");
 		String deleteSelected[] = request.getParameterValues("delete");
 		if(deleteSelected != null){
 			for(int i = 0; i < deleteSelected.length; i++){
@@ -77,6 +79,7 @@ public class CoursesController {
 	}
 	
 	private Model SetModel(Model model){
+		System.out.println("--- CoursesController.SetModel() called ---");
 		model.addAttribute("userID", userID);
 		courseList = CoursesDataAccess.GetCourseList(userID);	
 		if(courseList != null){

@@ -27,7 +27,7 @@ public class TimerController {
 	
 	@RequestMapping("/timer")
 	public String showpage (Model model) {
-		System.out.println("/ called");
+		System.out.println("--- TimerController.showpage() called ---");
 		model.addAttribute("userID", userID);
 		courseList = CoursesDataAccess.GetCourseList(4);	
 		
@@ -39,25 +39,25 @@ public class TimerController {
 		
 		model.addAttribute("assignmentList", assignmentList);
 
+		System.out.println("*-- Returning Timer.jsp --*");
 		return "Timer";
 	}
 	
 	@RequestMapping("/assignment")
 	public String switchAssignment (HttpServletRequest request, Model model) {
-		
+		System.out.println("--- TimerController.switchAssignment() called ---");
 		int courseID = (int) request.getAttribute("courseID");
 		
 		model.addAttribute("courseList", courseList);
 		assignmentList = AssignmentsDataAccess.GetAssignmentListFromCourse(3);
-		
-		
-		
+
+		System.out.println("*-- Returning switchAssignment.jsp --*");
 		return "switchAssignment";
 	}
 	
 	@RequestMapping(value = "/time", method = RequestMethod.GET)
 	public ModelAndView getdata() {
-
+		System.out.println("--- TimerController.getdata() called ---");
 		List<String> list = getList();
 
 	
@@ -70,7 +70,7 @@ public class TimerController {
 	}
 	
 	private Model SetModel(Model model){
-		
+		System.out.println("--- SetModel() called ---");
 		
 		
 		return model;

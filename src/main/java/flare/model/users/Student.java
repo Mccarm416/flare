@@ -86,16 +86,16 @@ public class Student extends User implements MutateAccountType, AccountManagemen
 			
 			setUserId(rs.getInt("userid"));
 			setUserName(rs.getString("username"));
-			setPword(rs.getString("pword"));
+			setPword(rs.getString("password"));
 			setEmail(rs.getString("email"));
 			setFirstName(rs.getString("firstname"));
 			setLastName(rs.getString("lastname"));
 			setAccountCreation(rs.getDate("accountcreation"));
 			setDisplayPicture(rs.getString("displaypicture"));
-			setAccountStatus(rs.getInt("accountstatus"));
+			setAccountStatus(rs.getInt("enabled"));
 			setCurrentYear(rs.getInt("currentyear"));
 			setSemester(rs.getInt("semester"));
-			setRoleTitle(rs.getString("roletitle"));
+			setRoleTitle(rs.getString("authority"));
 		}
 	}
 	
@@ -106,12 +106,11 @@ public class Student extends User implements MutateAccountType, AccountManagemen
 	@Override
 	public void insertDB() {
 
-String sql = String.format("INSERT INTO table_user(firstname, lastname, email, username, pword, "
-		+ "accountcreation, displaypicture, accountstatus, currentyear, semester, fkroleid)"
+String sql = String.format("INSERT INTO table_user(firstname, lastname, email, username, password, "
+		+ "accountcreation, displaypicture, enabled, currentyear, semester)"
 		+ " VALUES('%1$s', '%2$s', '%3$s', '%4$s', '%5$s', "
-		+ "'%6$s', '%7$s', %8$s, %9$s,%10$s, %11$s)" , getFirstName(), getLastName(), getEmail(), getUserName(),
-		getPword(), getAccountCreation(), getDisplayPicture(), getAccountStatus(), getCurrentYear(), getSemester(),
-		2);
+		+ "'%6$s', '%7$s', %8$s, %9$s,%10$s)" , getFirstName(), getLastName(), getEmail(), getUserName(),
+		getPword(), getAccountCreation(), getDisplayPicture(), getAccountStatus(), getCurrentYear(), getSemester());
 
 		userDBC.update(sql);
 		
@@ -129,10 +128,9 @@ String sql = String.format("INSERT INTO table_user(firstname, lastname, email, u
 	public void updateDB(String username) {
 		
 		String sql = String.format("UPDATE table_user SET firstname = '%1$s', lastname = '%2$s', email = '%3$s',"
-				+ "username = '%4$s', pword = '%5$s' ,accountcreation = '%6$s', displaypicture = '%7$s', accountstatus = '%8$s',"
-				+ " currentyear = '%9$s', semester = '%10$s', fkroleid = %11$s WHERE username = '" + username + "'" , getFirstName(), getLastName(), getEmail(), getUserName(),
-		getPword(), getAccountCreation(), getDisplayPicture(), getAccountStatus(), getCurrentYear(), getSemester(),
-		2);
+				+ "username = '%4$s', password = '%5$s' ,accountcreation = '%6$s', displaypicture = '%7$s', enabled = '%8$s',"
+				+ " currentyear = '%9$s', semester = '%10$s' WHERE username = '" + username + "'" , getFirstName(), getLastName(), getEmail(), getUserName(),
+		getPword(), getAccountCreation(), getDisplayPicture(), getAccountStatus(), getCurrentYear(), getSemester());
 	
 		userDBC.update(sql);
 	}

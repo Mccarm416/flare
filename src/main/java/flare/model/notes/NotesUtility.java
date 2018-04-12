@@ -2,9 +2,9 @@ package flare.model.notes;
 
 public class NotesUtility {
 	
-	
+	//Checks the file name to see if it will cause any issues with saving it to the serverz
 	public static boolean checkFileName(String fileName) {
-		//Checks the file name to see if it will cause any issues with saving it to the server
+		System.out.println("--- NotesUtility.checkFileName() called ---");
 		boolean check = true;
 		
 		if (fileName.contains("\\")) {
@@ -40,8 +40,9 @@ public class NotesUtility {
 		return check;
 	}
 	
+	//Used to validate if the person downloading the note is the owner of it
 	public static boolean checkNoteOwner(Note note, int userId) {
-		//Used to validate if the person downloading the note is the owner of it
+		System.out.println("--- NotesUtility.checkNoteOwner() called ---");
 		if (note.getUserId() == userId) {
 			return true;
 		}
@@ -50,9 +51,9 @@ public class NotesUtility {
 		}
 	}
 	
+	//Used to provide the servlet with a files MIME type
 	public static String mimeTypeCheck(String extension) {
-		//Used to provide the servlet with a files MIME type
-		
+		System.out.println("--- NotesUtility.mimeTypeCheck() called ---");
 		//Microsoft Word
 		if (extension.equals("doc")) {
 			return "application/msword";
