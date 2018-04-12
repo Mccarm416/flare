@@ -17,7 +17,7 @@ public class ReportController {
 
 
 
-	@RequestMapping("/oo")
+	@RequestMapping("/oo123")
 	public String login() {
 		
 		return "Reports";
