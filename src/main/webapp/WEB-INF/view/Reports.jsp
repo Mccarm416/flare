@@ -9,6 +9,56 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Report Card</title>
 </head>
+
+
+<script type="text/javascript">
+window.onload = function() {
+ 
+var dps = [[]];
+var chart = new CanvasJS.Chart("studentChart", {
+	theme: "light2",
+	animationEnabled: true,
+	title: {
+		text: "[total time spent studying on X]"
+	},
+	axisX: {
+		valueFormatString: "MMM"
+	},
+	axisY: {
+		title: "Time (in minutes)",
+		suffix: "M"
+	},
+	data: [{
+		type: "line",
+		xValueType: "dateTime",
+		xValueFormatString: "MMM",
+		yValueFormatString: "#,##0 M",
+		dataPoints: dps[0]
+	}]
+});
+ 
+
+var xValue;
+var yValue;
+
+<c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">	
+	<c:forEach items="${dataPoints}" var="dataPoint">
+		xValue = parseInt("${dataPoint.x}");
+		yValue = parseFloat("${dataPoint.y}");
+		
+		dps[parseInt("${loop.index}")].push({
+			x : xValue,
+			y : yValue
+		});	
+		
+	</c:forEach>	
+</c:forEach> 
+
+chart.render();
+
+}
+
+</script>
 <body>
 <p>[Course Name]</p>
 <p>[Prof Name]</p>
@@ -27,7 +77,10 @@
 
 </table>
 
-<div id="curve_chart" style="width: 900px; height: 500px"></div>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+ <script type="text/javascript" src="<c:url value="/resources/js/lib/canvasjs.min.js" />"> </script>
+
+
 
 </body>
 </html>

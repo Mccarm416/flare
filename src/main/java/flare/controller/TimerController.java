@@ -89,6 +89,13 @@ public class TimerController {
 		return "Timer";	
 	}
 	
+	@RequestMapping("/insertTime")
+	public String insertTime () {
+		
+		
+		return "Timer";
+	}
+	
 	@RequestMapping("/time")
 	public String saveTime ( @RequestParam("courseSelect") HttpServletRequest request, Model model) {
 		System.out.println("--- TimerController.switchAssignment() called ---");
@@ -97,6 +104,8 @@ public class TimerController {
 		
 		//model.addAttribute("courseList", courseList);
 		//	assignmentList = AssignmentsDataAccess.GetAssignmentListFromCourse()
+		
+		//hours: hrs, minutes:mins, seconds: secs,
 		
 		 int session_length = (int) request.getAttribute("convTime");
 		
@@ -129,38 +138,19 @@ public class TimerController {
 	@RequestMapping(value = "/recTimes", method = RequestMethod.GET)
 	public ModelAndView getdata() {
 		System.out.println("--- recTimes.getdata() called ---");
-		List<String> list = getList();
+		//List<String> list = getList();
 
 	
 		ModelAndView model = new ModelAndView("index");
 		
-		model.addObject("lists", list);
+		//model.addObject("lists", list);
 
 		return model;
 
 	}
 	
-	private Model SetModel(Model model){
-		System.out.println("--- SetModel() called ---");
-		
-		
-		return model;
-	}
 	
-	private List<String> getList() {
-
-		List<String> list = new ArrayList<String>();
-		list.add("List A");
-		list.add("List B");
-		list.add("List C");
-		list.add("List D");
-		list.add("List 1");
-		list.add("List 2");
-		list.add("List 3");
-
-		return list;
-
-	}
+	
 	
 	
 }
