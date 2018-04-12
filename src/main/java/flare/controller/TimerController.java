@@ -35,7 +35,7 @@ public class TimerController {
 	
 	
 	//timer
-	@RequestMapping("/")
+	@RequestMapping("/oo")
 	public String showpage (Model model) {
 		System.out.println("--- TimerController.showpage() called ---");
 		//Create dummy student
