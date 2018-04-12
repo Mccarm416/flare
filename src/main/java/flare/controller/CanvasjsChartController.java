@@ -21,6 +21,7 @@ public class CanvasjsChartController {
  
 	@RequestMapping(method = RequestMethod.GET)
 	public String springMVC(ModelMap modelMap) {
+		
 		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData();
 		modelMap.addAttribute("dataPointsList", canvasjsDataList);
 		return "Reports";

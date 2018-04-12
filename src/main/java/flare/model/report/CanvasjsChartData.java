@@ -1,4 +1,4 @@
- package flare.model.report;
+package flare.model.report;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +9,8 @@ public class CanvasjsChartData {
 	static Map<Object,Object> map = null;
 	static List<List<Map<Object,Object>>> list = new ArrayList<List<Map<Object,Object>>>();
 	static List<Map<Object,Object>> dataPoints1 = new ArrayList<Map<Object,Object>>();
+
+	
 	
 	static {
 		map = new HashMap<Object,Object>(); map.put("x", 1483209000000L); map.put("y", 7);dataPoints1.add(map);
