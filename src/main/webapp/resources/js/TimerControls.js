@@ -116,20 +116,17 @@ timer.addEventListener('targetAchieved', function (e) {
     var education = 1;
    
 	  
-	$.ajax({
+	  
+   	$.ajax({
 		  type: "POST",
-		  contentType: "application/json",
-		  url: "time",
-		  data: "setSecs=" + setSecs + "&education=" + education,
-		  timeout: 600000
+		  url: "/flare",
+		  data: {totSecs : setSecs , education : "education"}
 		  
-		}).done(function( msg ) {
-		  alert( msg );
+		}).done(function(  ) {
+		  alert (setSecs.toString());
 		  //do other processing
 		});
-	
-  
-    
+
     
 });
 

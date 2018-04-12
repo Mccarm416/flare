@@ -60,22 +60,7 @@ chart.render();
 
 </script>
 <body>
-<p>[Course Name]</p>
-<p>[Prof Name]</p>
 
-<p>Upcoming Assignments for this class</p>
-<table>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-
-
-</table>
 
 <div id="chartContainer" style="height: 370px; width: 100%;"></div>
  <script type="text/javascript" src="<c:url value="/resources/js/lib/canvasjs.min.js" />"> </script>

@@ -136,26 +136,18 @@ CREATE TABLE table_assignment
 CREATE TABLE table_study_session
 (
 	study_session_id int (11) AUTO_INCREMENT PRIMARY KEY,
-    course_id int (11),
-    session_length time,
-    FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE
-)
-   ENGINE=InnoDB;
+  userid int(11),
+  course_id int (11),
+   assignment_id int (11),
+    session_length int (11),
 
-
-############################################################################################################
-CREATE TABLE table_study_session_assignment 
-#Used for the option of associating a study session to an assignment
-(
-	  study_session_id int AUTO_INCREMENT PRIMARY KEY,
-    assignment_id int (11),
-    course_id int (11),
-    FOREIGN KEY (study_session_id) REFERENCES table_study_session(study_session_id) ON DELETE CASCADE,
+    date VARCHAR(40),
+  FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE,
     FOREIGN KEY (assignment_id) REFERENCES table_assignment(assignment_id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE
 )
    ENGINE=InnoDB;
-   
+
 ############################################################################################################
 CREATE TABLE table_chat
 #Used for the option of associating a sudy session to an assignment
@@ -359,7 +351,7 @@ INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_t
 INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
 (1, 2, 1, 'What\'s updog???','2018-02-03 22:46:16');
 INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
-(1, 1, 2, 'Notthing much G, what\'s up wichu?','2018-02-03 22:47:28');
+(1, 1, 2, 'Nothing much G, what\'s up wichu?','2018-02-03 22:47:28');
 INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
 (1, 1, 2, 'HAHAHAHAHAHAHA','2018-02-03 20:47:30');
 INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
@@ -369,6 +361,63 @@ INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_t
 (2, 3, 9, 'UR NEW STUFF IS LIT YO','2018-02-08 21:00:10');
 INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
 (2, 9, 3, 'Thanks man!','2018-02-08 21:15:50');
+
+
+# --- Dummy Times
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+  1,1,2,90,'2038-01-19 03:14:07'
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+   1,1,1,75,'2036-12-30 11:20:05'
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,3,1,75,'2037-12-21 01:18:15'
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,4,1,100,'2039-01-21 02:30:22'
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,3,1,75,'2035-09-01 12:39:45'
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,2,1,75,'2034-10-01 02:45:15'
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,2,75,'2033-01-02 09:02:11'
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,3,1,75,'2032-12-21 01:18:15'
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,2,75,'2020-01-10 02:00:01'
+);
+
+
+
+
+/*
+CREATE TABLE table_study_session
+(
+	study_session_id int (11) AUTO_INCREMENT PRIMARY KEY,
+    course_id int (11),
+    session_length time,
+     assignment_id int (11),
+    FOREIGN KEY (assignment_id) REFERENCES table_assignment(assignment_id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE
+)
+   ENGINE=InnoDB;
+
+
+############################################################################################################
 
 
 ## set access privelage here after table creation

@@ -98,7 +98,7 @@ public class TimerController {
 		return "Timer";
 	}
 	
-	@RequestMapping("/time")
+	@RequestMapping("etime")
 	public String saveTime ( @RequestParam("courseSelect") HttpServletRequest request, Model model) {
 		System.out.println("--- TimerController.switchAssignment() called ---");
 		int courseID = (int) request.getAttribute("courseID");
@@ -157,11 +157,13 @@ public class TimerController {
 	
 	
 	
-	@RequestMapping(value = "/timer.htm", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/timer", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	int Submit(@RequestParam("setSecs") int setSecs) {
+	int Submit(@RequestParam("setSecs") int setSecs, @RequestParam("education") int education) {
 	   int resp = 0;
-	    return resp;
+	   System.out.println(setSecs);
+	   System.out.println(education);
+	    return setSecs;
 	}
 	
 	
