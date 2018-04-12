@@ -64,7 +64,7 @@ public class TimerController {
 	public String saveCourse( @RequestParam("courseList") int CourseList, HttpServletRequest request, Model model) {
 		
 		
-		//Create dummy student
+		//Create dummy student 
 		StudentFactory sf = new StudentFactory();
 		Student currentUser = null;
 		try {
