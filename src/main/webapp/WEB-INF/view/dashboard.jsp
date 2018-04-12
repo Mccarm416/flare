@@ -18,6 +18,9 @@
 	<body>
 		<%@ include file="/WEB-INF/view/userBanner.jsp" %>
         <%@ include file="/WEB-INF/view/navBarMenu.jsp" %>
+        
+        
+        
         <%@ include file="/WEB-INF/view/Footer.jsp" %>
 	    <form>
 	    	<input type="hidden"

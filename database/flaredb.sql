@@ -110,16 +110,25 @@ CREATE TABLE IF NOT EXISTS table_course
 
 
 ###########################################################################################################3
-CREATE TABLE IF NOT EXISTS table_course_time
+CREATE TABLE table_course_time
 (
+	
 	course_time_id int (11) AUTO_INCREMENT PRIMARY KEY,
-    course_id int (11),
-	user_id int (11),
-	time_start time ,
-    time_length int (2),
-    time_day character (9),
-    lab_lecture int(1),
-    FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE
+    
+	course_id int (11),
+	
+	time_start int (2),
+    
+	time_end int (2),
+    
+	time_day int (1),
+    
+	lab_lecture int(1),
+    
+	course_room varchar(10),
+    
+	FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE
+
 )
    ENGINE=InnoDB;
 
