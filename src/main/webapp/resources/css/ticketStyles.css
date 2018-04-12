@@ -1,0 +1,10 @@
+@charset "ISO-8859-1";
+#messageBox {
+	
+	width:500px;
+	height:500px;
+}
+
+#subject {
+	width: 500px;
+}

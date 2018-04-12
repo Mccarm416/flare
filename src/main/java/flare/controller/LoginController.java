@@ -50,6 +50,8 @@ public class LoginController {
 			AdminFactory af = new AdminFactory();
 			Admin admin = af.getObject();
 			
+			session = req.getSession();
+			
 			admin.DB().bindObjectToDB(principal.getName());
 			session.setAttribute("user", admin);
 			System.out.println("Administrator found ...");
@@ -62,6 +64,8 @@ public class LoginController {
 			ClubLeaderFactory cf = new ClubLeaderFactory();
 			ClubLeader cl = cf.getObject();
 			
+			session = req.getSession();
+			
 			cl.DB().bindObjectToDB(principal.getName());
 			session.setAttribute("user", cl);
 			System.out.println("Club Leader found ...");
@@ -71,6 +75,9 @@ public class LoginController {
 			
 			StudentFactory sf = new StudentFactory();
 			Student student = sf.getObject();
+			
+			
+			session = req.getSession();
 			
 			student.DB().bindObjectToDB(principal.getName());
 			session.setAttribute("user", student);

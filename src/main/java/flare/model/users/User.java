@@ -111,8 +111,6 @@ public abstract class User {
 		return currentyear;
 	}
 	
-	
-
 	public void setCurrentYear(int currentyear) {
 		this.currentyear = currentyear;
 	}

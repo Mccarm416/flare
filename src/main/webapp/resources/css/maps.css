@@ -1,0 +1,25 @@
+@charset "ISO-8859-1";
+#imageContainer {
+	
+	width: 90%;
+	height: 90%;
+	position: fixed;
+	float:right;
+	margin-top: 4%;
+}
+
+.poly {
+      backgroundColor = red;
+}
+#inputs {
+	position: absolute;
+	padding-top: 5%;
+	width:200px;
+	height: 200px;
+	float: left;
+
+}
+
+body {
+	
+}
