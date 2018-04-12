@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -29,29 +30,39 @@
  
  <div id="timeBox">
  
- <form:form modelAttribute="myform" action="result" method="get" >
- 
-  <form:select  path="nameOfInstitution">
-  
- <form:option value="" disabled selected>Choose a course</form:option>
- <c:forEach items="${courseList}" var="courseList">
 
-						
-    <form:options items=<c:out value="${courseList.getCourseName()}"/>></form:options>
-    </c:forEach>  
-  </form:select>
  
- </form:form>
+  
+  
+
  
- <select>
- <option value="" disabled selected>Choose an Assignment</option>
- <option>Java Course Assignment</option>
- <option>SQL Server Assignment</option>
- </select>
+ 
+<form method="POST" action="course" enctype="multipart/form-data" id="courseSelect" name="courseSelect">
+	<select id="courseList" name="courseList" onchange="document.getElementById('courseSelect').submit()">
+						<option selected disabled>Select Course</option>
+						<c:forEach items="${courseList}" var="courseList">
+								<option value="${courseList.getCourseID()}">${courseList.getCourseName()}</option>
+						</c:forEach>
+	</select>
+  </form>  
+   
+    
+  
+
+
+ 
+<form method="POST" action="time" id="assignmentSelect">
+	<select name="assignmentList" form="assignmentSelect">
+						<option selected disabled>Select Assignment</option>
+						<c:forEach items="${assignmentList}" var="assignmentList">
+								<option value="${assignmentList.getAssignmentID()}">${assignmentList.getAssignmentName()}</option>
+						</c:forEach>
+	</select>
+  </form>  
  
  <br> <br> <br>
  
- <form method="get" >
+ <form method="get" action="" >
  Hours: <input type="text" id="hrs" name="hrs" value="0" size="3" maxlength="2" /> 
  Minutes: <input type="text" id="mns" name="mns" value="0" size="3" maxlength="3" /> 
  Seconds: <input type="text" id="sec" name="sec" value="0" size="3" maxlength="3" /> 
@@ -64,21 +75,16 @@
         <button class="pauseButton" >Pause</button>
         <button class="stopButton">Stop</button>
         <button class="resetButton">Reset</button>
-        
-        <button class="switch">Switch</button>
+
         
    <br>
 <select id="recordedTimes" size=4>
-<option>00:01:02</option>
-<option>00:09:99</option>   
+<c:forEach var="listValue" items="${lists}">
+				<option>${listValue}</option>
+			</c:forEach> 
 </select>
             
 </div>
-
-
-<c:forEach var="listValue" items="${lists}">
-				<option>${listValue}</option>
-			</c:forEach>
 	
   <script type="text/javascript" src="<c:url value="/resources/js/lib/easytimer.min.js" />"> </script>
   <script type="text/javascript" src="<c:url value="/resources/js/TimerControls.js" />"> </script>

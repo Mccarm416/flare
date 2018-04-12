@@ -145,12 +145,14 @@ CREATE TABLE table_study_session
 
 ############################################################################################################
 CREATE TABLE table_study_session_assignment 
-#Used for the option of associating a sudy session to an assignment
+#Used for the option of associating a study session to an assignment
 (
-	study_session_id int (11),
+	  study_session_id int AUTO_INCREMENT PRIMARY KEY,
     assignment_id int (11),
+    course_id int (11),
     FOREIGN KEY (study_session_id) REFERENCES table_study_session(study_session_id) ON DELETE CASCADE,
-    FOREIGN KEY (assignment_id) REFERENCES table_assignment(assignment_id) ON DELETE CASCADE
+    FOREIGN KEY (assignment_id) REFERENCES table_assignment(assignment_id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE
 )
    ENGINE=InnoDB;
    

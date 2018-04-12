@@ -18,20 +18,10 @@ function convertToSeconds(formData){
 }
 
 
-//add current time to combobox
-
-$('#timeBox .currTime').click(function (){
-	
-	
-	 
-	
-});
-
 
 $('.targetTime').click(function () {
 	
 	var countDown = formData;
-	
 	
 	
 });
@@ -39,21 +29,6 @@ $('.targetTime').click(function () {
 
 // Start button
 $('#timeBox .startButton').click(function () {
-	
-	
-	
-	if(Boolean(setting)){
-	
-	// if set to stop watch (true = 1)
-	
-		
-	 timer.start({precision: 'secondTenths'});
-	 
-	}else{
-	 
-	 // if timer is set to count down (false = 0)
-	 
-		timer.stop();
 		
 		var hrs = getUrlParameter('hrs')
 		var mins = getUrlParameter('mns')
@@ -71,35 +46,13 @@ $('#timeBox .startButton').click(function () {
 		
 	 
 	 
-	}
+	
 	
 	
 });
 
 
-$('#timeBox .switch').click(function(){
-	
-	if(setting == 1){
-		
-		
-		setting = 0;
-		timer.reset();
-		timer.stop();
-		
-		
-		
-		
-		
-	}else if(setting == 0){
-		
-		
-		setting = 1;
-		timer.reset();
-		timer.stop();
-		
-		
-	}
-})
+$
 
 
 
@@ -153,24 +106,27 @@ timer.addEventListener('targetAchieved', function (e) {
 	var mins = getUrlParameter('mns')
 	var secs = getUrlParameter('sec')
 
-    
-    $('#recordedTimes').append(new Option(hrs+":"+mins+":"+secs, "Hello World Value"));
-    
-});
-
-// Ajax functions
-
-$('#timeBox .btnTarg').click(function () {
-    
+	
+	  
 	$.ajax({
 		  type: "POST",
-		  url: "Timer.jsp",
-		  data: { hours: hrs, minutes:mins, seconds: secs}
+		  url: "/time",
+		  data: { hours: hrs, minutes:mins, seconds: secs, }
 		}).done(function( msg ) {
 		  alert( msg );
 		  //do other processing
 		});
+	
+    
+    ('#recordedTimes').append($('<option>', {
+        value: hrs+":"+mins+":"+secs,
+        text: hrs+":"+mins+":"+secs
+    }));
+    
+    
 });
+
+
 	
 
 
