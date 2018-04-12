@@ -12,8 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import flare.model.report.ReportHandler;
 
-@Controller
-@RequestMapping("/report")
+
 public class ReportController {
 
 

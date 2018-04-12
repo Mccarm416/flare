@@ -62,12 +62,10 @@
  
  <br> <br> <br>
  
- <form method="get" action="time" >
- Hours: <input type="text" id="hrs" name="hrs" value="0" size="3" maxlength="2" /> 
- Minutes: <input type="text" id="mns" name="mns" value="0" size="3" maxlength="3" /> 
- Seconds: <input type="text" id="sec" name="sec" value="0" size="3" maxlength="3" /> 
-  <input type="submit" id="btnTarg">
- </form>
+
+ Hours: <input type="text" class="hrs" id="hrs" name="hrs" value="0" size="3" maxlength="2" /> 
+ Minutes: <input type="text" class="mns" id="mns" name="mns" value="0" size="3" maxlength="3" /> 
+ Seconds: <input type="text" class="sec" id="sec" name="sec" value="0" size="3" maxlength="3" /> 
   
  <br>
     <div class="values">00:00:00</div>

@@ -11,6 +11,8 @@ var ctHrs;
 var ctMins;
 var ctHrs;
 
+var setSecs;
+
 function convertToSeconds(formData){
 	
 	
@@ -30,10 +32,16 @@ $('.targetTime').click(function () {
 // Start button
 $('#timeBox .startButton').click(function () {
 		
-		var hrs = getUrlParameter('hrs')
+		/*var hrs = getUrlParameter('hrs')
 		var mins = getUrlParameter('mns')
 		var secs = getUrlParameter('sec')
-
+*/
+	var hrs = $('#timeBox .hrs').val()
+	var mins = $('#timeBox .mns').val()
+	var secs = $('#timeBox .sec').val()
+	
+	 var setSecs = $('#timeBox .seconds').html(timer.getTotalTimeValues().seconds);
+	
 		var ctMin = parseInt(mins);
 		var ctHour = parseInt(hrs);
 		var ctSecs = parseInt(secs);
@@ -102,26 +110,25 @@ timer.addEventListener('targetAchieved', function (e) {
 	
     $('#timeBox .values').html('Studying Done!');
     
-    var hrs = getUrlParameter('hrs')
-	var mins = getUrlParameter('mns')
-	var secs = getUrlParameter('sec')
 
-	
+    var setSecs = $('#timeBox .seconds').html(timer.getTotalTimeValues().seconds);
+    
+    var education = 1;
+   
 	  
 	$.ajax({
 		  type: "POST",
-		  url: "/time",
-		  data: { hours: hrs, minutes:mins, seconds: secs, }
+		  contentType: "application/json",
+		  url: "time",
+		  data: "setSecs=" + setSecs + "&education=" + education,
+		  timeout: 600000
+		  
 		}).done(function( msg ) {
 		  alert( msg );
 		  //do other processing
 		});
 	
-    
-    ('#recordedTimes').append($('<option>', {
-        value: hrs+":"+mins+":"+secs,
-        text: hrs+":"+mins+":"+secs
-    }));
+  
     
     
 });

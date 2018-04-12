@@ -7,11 +7,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import flare.factory.StudentFactory;
@@ -107,6 +109,8 @@ public class TimerController {
 		
 		//hours: hrs, minutes:mins, seconds: secs,
 		
+		
+		
 		 int session_length = (int) request.getAttribute("convTime");
 		
 		 Time time =  (Time)request.getAttribute("Time");
@@ -147,6 +151,17 @@ public class TimerController {
 
 		return model;
 
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/timer.htm", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody
+	int Submit(@RequestParam("setSecs") int setSecs) {
+	   int resp = 0;
+	    return resp;
 	}
 	
 	
