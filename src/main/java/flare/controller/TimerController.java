@@ -65,7 +65,7 @@ public class TimerController {
 
 		
 
-			List<Course> courseList = CoursesDataAccess.GetCourseList(CourseList);
+			List<Course> courseList = CoursesDataAccess.GetCourseList(user.getUserId());
 			model.addAttribute("courseList", courseList);
 			List<Assignment> assignmentList = AssignmentsDataAccess.GetAssignmentListFromCourse(CourseList);
 			model.addAttribute("assignmentList", assignmentList);
