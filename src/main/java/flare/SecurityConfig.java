@@ -34,15 +34,25 @@ public class SecurityConfig
 		http.authorizeRequests()
 		.antMatchers("/admin").hasRole("ADMIN")
 		.antMatchers("/maps",
+				
+				"/timePage",
 				"/home",
 				"/agenda",
 				"/chat",
 				"/notes",
 				"/reports",
+				"/insertTime",
+				"/recTimes",
+				"/etime",
+				"Timer",
+				"/timer",
 				"/study",
 				"/timetable").hasAnyRole("STUDENT","CL")
         .antMatchers("/registrationValidation",
         		"/registration",
+        		"/getCourseList",
+        		"getCourseList",
+        		"Timer",
         		"/",
         		"/registrationSuccess.jsp",
         		"/registrationError.jsp",
@@ -63,7 +73,7 @@ public class SecurityConfig
 	    web
 	      .ignoring()
 	         .antMatchers("/resources/**","/registrationError","/registrationSuccess", 
-	        		 "/registrationValidation", "/registrationVerification"); // #3
+	        		 "/registrationValidation", "/registrationVerification", "/getCourseList"); // #3
 	  }
 	
 

@@ -69,8 +69,8 @@
 	            <li><a href="courses">Courses</a></li>
 	            <li><a href="maps">Map</a></li>
 	            <li><a href="notes">Notes</a></li>
-	            <li><a href="reports">Report Card</a></li>
-	            <li><a href="study">Study Area</a></li>
+	            <li><a href="Reports">Report Card</a></li>
+	            <li><a href="timePage">Study Area</a></li>
 	            <li><a href="timetable">Timetable</a></li>
 	            <li><img id="profilepic" src="${pageContext.request.contextPath}/resources/images/user_images/profilepic_placeholder.png"
 	            alt="${pageContext.request.contextPath}/resources/images/user_images/profilepic_placeholder.png"/></li>
