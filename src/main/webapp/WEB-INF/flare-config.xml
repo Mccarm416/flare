@@ -121,6 +121,12 @@
 	 		</props>
    		 </property>
 </bean>
+	<!-- Notes upload feature stuff. Sets maximum file size enable for transfer  -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
+		 <!-- Set maximum upload size (currently 2.09 MB(2097152 bytes)) -->
+		<property name="maxUploadSize" value="2097152" />
+		</bean>
 <!-- end of beans definition -->
 </beans>

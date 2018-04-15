@@ -64,8 +64,8 @@
 	        <ul class="nav nav-stacked">
                 <li><a href="home">Home</a></li>
 	            <li><a href="agenda">Agenda</a></li>
-	            <li><a href="chat">Chatrooms</a></li>
-	            <li><a href="clubs">Clubs</a></li>
+	            <li><a href="inbox">Chatrooms</a></li>
+	           
 	            <li><a href="courses">Courses</a></li>
 	            <li><a href="maps">Map</a></li>
 	            <li><a href="notes">Notes</a></li>

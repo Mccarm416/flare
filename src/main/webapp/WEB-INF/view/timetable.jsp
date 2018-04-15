@@ -12,7 +12,7 @@
 <script type="text/javascript">
 	function ClickedOnTime(t, d)
 	{
-	 	document.location.href = "http://localhost:8080/flare/timetable?time=" + t +"&day=" + d;
+	 	document.location.href = "http://localhost:8078/flare/timetable?time=" + t +"&day=" + d;
 	}
 </script>
 
@@ -43,19 +43,21 @@
 		    
 		}
 	
-		s
+		
+		
 		table {
 		    font-family: arial, sans-serif;
-		    background-color:crimson;
+		    
 		   table-layout:fixed;
-		  
+		   
 	
 		}
 		th{
 			table-layout:fixed;
+			color: white !important;
 		}
 		td, th {
-		 
+		    color: white !important;
 		    
 			width:120px;
 		   

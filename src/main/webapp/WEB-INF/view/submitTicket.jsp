@@ -17,7 +17,7 @@
         <%@ include file="/WEB-INF/view/navBarMenu.jsp" %>
         <h1 class="text-center" >Submit A Support Ticket</h1>
         <div class="text-center">
-        	<form:form>
+        	<form:form action="ticket" method="POST">
         		<label>Subject</label></br>
         		<input id="subject" name="subject" type="text" maxlength="50"></br>
         		<label>Please write your concerns</label></br>
@@ -25,6 +25,7 @@
         		<input type="submit" class="btn btn-primary" value="Submit Ticket">
         	</form:form>
         </div>
+        <h3 style="margin-left: 25%">${msg}</h3>
         <%@ include file="/WEB-INF/view/Footer.jsp" %>
 
    		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

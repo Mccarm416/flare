@@ -58,23 +58,29 @@
 						</c:forEach>
 	</select>
    
-  
+  </form>  
  
-	<select name="assignmentList" form="assignmentSelect">
+ <form method="POST" action="postTime" id="assignmentSelect" name="assignmentSelect">
+	<select name="assignmentList" form="assignmentSelect" action="assignmentSelect">
 						<option selected disabled>Select Assignment</option>
 						<c:forEach items="${assignmentList}" var="assignmentList">
 								<option value="${assignmentList.getAssignmentID()}">${assignmentList.getAssignmentName()}</option>
 						</c:forEach>
 	</select>
+	
+	
+	
+	
   </form>  
  
- <br> <br> <br>
+ 
  
 
- Hours: <input type="text" class="hrs" id="hrs" name="hrs" value="0" size="3" maxlength="2" /> 
+<br> <br> <br>
+	 Hours: <input type="text" class="hrs" id="hrs" name="hrs" value="0" size="3" maxlength="2" /> 
  Minutes: <input type="text" class="mns" id="mns" name="mns" value="0" size="3" maxlength="3" /> 
  Seconds: <input type="text" class="sec" id="sec" name="sec" value="0" size="3" maxlength="3" /> 
-  
+ 
  <br>
     <div class="values">00:00:00</div>
 <br>
@@ -85,11 +91,7 @@
 
         
    <br>
-<select id="recordedTimes" size=4>
-<c:forEach var="listValue" items="${lists}">
-				<option>${listValue}</option>
-			</c:forEach> 
-</select>
+
             
 </div>
 	

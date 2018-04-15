@@ -49,6 +49,8 @@ CREATE TABLE `authorities` (
 ENGINE=InnoDB;
 
 
+
+
    
    #############################################################################################################
    CREATE TABLE IF NOT EXISTS table_club
@@ -146,29 +148,62 @@ CREATE TABLE IF NOT EXISTS table_assignment
 )
    ENGINE=InnoDB;
 
+CREATE TABLE table_chat
+#Used for the option of associating a sudy session to an assignment
+(
+	chat_id int (11) AUTO_INCREMENT PRIMARY KEY,
+	user_1_id int (11),
+    user_2_id int,
+    total_messages int (11),
+	FOREIGN KEY (user_1_id) REFERENCES `users`(userid) ON DELETE CASCADE,
+	FOREIGN KEY (user_2_id) REFERENCES `users`(userid) ON DELETE CASCADE
+
+)
+   ENGINE=InnoDB;
 
 #########################################################################################################
-CREATE TABLE IF NOT EXISTS table_study_session
+CREATE TABLE table_study_session
 (
-	study_session_id int (11) AUTO_INCREMENT PRIMARY KEY,
+	  study_session_id int (11) AUTO_INCREMENT PRIMARY KEY,
+    userid int(11),
     course_id int (11),
-    session_length time,
+    assignment_id int (11),
+    session_length int (11),
+    date float (40),
+    FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE,
+    FOREIGN KEY (assignment_id) REFERENCES table_assignment(assignment_id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES table_course(course_id) ON DELETE CASCADE
 )
    ENGINE=InnoDB;
 
-
-############################################################################################################
-CREATE TABLE IF NOT EXISTS table_study_session_assignment 
-#Used for the option of associating a sudy session to an assignment
+CREATE TABLE table_messages
 (
-	study_session_id int (11),
-    assignment_id int (11),
-    FOREIGN KEY (study_session_id) REFERENCES table_study_session(study_session_id) ON DELETE CASCADE,
-    FOREIGN KEY (assignment_id) REFERENCES table_assignment(assignment_id) ON DELETE CASCADE
+	message_id int (11) AUTO_INCREMENT PRIMARY KEY,
+	chat_id int (11),
+    from_user_id int (11),
+    to_user_id int (11),
+    message varchar (250),
+    message_time datetime,
+    FOREIGN KEY (chat_id) REFERENCES table_chat(chat_id) ON DELETE CASCADE,
+    FOREIGN KEY (from_user_id) REFERENCES `users`(userid) ON DELETE CASCADE,
+    FOREIGN KEY (to_user_id) REFERENCES `users`(userid) ON DELETE CASCADE
 )
-   ENGINE=InnoDB;
-   
+	ENGINE=InnoDB;
+
+CREATE TABLE table_note
+(
+	note_id int (11) AUTO_INCREMENT PRIMARY KEY,
+    user_id int (11),
+    original_file_name varchar (64),
+    file_name varchar (64),
+	course_name varchar (50),
+    description varchar (64),
+    file_extension varchar (64),
+    file_path varchar(256),
+    FOREIGN KEY (user_id) REFERENCES `users`(userid) ON DELETE CASCADE
+)
+ENGINE = InnoDB;
+
    #########################################################################################################
    ## VIEWS
 	
@@ -205,11 +240,209 @@ INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcre
 
 INSERT INTO authorities VALUES ("bourgeois.goblin", "ROLE_STUDENT");
 INSERT INTO authorities VALUES ("babyhands", "ROLE_STUDENT");
-INSERT INTO authorities VALUES ("svoogan", "ROLE_STUDENT");
+INSERT INTO authorities VALUES ("svoogan", "ROLE_ADMIN");
 INSERT INTO authorities VALUES ("78uh", "ROLE_STUDENT");
 INSERT INTO authorities VALUES ("sku11d3stroy3r", "ROLE_STUDENT");
 # --- Dummy users ---
 
+
+#########################################################################################################
+## --- Dummy users ---
+
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('Bill', 'Watterson', 'bwatts@gmail.com', 'CalvinHobbes', 'password', '2018-02-03 20:52:09', '', 1, 2, 4);
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('Charles', 'Manson', 'notacreep@gmail.com', 'anormalguy', 'password', '2018-02-03 20:53:09', '', 1, 3, 5);
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('Sarah', 'Palin', 'palin2020@gmail.com', 'repubgal', 'password', '2018-02-03 20:58:29', '', 1, 3, 6);
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('Dillon', 'Francis', 'getlow@gmail.com', 'djjjjjj', 'password', '2018-02-03 21:00:00', '', 0, 2, 3);
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('Josine', 'Arnott', 'josie@gmail.com', 'flowerpower', 'password', '2018-02-03 21:10:12', '', 1, 2, 4);
+
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('John', 'Wendel', 'fatal1ty@gmail.com', 'Fatal1ty', 'password', '2018-02-03 21:11:09', '', 1, 1, 2);
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('Margaret', 'Atwood', 'maggie@gmail.com', 'handmaiden', 'password', '2018-02-03 21:13:27', '', 1, 3, 5);
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('John', 'Doe', 'jdoe@gmail.com', 'deadman666', 'password', '2018-02-03 21:15:27', '', 1, 2, 3);
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('Mary-Jane', 'Watson', 'mjw@gmail.com', 'spideyfangirl', 'password', '2018-02-03 21:13:54', '', 1, 2, 4);
+INSERT INTO `users`(firstname, lastname, email, username, `password`, accountcreation, displaypicture, enabled, currentyear, semester) VALUES
+('Testy', 'Von Testington', 'test@gmail.com', 'TheTestMan', 'password', '2018-02-04 12:10:00', '', 1, 1, 1);
+
+# --- Dummy Courses ---
+INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email, professor2_name, professor2_email) VALUES
+(1, 'COMP3080', 'Emerging Technologies',  75, 'Leila Mansoori', 'leila.mansoori@georgebrown.ca', 'Hooman Salamat', 'hooman.salamat@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email) VALUES
+(1, 'COMP3097', 'Mobile Application Development 2', 86, 'Przemyslaw Z. Pawluk', 'ppawluk@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade, professor1_name, professor1_email) VALUES
+(1, 'COMP3060', 'Linux Fundamentals', 86, 'Jonathan Barrie', 'jonathan.barrie@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email) VALUES
+(1, 'COMP3065', 'Business Intelligence', 70, 'Teacher McTeach', 'teacher@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email) VALUES
+(1, 'COMP3078', 'Capstone 2', 86, 'Anjana Shah', 'ashah@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email) VALUES
+(1, 'GSCI1003', 'Truth & Lies: Understanding Stats', 70, 'Elena Chudaeva', 'echudaeva@georgebrown.ca');
+
+INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email, professor2_name, professor2_email) VALUES
+(15, 'COMP1176', 'Introduction to Networks - CCNA 1', 60, 'Karim Allidina', 'kallidina@georgebrown.ca', 'Stephan Caneff', 'scaneff@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email, professor2_name, professor2_email) VALUES
+(15, 'COMP1151', 'IT Essentials', 54, 'Abid Rana', 'arana@georgebrown.ca', 'Danish Khan', 'danish.khan@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade, professor1_name, professor1_email) VALUES
+(15, 'COMP1223', 'Web Development Fundamentals', 24, 'Anjana Shah', 'ashah@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email) VALUES
+(15, 'COMM1003', 'English Skills', 70, 'Lara Sauer', 'lsauer@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade,  professor1_name, professor1_email) VALUES
+(15, 'GSSC1045', 'Business Appl. for IT', 100, 'George Gorsline', 'ggorsline@georgebrown.ca');
+INSERT INTO table_course(user_id, course_code, course_name, grade, professor1_name, professor1_email) VALUES
+(15, 'MATH1162', 'Mathematics for Computer Technology 1', 79, 'Tanya Holtzman', 'tholtzman@georgebrown.ca');
+
+#################################################################################################################
+# --- Dummy Assignments ---
+INSERT INTO table_assignment(course_id, assignment_name, due_date, grade, grade_weight) VALUES
+(1, 'Team Charter', '2018-02-5 21:00:00', 100, 15);
+INSERT INTO table_assignment(course_id, assignment_name, due_date, grade, grade_weight) VALUES
+(1, 'Project Proposal', '2018-02-12 21:00:00', 100, 30);
+INSERT INTO table_assignment(course_id, assignment_name, due_date) VALUES
+(2, 'Assignment 1 - Mobile App', '2018-03-30 08:00:00'); #Assignment due in the future, no grade yet
+INSERT INTO table_assignment(course_id, assignment_name, due_date, grade, grade_weight) VALUES
+(3, 'Linux Test 1', '2018-02-6 08:00:00', 80, 10);
+
+# --- Dummy Clubs ---
+INSERT INTO table_club(club_leader, club_name, category, description, facebook_link, display_picture) VALUES
+(1, 'Magic: the Gathering Club', 'Hobbies', 'A club for people who enjoy playing Wizards of the Coast\'s hit card game Magic: the Gathering', 'https://www.facebook.com/groups/806962692719800/about/', '');
+INSERT INTO table_club(club_leader, club_name, category, description, facebook_link, display_picture) VALUES
+(2, 'League of Legends Club', 'Hobbies', 'A place to get together and pwn n00bs', 'https://www.facebook.com/groups/gblolcom/', '');
+INSERT INTO table_club(club_leader, club_name, category, description, facebook_link, display_picture) VALUES
+(3, 'Coding Club', 'Academic', 'Club used to argue over best practice regarding coding', '', '');
+INSERT INTO table_club(club_leader, club_name, category, description, facebook_link, display_picture) VALUES
+(4, 'Gaming Club', 'Hobbies', 'Talk about the latest video games here', '', '');
+INSERT INTO table_club(club_leader, club_name, category, description, facebook_link, display_picture) VALUES
+(5, 'Greg Fan Club', 'Religion', 'Pay homage to Gregory Uchitel', '', '');
+
+#################################################################################################################
+# --- Dummy User-Club  ---
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(1, 1);
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(2, 2);
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(3, 3);
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(4, 4);
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(5, 5);
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(15, 1);
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(15, 2);
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(15, 3);
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(15, 4);
+INSERT INTO table_user_club(user_id, club_id) VALUES
+(15, 5);
+
+# --- Dummy Club-Events ---
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(1, 'Weekly Booster Draft Meetup', '2018-03-03 21:00:00', 'Student Lounge', 2, '', 'Our weekly booster draft nmeetup. Please bring $10 to participate and cover the cost of the booster packs. Bring any food you like, just no drinks please!');
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(1, 'Commander Game', '2018-03-27 16:00:00', 'Pour House', 0, '', 'Get drunk and play Commander format at the Pour House. We will have spare decks if people want to bring their friends or don\t have their own commander decks. Lets get drunk and have fun!');
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(1, 'CLub Discussion', '2018-03-25 21:00:00', 'Student Lounge', 4, '', 'Monthly club discussion to give feedback and suggestions');
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(2, 'League of Legends Tournament', '2018-04-01 12:00:00', 'Jamies\' House', 0, '', 'Getting together to run a torunament at Jamies\s house. BYOB/W!');
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(3, 'Waterloo Hackathon', '2018-04-20 13:30:00', 'Waterloo University', 0, '', 'Participating in a hackathon at Waterloo University. We will be leaving from Union Station at 10:30AM so please be on time. Bring your A-game and lets kick some ass and show those nerds whats up.');
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(3, 'Waterloo Hackathon', '2018-04-20 13:30:00', 'Waterloo University', 0, '', 'Participating in a hackathon at Waterloo University. We will be leaving from Union Station at 10:30AM so please be on time. Bring your A-game and lets kick some ass and show those nerds whats up.');
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(3, 'Hackathon Practice', '2018-03-15 14:15:00', 'GBC Campus', 3, '', 'Our bi-weekly meetup to practice for upcoming hacathons. We will be designing small apps within an 8 hour period.');
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(4, 'Smash Bros Tournament', '2018-03-12 15:00:00', 'Student Lounge', 3, '', 'Bi-weekly Super Smash Bros.: Melee tournament. May the best player win!');
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(4, 'DRAGON BALL Fighter Z Tournament', '2018-03-20 18:00:00', 'Michael\'s House', 3, '', 'The bi-weekly tournament for DRAGON BALL Fighter Z');
+INSERT INTO table_club_event(club_id, event_name, event_time, location, recurring, display_picture, description) VALUES
+(5, 'Greg Weekly Praise Day', '2018-03-11 08:00:00', 'Church of Greg', 2, '', 'Weekly meetup to discuss our lord and saviour, Gregory Uchitel. Kool-aid will be available to all who come. Please fast for the previous 48 hours to show your devotion to our saviour.');
+
+ # --- Dummy Chats ---
+INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES
+(1, 2, 0);
+
+INSERT INTO table_chat(user_1_id, user_2_id, total_messages) VALUES
+(3, 9, 0);
+
+
+# --- Dummy Messages ---
+
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 1, 2, 'Hey Jamie, do you like up dog??','2018-02-03 22:45:16');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 2, 1, 'What\'s updog???','2018-02-03 22:46:16');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 1, 2, 'Nothing much G, what\'s up wichu?','2018-02-03 22:47:28');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 1, 2, 'HAHAHAHAHAHAHA','2018-02-03 20:47:30');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(1, 2, 1, ':|','2018-02-03 20:47:28');
+
+ INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(2, 3, 9, 'UR NEW STUFF IS LIT YO','2018-02-08 21:00:10');
+INSERT INTO table_messages(chat_id, from_user_id, to_user_id, message, message_time) VALUES
+(2, 9, 3, 'Thanks man!','2018-02-08 21:15:50');
+
+
+
+# --- Dummy Times
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+  1,1,2,20,1483209000000
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+   1,1,1,50,1485887400000
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,1,30,1488306600000
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,1,60,1490985000000
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,1,75,1493577000000
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,1,45,1496255400000
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,2,24,1498847400000
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,3,1,36,1501525800000
+
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,2,82,1504204200000
+);
+
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,2,5,1523633079792
+);
+
+INSERT INTO table_study_session(userid, course_id, assignment_id, session_length, date) VALUES (
+    1,1,2,10,1473771158000
+);
+
+# /
 
  
 ## set access privelage here after table creation

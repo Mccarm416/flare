@@ -3,8 +3,10 @@ package flare.model.report;
 import java.util.List;
 import java.util.Map;
 
+import flare.model.report.CanvasjsChartData.DataPointModel;
+
 public interface CanvasjsChartDao {
 
-	List<List<Map<Object, Object>>> getCanvasjsChartData();
+	List<List<DataPointModel>>  getCanvasjsChartData();
 
 }

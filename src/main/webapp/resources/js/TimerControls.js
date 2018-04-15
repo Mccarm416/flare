@@ -114,16 +114,18 @@ timer.addEventListener('targetAchieved', function (e) {
     var setSecs = $('#timeBox .seconds').html(timer.getTotalTimeValues().seconds);
     
     var education = 1;
-   
+    
+    var ts = Math.round((new Date()).getTime() / 1000);
 	  
 	  
    	$.ajax({
 		  type: "POST",
-		  url: "/flare",
-		  data: {totSecs : setSecs , education : "education"}
+		  url: "/flare/postTime",
+		  data: {totSecs : setSecs , date : ts}
 		  
 		}).done(function(  ) {
-		  alert (setSecs.toString());
+		  alert (ts);
+		  alert ("HELLO WORLDS")
 		  //do other processing
 		});
 

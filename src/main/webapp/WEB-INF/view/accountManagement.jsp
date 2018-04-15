@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
  <%@ page import="flare.model.users.User" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -65,16 +65,7 @@
         		</tr>
         	</table>
         </div>
-		<div class="text-center" id="managementOptions">
-			  	 <button class="btn btn-success"> Update Account</button>
-        
-      		 	 <button class="btn btn-primary"> Upgrade Account</button>
-      		 	 
-      		 	 <button class="btn btn-warning"> Upload Profile Picture</button>
-        
-       			 <button class="btn btn-danger"> Delete Account</button>
-		</div>
-     
+		
         
 
         <%@ include file="/WEB-INF/view/Footer.jsp" %>

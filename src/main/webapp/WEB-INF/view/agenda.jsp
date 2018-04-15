@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	function ClickedOnCalendar(x)
 	{
-	 	document.location.href = "http://localhost:8080/flare/agenda?date=" + x;
+	 	document.location.href = "http://localhost:8078/flare/agenda?date=" + x;
 	}
 </script>
 
@@ -91,6 +91,7 @@
 			display: inline-block;
   		    width:67%;
   		     background-color:  #A63A31;
+  		     color:white !important;
 		}
 		#link
 		{
@@ -101,7 +102,7 @@
 			font-size:200%;		
 		}
 		body{
-			 color:white;
+			 
 			 font-family:sans-serif;
 		}
 		
@@ -241,7 +242,7 @@
 	</form>
 	</div>
 	 <%@ include file="/WEB-INF/view/Footer.jsp" %>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"/>
    
    
 </body>

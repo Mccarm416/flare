@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -33,8 +34,8 @@ public class SecurityConfig
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers("/admin").hasRole("ADMIN")
-		.antMatchers("/maps",
-				
+		.antMatchers(HttpMethod.POST,"/admin").hasRole("ADMIN")
+		.antMatchers("/maps",	
 				"/timePage",
 				"/home",
 				"/agenda",
@@ -42,6 +43,13 @@ public class SecurityConfig
 				"/notes",
 				"/reports",
 				"/insertTime",
+				"/notes",
+				"/notesUpload",
+				"/notesDownload",
+				"/notesDelete",
+				"/inbox",
+				"/userSearch",
+				"/chatroom",
 				"/recTimes",
 				"/etime",
 				"Timer",
@@ -50,10 +58,18 @@ public class SecurityConfig
 				"/timetable").hasAnyRole("STUDENT","CL")
         .antMatchers("/registrationValidation",
         		"/registration",
+        		"/userSearch",
         		"/getCourseList",
         		"getCourseList",
         		"Timer",
         		"/",
+        		"/notes",
+				"/notesUpload",
+				"/notesDownload",
+				"/notesDelete",
+				"/inbox",
+				"/chatroom",
+        		"/postTime",
         		"/registrationSuccess.jsp",
         		"/registrationError.jsp",
         		"/registrationVerification").permitAll()
@@ -73,7 +89,16 @@ public class SecurityConfig
 	    web
 	      .ignoring()
 	         .antMatchers("/resources/**","/registrationError","/registrationSuccess", 
-	        		 "/registrationValidation", "/registrationVerification", "/getCourseList"); // #3
+	        		 "/registrationValidation", "/registrationVerification", "/notes",
+	 				"/notesUpload",
+					"/notesDownload",
+					"/notesDelete",
+					"/inbox",
+					"/userSearch",
+					"/chatroom",
+					"/recTimes",
+					"/getCourseList",
+	        		"getCourseList"); // #3
 	  }
 	
 

@@ -28,6 +28,17 @@ public class Mailer {
 		
 		mailSender.send(mail);
 	}
+	
+public void ticketMail(String subject, String message) throws MailException {
+		
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo("flarestudentwebservice@gmail.com");
+		mail.setFrom("flarestudentwebservice@gmail.com");
+		mail.setSubject(subject);
+		mail.setText(message);
+		
+		mailSender.send(mail);
+	}
 
 
 	public JavaMailSender getMailSender() {

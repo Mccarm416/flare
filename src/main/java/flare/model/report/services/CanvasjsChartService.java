@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
+
+import flare.model.report.CanvasjsChartData.DataPointModel;
  
 
 public interface CanvasjsChartService {
  
-	List<List<Map<Object, Object>>> getCanvasjsChartData();
+	List<List<DataPointModel>> getCanvasjsChartData();
  
 }

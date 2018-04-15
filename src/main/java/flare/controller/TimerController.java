@@ -76,9 +76,11 @@ public class TimerController {
 	
 
 	
-	@RequestMapping("/insertTime")
-	public String saveTime ( @RequestParam("courseSelect") HttpServletRequest request, Model model) {
-		System.out.println("--- TimerController.switchAssignment() called ---");
+	@RequestMapping("postTime")
+	public String saveTime ( HttpServletRequest request, Model model) {
+		System.out.println("--- TimerController.saveTime() called ---");
+	
+		
 		int courseID = (int) request.getAttribute("courseID");
 		int assignmentID = (int) request.getAttribute("assignmentID");
 		
@@ -87,29 +89,25 @@ public class TimerController {
 		
 		//hours: hrs, minutes:mins, seconds: secs,
 		
-		
+	
 		
 		 int session_length = (int) request.getAttribute("convTime");
 		
-		 Time time =  (Time)request.getAttribute("Time");
-		
-		 Date date = (Date)request.getAttribute("currDate");
+		 int time =  (int)request.getAttribute("Time");
 		 
+		 int hrs =  (int)request.getAttribute("hrs");
+		 int mins =  (int)request.getAttribute("mns");
+		 int secs =  (int)request.getAttribute("sec");
+		 
+		 int total = (mins * 60) + ((hrs*60)*60) + secs;
+		System.out.println(total);
+		 
+		 
+		 int date = (int)request.getAttribute("currDate");
+		 
+		 //assignmentSelect
 		
-		
-		// --- GET USER FROM SESSION ID ---
-		//Create dummy student
-		StudentFactory sf = new StudentFactory();
-		Student currentUser = null;
-		try {
-			currentUser = sf.getObject();
-			currentUser.DB().bindObjectToDB("bourgeois.goblin");
-			int user_id = currentUser.getUserId();
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}	
-		
+		 User user = (User)request.getSession().getAttribute("user");
 		//model.addAttribute("courseList", courseList);
 	//	assignmentList = AssignmentsDataAccess.GetAssignmentListFromCourse(3);
 

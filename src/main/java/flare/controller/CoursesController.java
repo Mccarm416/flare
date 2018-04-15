@@ -51,7 +51,7 @@ public class CoursesController {
 	}
 	
 	
-	private void DeleteCourses(HttpServletRequest request){
+	private void DeleteCourses(HttpServletRequest request){ 
 		String deleteSelected[] = request.getParameterValues("delete");
 		if(deleteSelected != null){
 			for(int i = 0; i < deleteSelected.length; i++){

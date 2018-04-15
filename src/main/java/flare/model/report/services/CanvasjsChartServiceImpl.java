@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import flare.model.report.CanvasjsChartDao;
+import flare.model.report.CanvasjsChartData.DataPointModel;
 @Component("chartsvc")
 public class CanvasjsChartServiceImpl implements CanvasjsChartService {
  
@@ -19,7 +20,7 @@ public class CanvasjsChartServiceImpl implements CanvasjsChartService {
 	}
  
 	@Override
-	public List<List<Map<Object, Object>>> getCanvasjsChartData() {
+	public List<List<DataPointModel>> getCanvasjsChartData() {
 		return canvasjsChartDao.getCanvasjsChartData();
 	}
  

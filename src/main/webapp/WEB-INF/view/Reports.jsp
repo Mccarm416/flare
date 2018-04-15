@@ -12,13 +12,14 @@ window.onload = function() {
  
 var dps = [[]];
 var chart = new CanvasJS.Chart("chartContainer", {
-	theme: "light2", // "light1", "dark1", "dark2"
+	theme: "dark1", // "light1", "dark1", "dark2"
 	animationEnabled: true,
 	title: {
 		text: "Time Spent Studying"
 	},
 	axisX: {
-		valueFormatString: "MMM"
+		intervalType: "year",
+		valueFormatString: "YYYY"
 	},
 	axisY: {
 		title: "Time (in seconds)",
@@ -27,7 +28,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	data: [{
 		type: "line",
 		xValueType: "dateTime",
-		xValueFormatString: "MMM",
+		xValueFormatString: "YY",
 		yValueFormatString: "#####",
 		dataPoints: dps[0]
 	}]
@@ -38,15 +39,20 @@ var yValue;
  
 <c:forEach items="${dataPointsList}" var="dataPoints" varStatus="loop">	
 	<c:forEach items="${dataPoints}" var="dataPoint">
-		xValue = parseInt("${dataPoint.x}");
-		yValue = parseFloat("${dataPoint.y}");
+		xValue = parseFloat("${dataPoint.x}");
+		yValue = parseInt("${dataPoint.y}");
 		dps[parseInt("${loop.index}")].push({
 			x : xValue,
 			y : yValue
 		});		
 	</c:forEach>	
 </c:forEach> 
+
+function compareDataPointXAscend(dataPoint1, dataPoint2) {
+	return dataPoint2.x - dataPoint1.x;
+}
  
+chart.options.data[0].dataPoints.sort(compareDataPointXAscend);
 chart.render();
  
 }
@@ -72,7 +78,11 @@ margin:auto;
         <%@ include file="/WEB-INF/view/navBarMenu.jsp" %>
         
         <div class = "col-md-12 col-md-push-2">
-
+        
+        <div class="combo" style="margin: auto">
+        
+     
+</div>
 	<div id="chartContainer" style="height: 370px; width: 50%;"></div>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	
